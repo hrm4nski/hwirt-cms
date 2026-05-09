@@ -97,7 +97,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
     <h1>hw<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0a0a0a;margin-left:2px;vertical-align:middle;"></span> Admin</h1>
     <p>Inhalte verwalten</p>
     <label>Passwort</label>
-    <input type="password" id="pw-input" placeholder="">
+    <input type="password" id="pw-input" placeholder="••••••••">
     <button id="login-btn" onclick="tryLogin()">Einloggen</button>
     <div class="login-error" id="login-error"></div>
   </div>
@@ -130,7 +130,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 
 <script>
 var GITHUB_OWNER  = 'hrm4nski';
-var GITHUB_REPO   = 'hwirt-cms';
+var GITHUB_REPO   = 'hwirt-portfolio';
 var GITHUB_FILE   = 'content.json';
 var GITHUB_BRANCH = 'main';
 
@@ -288,7 +288,6 @@ function showProject(idx, el) {
   currentProjectIdx = idx;
   renderProject(idx);
   markUnsaved();
-}
 }
 
 function renderProject(idx) {
