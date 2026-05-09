@@ -19,9 +19,18 @@
       "size": "sz-wide",
       "type": "motion",
       "slides": [
-        "Title Sequence",
-        "Transition Package",
-        "Lower Thirds"
+        {
+          "caption": "Logo Redesign",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330511168-DK_Magenta.png"
+        },
+        {
+          "caption": "MAZ Grafik",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png"
+        },
+        {
+          "caption": "Lower Thirds",
+          "image": ""
+        }
       ]
     },
     {
