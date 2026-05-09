@@ -32,7 +32,7 @@
   "projects": [
     {
       "id": 1,
-      "title": "1 Live <br>Krone",
+      "title": "1Live<br>Krone",
       "category": "Redesign · On-Air · Screendesign",
       "client": "WDR Köln",
       "year": "2019–2024",
@@ -104,7 +104,7 @@
     },
     {
       "id": 4,
-      "title": "Stern TV",
+      "title": "Stern TV Sendungsdesign",
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
@@ -112,9 +112,18 @@
       "size": "sz-wide",
       "type": "motion",
       "slides": [
-        "Logo Animation",
-        "Grafiken",
-        "Package"
+        {
+          "caption": "Logo Animation",
+          "image": ""
+        },
+        {
+          "caption": "Grafiken",
+          "image": ""
+        },
+        {
+          "caption": "Package",
+          "image": ""
+        }
       ]
     },
     {
