@@ -1,16 +1,32 @@
 {
   "about": {
     "name": "Hermann Wirt",
-    "role": "Freelance Mediendesigner · Köln",
+    "role": "Motion- und Mediendesign",
     "tagline": "Motion, Illustration und Print für Sender, Labels und Marken.",
     "photo": "",
     "instagram": "https://instagram.com/hwirt",
     "email": "hello@hwirt.de",
     "timeline": [
-      { "year": "2020", "title": "Freelance Motion Designer", "subtitle": "WDR · Deutsche Welle · I+U" },
-      { "year": "2018", "title": "Trainee On-Air Design", "subtitle": "WDR · Köln" },
-      { "year": "2017", "title": "Junior Art Director", "subtitle": "agentur rubbeldiekatz · Bonn" },
-      { "year": "2017", "title": "Abschluss Mediendesign", "subtitle": "Hochschule · Köln" }
+      {
+        "year": "2020",
+        "title": "Freelance Motion Designer",
+        "subtitle": "WDR · Deutsche Welle · I+U"
+      },
+      {
+        "year": "2018",
+        "title": "Trainee On-Air Design",
+        "subtitle": "WDR · Köln"
+      },
+      {
+        "year": "2017",
+        "title": "Junior Art Director",
+        "subtitle": "agentur rubbeldiekatz · Bonn"
+      },
+      {
+        "year": "2017",
+        "title": "Abschluss Mediendesign",
+        "subtitle": "Hochschule · Köln"
+      }
     ]
   },
   "projects": [
@@ -23,7 +39,11 @@
       "color": "c-org",
       "size": "sz-wide",
       "type": "motion",
-      "slides": ["Title Sequence", "Transition Package", "Lower Thirds"]
+      "slides": [
+        "Title Sequence",
+        "Transition Package",
+        "Lower Thirds"
+      ]
     },
     {
       "id": 2,
@@ -34,7 +54,11 @@
       "color": "c-pur",
       "size": "sz-mid",
       "type": "illustration",
-      "slides": ["Infografik 01", "Infografik 02", "Karte"]
+      "slides": [
+        "Infografik 01",
+        "Infografik 02",
+        "Karte"
+      ]
     },
     {
       "id": 3,
@@ -45,7 +69,11 @@
       "color": "c-yel",
       "size": "sz-mid",
       "type": "print",
-      "slides": ["Cover", "Rückseite", "Detail"]
+      "slides": [
+        "Cover",
+        "Rückseite",
+        "Detail"
+      ]
     },
     {
       "id": 4,
@@ -56,7 +84,11 @@
       "color": "c-blu",
       "size": "sz-wide",
       "type": "motion",
-      "slides": ["Logo Animation", "Grafiken", "Package"]
+      "slides": [
+        "Logo Animation",
+        "Grafiken",
+        "Package"
+      ]
     },
     {
       "id": 5,
@@ -67,7 +99,11 @@
       "color": "c-lim",
       "size": "sz-mid",
       "type": "print",
-      "slides": ["Motiv 01", "Motiv 02", "Motiv 03"]
+      "slides": [
+        "Motiv 01",
+        "Motiv 02",
+        "Motiv 03"
+      ]
     },
     {
       "id": 6,
@@ -78,7 +114,11 @@
       "color": "c-mag",
       "size": "sz-mid",
       "type": "motion",
-      "slides": ["Loop 01", "Loop 02", "Loop 03"]
+      "slides": [
+        "Loop 01",
+        "Loop 02",
+        "Loop 03"
+      ]
     }
   ]
 }
