@@ -132,13 +132,22 @@
       "category": "Print · Illustration",
       "client": "Eigenproduktion",
       "year": "Seit 2017",
-      "color": "c-lim",
+      "color": "c-mag",
       "size": "sz-mid",
       "type": "print",
       "slides": [
-        "Motiv 01",
-        "Motiv 02",
-        "Motiv 03"
+        {
+          "caption": "Motiv 01",
+          "image": ""
+        },
+        {
+          "caption": "Motiv 02",
+          "image": ""
+        },
+        {
+          "caption": "Motiv 03",
+          "image": ""
+        }
       ]
     },
     {
@@ -147,13 +156,22 @@
       "category": "Motion Design",
       "client": "Eigenproduktion",
       "year": "2024",
-      "color": "c-mag",
+      "color": "c-lim",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
-        "Loop 01",
-        "Loop 02",
-        "Loop 03"
+        {
+          "caption": "Loop 01",
+          "image": ""
+        },
+        {
+          "caption": "Loop 02",
+          "image": ""
+        },
+        {
+          "caption": "Loop 03",
+          "image": ""
+        }
       ]
     }
   ]
