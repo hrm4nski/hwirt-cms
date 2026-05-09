@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>hwirt — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#f4f3ef;--white:#fff;--dark:#0a0a0a;--mid:#888;--border:#e0ddd8;--accent:#ea3398;--font:'Instrument Sans',sans-serif;}
+body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:100vh;}
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.login-box{background:var(--white);border:1px solid var(--border);padding:48px;width:360px;border-radius:8px;}
+.login-box h1{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:6px;}
+.login-box p{font-size:12px;color:var(--mid);margin-bottom:32px;}
+.login-box label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+.login-box input{width:100%;border:1px solid var(--border);padding:10px 12px;font-size:14px;font-family:var(--font);border-radius:4px;margin-bottom:16px;outline:none;}
+.login-box input:focus{border-color:var(--dark);}
+.login-box button{width:100%;background:var(--dark);color:#fff;border:none;padding:12px;font-size:13px;font-weight:600;font-family:var(--font);border-radius:4px;cursor:pointer;transition:opacity .2s;}
+.login-box button:hover{opacity:.8;}
+.login-box button:disabled{opacity:.4;cursor:not-allowed;}
+.login-error{color:#cd394a;font-size:12px;margin-top:8px;display:none;}
+#admin-screen{display:none;}
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:var(--dark);position:sticky;top:0;z-index:100;}
+.top-bar-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.03em;}
+.top-bar-logo span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-left:2px;vertical-align:middle;}
+.top-bar-right{display:flex;align-items:center;gap:12px;}
+.save-btn{background:var(--accent);color:#fff;border:none;padding:9px 20px;font-size:12px;font-weight:600;font-family:var(--font);border-radius:999px;cursor:pointer;letter-spacing:.04em;transition:opacity .2s;}
+.save-btn:hover{opacity:.85;}
+.save-btn:disabled{opacity:.4;cursor:not-allowed;}
+.logout-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);padding:8px 16px;font-size:12px;font-family:var(--font);border-radius:999px;cursor:pointer;transition:all .2s;}
+.logout-btn:hover{border-color:#fff;color:#fff;}
+.save-status{font-size:12px;color:rgba(255,255,255,.5);}
+.main{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 52px);}
+.sidebar{border-right:1px solid var(--border);padding:24px 0;background:var(--white);}
+.sidebar-section{margin-bottom:24px;}
+.sidebar-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);padding:0 20px;margin-bottom:8px;}
+.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:8px 20px;font-size:13px;cursor:pointer;transition:background .15s;border-left:2px solid transparent;}
+.sidebar-item:hover{background:var(--bg);}
+.sidebar-item.active{background:var(--bg);border-left-color:var(--dark);font-weight:600;}
+.sidebar-item-num{font-size:10px;color:var(--mid);}
+.add-btn{display:flex;align-items:center;gap:6px;padding:8px 20px;font-size:12px;color:var(--accent);cursor:pointer;font-weight:600;}
+.add-btn:hover{opacity:.7;}
+.content{padding:32px;}
+.content-header{margin-bottom:28px;}
+.content-title{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px;}
+.content-sub{font-size:12px;color:var(--mid);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.form-grid.full{grid-template-columns:1fr;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);}
+.field input,.field select,.field textarea{border:1px solid var(--border);padding:9px 12px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;background:var(--white);transition:border-color .2s;}
+.field input:focus,.field select:focus{border-color:var(--dark);}
+.color-options{display:flex;gap:8px;flex-wrap:wrap;}
+.color-opt{width:32px;height:32px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.color-opt.selected{border-color:var(--dark);transform:scale(1.1);}
+.size-options{display:flex;gap:8px;}
+.size-opt{padding:6px 14px;border:1px solid var(--border);border-radius:4px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
+.size-opt.selected{background:var(--dark);color:#fff;border-color:var(--dark);}
+.slides-list{display:flex;flex-direction:column;gap:8px;}
+.slide-row{display:flex;align-items:center;gap:8px;}
+.slide-row input{flex:1;border:1px solid var(--border);padding:8px 12px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;}
+.slide-row input:focus{border-color:var(--dark);}
+.slide-del{width:28px;height:28px;border:1px solid var(--border);background:transparent;border-radius:4px;cursor:pointer;font-size:14px;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.slide-del:hover{border-color:#cd394a;color:#cd394a;}
+.slide-add{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent);font-weight:600;cursor:pointer;margin-top:4px;padding:4px 0;}
+.tl-list{display:flex;flex-direction:column;gap:10px;}
+.tl-row{display:grid;grid-template-columns:80px 1fr 1fr 28px;gap:8px;align-items:center;}
+.tl-row input{border:1px solid var(--border);padding:8px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;}
+.tl-row input:focus{border-color:var(--dark);}
+.tl-del{width:28px;height:28px;border:1px solid var(--border);background:transparent;border-radius:4px;cursor:pointer;font-size:14px;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.tl-del:hover{border-color:#cd394a;color:#cd394a;}
+.divider{height:1px;background:var(--border);margin:28px 0;}
+.section-title{font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:16px;}
+.proj-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <h1>hw<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0a0a0a;margin-left:2px;vertical-align:middle;"></span> Admin</h1>
+    <p>Inhalte verwalten</p>
+    <label>Passwort</label>
+    <input type="password" id="pw-input" placeholder="••••••••">
+    <button id="login-btn" onclick="tryLogin()">Einloggen</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<div id="admin-screen">
+  <div class="top-bar">
+    <div class="top-bar-logo">hw<span></span> Admin</div>
+    <div class="top-bar-right">
+      <span class="save-status" id="save-status"></span>
+      <button class="save-btn" id="save-btn" onclick="saveToGitHub()">Speichern & Veröffentlichen</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Seiten</div>
+        <div class="sidebar-item active" onclick="showSection('about', this)">Über mich</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Projekte</div>
+        <div id="proj-sidebar"></div>
+        <div class="add-btn" onclick="addProject()">+ Neues Projekt</div>
+      </div>
+    </div>
+    <div class="content" id="content-area"></div>
+  </div>
+</div>
+
+<script>
+var GITHUB_OWNER  = 'hrm4nski';
+var GITHUB_REPO   = 'hwirt-portfolio';
+var GITHUB_FILE   = 'content.json';
+var GITHUB_BRANCH = 'main';
+
+var COLORS = {
+  'c-org':'#ea3398','c-pur':'#05B2FC','c-yel':'#F0E030',
+  'c-blu':'#cd394a','c-lim':'#2c55f6','c-mag':'#c5fd61'
+};
+
+var data = null;
+var currentSection = 'about';
+var currentProjectIdx = null;
+var githubSHA = null;
+var githubToken = null; // fetched securely from API
+
+// ── LOGIN ────────────────────────────────────────────────────────────────────
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') tryLogin();
+});
+
+function tryLogin() {
+  var pw = document.getElementById('pw-input').value;
+  if (!pw) return;
+
+  var btn = document.getElementById('login-btn');
+  var err = document.getElementById('login-error');
+  btn.disabled = true;
+  btn.textContent = 'Einen Moment…';
+  err.style.display = 'none';
+
+  // Fetch token securely from Vercel API
+  fetch('/api/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: pw })
+  })
+  .then(function(r) {
+    if (!r.ok) throw new Error('wrong');
+    return r.json();
+  })
+  .then(function(res) {
+    githubToken = res.token;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    loadContent();
+  })
+  .catch(function() {
+    err.textContent = 'Falsches Passwort.';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Einloggen';
+  });
+}
+
+function logout() {
+  githubToken = null;
+  data = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+  document.getElementById('login-btn').textContent = 'Einloggen';
+}
+
+// ── LOAD CONTENT ─────────────────────────────────────────────────────────────
+function loadContent() {
+  setStatus('Lade Inhalte…');
+  fetch('content.json?v=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      data = d;
+      buildSidebar();
+      showSection('about', document.querySelector('.sidebar-item'));
+      setStatus('');
+    });
+
+  // Load SHA
+  fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + GITHUB_FILE + '?ref=' + GITHUB_BRANCH, {
+    headers: { 'Authorization': 'token ' + githubToken }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) { githubSHA = d.sha; });
+}
+
+// ── SIDEBAR ──────────────────────────────────────────────────────────────────
+function buildSidebar() {
+  var sb = document.getElementById('proj-sidebar');
+  sb.innerHTML = '';
+  data.projects.forEach(function(p, i) {
+    var el = document.createElement('div');
+    el.className = 'sidebar-item';
+    el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="sidebar-item-num">' + String(i+1).padStart(2,'0') + '</span>';
+    el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
+    sb.appendChild(el);
+  });
+}
+
+// ── ABOUT ────────────────────────────────────────────────────────────────────
+function showSection(name, el) {
+  document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  currentSection = name;
+  currentProjectIdx = null;
+  renderAbout();
+}
+
+function renderAbout() {
+  var a = data.about;
+  var html = '<div class="content-header"><div class="content-title">Über mich</div><div class="content-sub">Persönliche Informationen und Lebenslauf</div></div>';
+  html += '<div class="form-grid">' + field('Name','text',a.name,'about-name') + field('Rolle','text',a.role,'about-role') + '</div>';
+  html += '<div class="form-grid full" style="margin-top:20px;">' + field('Kurztext','text',a.tagline,'about-tagline') + '</div>';
+  html += '<div class="form-grid" style="margin-top:20px;">' + field('Instagram URL','text',a.instagram,'about-instagram') + field('E-Mail','text',a.email,'about-email') + '</div>';
+  html += '<div class="form-grid full" style="margin-top:20px;">' + field('Foto URL','text',a.photo||'','about-photo','z.B. /images/foto.jpg') + '</div>';
+  html += '<div class="divider"></div><div class="section-title">Lebenslauf / Zeitstrahl</div>';
+  html += '<div class="tl-list" id="tl-list">';
+  a.timeline.forEach(function(item, i) { html += tlRow(item.year, item.title, item.subtitle, i); });
+  html += '</div><div class="slide-add" onclick="addTlItem()">+ Eintrag hinzufügen</div>';
+  document.getElementById('content-area').innerHTML = html;
+}
+
+function tlRow(year, title, subtitle, i) {
+  return '<div class="tl-row" id="tl-'+i+'"><input value="'+esc(year)+'" placeholder="Jahr"><input value="'+esc(title)+'" placeholder="Position"><input value="'+esc(subtitle)+'" placeholder="Unternehmen"><button class="tl-del" onclick="delTl('+i+')">×</button></div>';
+}
+
+function addTlItem() { data.about.timeline.push({year:'',title:'',subtitle:''}); renderAbout(); }
+function delTl(i) { data.about.timeline.splice(i,1); renderAbout(); }
+
+function collectAbout() {
+  var rows = document.querySelectorAll('.tl-row');
+  data.about.timeline = [];
+  rows.forEach(function(row) {
+    var ins = row.querySelectorAll('input');
+    data.about.timeline.push({year:ins[0].value, title:ins[1].value, subtitle:ins[2].value});
+  });
+  data.about.name      = val('about-name');
+  data.about.role      = val('about-role');
+  data.about.tagline   = val('about-tagline');
+  data.about.instagram = val('about-instagram');
+  data.about.email     = val('about-email');
+  data.about.photo     = val('about-photo');
+}
+
+// ── PROJECT ──────────────────────────────────────────────────────────────────
+function showProject(idx, el) {
+  document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  currentSection = 'project';
+  currentProjectIdx = idx;
+  renderProject(idx);
+}
+
+function renderProject(idx) {
+  var p = data.projects[idx];
+  var html = '<div class="content-header"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div class="content-title">'+p.title+'</div><div class="content-sub">Projekt '+String(idx+1).padStart(2,'0')+'</div></div><button onclick="deleteProject('+idx+')" style="background:transparent;border:1px solid #e0ddd8;padding:7px 14px;border-radius:4px;font-size:12px;color:#888;cursor:pointer;font-family:var(--font);">Löschen</button></div></div>';
+  html += '<div class="form-grid">'+field('Projekttitel','text',p.title,'p-title')+field('Kunde','text',p.client,'p-client')+'</div>';
+  html += '<div class="form-grid" style="margin-top:20px;">'+field('Kategorie','text',p.category,'p-category')+field('Jahr','text',p.year,'p-year')+'</div>';
+
+  html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div><div class="color-options">';
+  Object.keys(COLORS).forEach(function(key) {
+    html += '<div class="color-opt'+(p.color===key?' selected':'')+'" style="background:'+COLORS[key]+'" onclick="selectColor(\''+key+'\',this)"></div>';
+  });
+  html += '</div>';
+
+  html += '<div class="divider"></div><div class="section-title">Kachelbreite</div><div class="size-options">';
+  html += '<div class="size-opt'+(p.size==='sz-mid'?' selected':'')+'" onclick="selectSize(\'sz-mid\',this)">Mittel</div>';
+  html += '<div class="size-opt'+(p.size==='sz-wide'?' selected':'')+'" onclick="selectSize(\'sz-wide\',this)">Breit</div>';
+  html += '</div>';
+
+  html += '<div class="divider"></div><div class="form-grid"><div class="field"><label>Typ</label><select id="p-type">';
+  ['motion','illustration','print','branding'].forEach(function(t) {
+    html += '<option value="'+t+'"'+(p.type===t?' selected':'')+'>'+t+'</option>';
+  });
+  html += '</select></div></div>';
+
+  html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
+  p.slides.forEach(function(s,i) {
+    html += '<div class="slide-row"><span style="font-size:11px;color:#888;width:20px;flex-shrink:0;">'+(i+1)+'</span><input value="'+esc(s)+'" placeholder="Bildunterschrift"><button class="slide-del" onclick="delSlide('+i+')">×</button></div>';
+  });
+  html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
+
+  document.getElementById('content-area').innerHTML = html;
+}
+
+function selectColor(key, el) {
+  document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  data.projects[currentProjectIdx].color = key;
+  buildSidebar();
+}
+
+function selectSize(key, el) {
+  document.querySelectorAll('.size-opt').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  data.projects[currentProjectIdx].size = key;
+}
+
+function addSlide() { data.projects[currentProjectIdx].slides.push(''); renderProject(currentProjectIdx); }
+function delSlide(i) { data.projects[currentProjectIdx].slides.splice(i,1); renderProject(currentProjectIdx); }
+
+function collectProject() {
+  var p = data.projects[currentProjectIdx];
+  p.title    = val('p-title');
+  p.client   = val('p-client');
+  p.category = val('p-category');
+  p.year     = val('p-year');
+  p.type     = val('p-type');
+  var ins = document.querySelectorAll('.slides-list input');
+  p.slides = Array.from(ins).map(function(i){return i.value;});
+}
+
+function addProject() {
+  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',slides:['Slide 1','Slide 2']});
+  buildSidebar();
+  var items = document.querySelectorAll('#proj-sidebar .sidebar-item');
+  showProject(data.projects.length-1, items[items.length-1]);
+}
+
+function deleteProject(idx) {
+  if (!confirm('Projekt "'+data.projects[idx].title+'" wirklich löschen?')) return;
+  data.projects.splice(idx,1);
+  buildSidebar();
+  showSection('about', document.querySelector('.sidebar-item'));
+}
+
+// ── SAVE ─────────────────────────────────────────────────────────────────────
+function saveToGitHub() {
+  if (currentSection === 'about') collectAbout();
+  if (currentSection === 'project') collectProject();
+
+  var btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  setStatus('Wird gespeichert…');
+
+  var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  var body = { message: 'CMS: Inhalt aktualisiert', content: content, branch: GITHUB_BRANCH };
+  if (githubSHA) body.sha = githubSHA;
+
+  fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE, {
+    method: 'PUT',
+    headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  })
+  .then(function(r){return r.json();})
+  .then(function(res) {
+    if (res.content) {
+      githubSHA = res.content.sha;
+      setStatus('✓ Gespeichert — Vercel deployed jetzt');
+      buildSidebar();
+    } else {
+      setStatus('Fehler: ' + (res.message||'Unbekannt'));
+    }
+    btn.disabled = false;
+  })
+  .catch(function() { setStatus('Fehler beim Speichern'); btn.disabled = false; });
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function field(label, type, value, id, hint) {
+  return '<div class="field"><label>'+label+(hint?'<span style="font-weight:400;text-transform:none;letter-spacing:0;margin-left:6px;color:#aaa;">'+hint+'</span>':'')+'</label><input type="'+type+'" id="'+id+'" value="'+esc(value)+'"></div>';
+}
+function val(id) { var el=document.getElementById(id); return el?el.value:''; }
+function esc(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function setStatus(msg) { document.getElementById('save-status').textContent = msg; }
+</script>
+</body>
+</html>
