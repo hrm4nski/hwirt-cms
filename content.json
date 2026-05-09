@@ -1,11 +1,11 @@
 {
   "about": {
     "name": "Hermann Wirt",
-    "role": "",
-    "tagline": "",
-    "photo": "https://github.com/hrm4nski/hwirt-cms/blob/main/images/Profil_Foto.png",
-    "instagram": "",
-    "email": "",
+    "role": "Motion- und Mediendesign",
+    "tagline": "Motiondesign, Illustration und Grafikgestaltung für Fernsehen, Online und Marken.",
+    "photo": "https://github.com/hrm4nski/hwirt-cms/blob/main/images/Profil_Foto.jpg",
+    "instagram": "https://instagram.com/_hermanski",
+    "email": "hello@hwirt.de",
     "timeline": []
   },
   "projects": [
@@ -28,8 +28,8 @@
           "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png"
         },
         {
-          "caption": "Lower Thirds",
-          "image": ""
+          "caption": "Artdirection",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330693176-Bildschirmfoto-2023-01-11-um-16.57.33.png"
         }
       ]
     },
