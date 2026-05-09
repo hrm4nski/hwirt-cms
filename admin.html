@@ -82,7 +82,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
     <h1>hw<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0a0a0a;margin-left:2px;vertical-align:middle;"></span> Admin</h1>
     <p>Inhalte verwalten</p>
     <label>Passwort</label>
-    <input type="password" id="pw-input" placeholder="password">
+    <input type="password" id="pw-input" placeholder="••••••••">
     <button id="login-btn" onclick="tryLogin()">Einloggen</button>
     <div class="login-error" id="login-error"></div>
   </div>
@@ -115,7 +115,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 
 <script>
 var GITHUB_OWNER  = 'hrm4nski';
-var GITHUB_REPO   = 'hwirt-cms';
+var GITHUB_REPO   = 'hwirt-portfolio';
 var GITHUB_FILE   = 'content.json';
 var GITHUB_BRANCH = 'main';
 
@@ -345,29 +345,53 @@ function saveToGitHub() {
 
   var btn = document.getElementById('save-btn');
   btn.disabled = true;
-  setStatus('Wird gespeichert…');
+  setStatus('SHA wird geholt…');
 
-  var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-  var body = { message: 'CMS: Inhalt aktualisiert', content: content, branch: GITHUB_BRANCH };
-  if (githubSHA) body.sha = githubSHA;
+  var apiUrl = 'https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE+'?ref='+GITHUB_BRANCH;
+  var headers = { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' };
 
-  fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE, {
-    method: 'PUT',
-    headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+  // Always fetch fresh SHA first
+  fetch(apiUrl, { headers: headers })
+  .then(function(r) { return r.json(); })
+  .then(function(fileInfo) {
+    if (!fileInfo.sha) {
+      setStatus('Fehler: SHA nicht gefunden — ' + (fileInfo.message || ''));
+      btn.disabled = false;
+      return;
+    }
+    githubSHA = fileInfo.sha;
+    setStatus('Wird gespeichert…');
+
+    var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    var body = {
+      message: 'CMS: Inhalt aktualisiert',
+      content: content,
+      sha: githubSHA,
+      branch: GITHUB_BRANCH
+    };
+
+    return fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE, {
+      method: 'PUT',
+      headers: headers,
+      body: JSON.stringify(body)
+    });
   })
-  .then(function(r){return r.json();})
+  .then(function(r) { if (r) return r.json(); })
   .then(function(res) {
+    if (!res) return;
     if (res.content) {
       githubSHA = res.content.sha;
-      setStatus('✓ Gespeichert — Vercel deployed jetzt');
+      setStatus('✓ Gespeichert — Vercel deployed jetzt automatisch');
       buildSidebar();
     } else {
-      setStatus('Fehler: ' + (res.message||'Unbekannt'));
+      setStatus('Fehler: ' + (res.message || 'Unbekannt'));
     }
     btn.disabled = false;
   })
-  .catch(function() { setStatus('Fehler beim Speichern'); btn.disabled = false; });
+  .catch(function(e) {
+    setStatus('Netzwerkfehler: ' + e.message);
+    btn.disabled = false;
+  });
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
