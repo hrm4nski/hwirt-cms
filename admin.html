@@ -73,6 +73,21 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 .divider{height:1px;background:var(--border);margin:28px 0;}
 .section-title{font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:16px;}
 .proj-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.slide-card{background:var(--white);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:10px;}
+.slide-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);}
+.slide-card-num{font-size:11px;font-weight:600;color:var(--mid);width:20px;flex-shrink:0;}
+.slide-card-input{flex:1;border:none;font-size:13px;font-family:var(--font);outline:none;background:transparent;}
+.slide-card-del{width:24px;height:24px;border:1px solid var(--border);background:transparent;border-radius:4px;cursor:pointer;font-size:13px;color:var(--mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.slide-card-del:hover{border-color:#cd394a;color:#cd394a;}
+.slide-card-body{padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.slide-thumb{width:80px;height:56px;background:var(--bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.slide-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.slide-thumb-empty{font-size:10px;color:var(--mid);text-align:center;letter-spacing:.04em;}
+.slide-upload-area{flex:1;}
+.slide-upload-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;padding:7px 14px;border:1.5px dashed var(--accent);border-radius:4px;transition:all .2s;}
+.slide-upload-btn:hover{background:#fef0f7;}
+.slide-upload-progress{font-size:11px;color:var(--mid);margin-top:6px;display:none;}
+.slide-upload-url{font-size:11px;color:#2c55f6;margin-top:6px;word-break:break-all;display:none;}
 </style>
 </head>
 <body>
@@ -213,11 +228,16 @@ function buildSidebar() {
 
 // ── ABOUT ────────────────────────────────────────────────────────────────────
 function showSection(name, el) {
+  // Auto-save current view before switching
+  if (currentSection === 'about') collectAbout();
+  if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
+
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
   if (el) el.classList.add('active');
   currentSection = name;
   currentProjectIdx = null;
   renderAbout();
+  markUnsaved();
 }
 
 function renderAbout() {
@@ -258,11 +278,17 @@ function collectAbout() {
 
 // ── PROJECT ──────────────────────────────────────────────────────────────────
 function showProject(idx, el) {
+  // Auto-save current view before switching
+  if (currentSection === 'about') collectAbout();
+  if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
+
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
   if (el) el.classList.add('active');
   currentSection = 'project';
   currentProjectIdx = idx;
   renderProject(idx);
+  markUnsaved();
+}
 }
 
 function renderProject(idx) {
@@ -289,8 +315,10 @@ function renderProject(idx) {
   html += '</select></div></div>';
 
   html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
-  p.slides.forEach(function(s,i) {
-    html += '<div class="slide-row"><span style="font-size:11px;color:#888;width:20px;flex-shrink:0;">'+(i+1)+'</span><input value="'+esc(s)+'" placeholder="Bildunterschrift"><button class="slide-del" onclick="delSlide('+i+')">×</button></div>';
+  p.slides.forEach(function(s, i) {
+    var caption = typeof s === 'object' ? (s.caption || '') : s;
+    var image   = typeof s === 'object' ? (s.image || '') : '';
+    html += slideCard(caption, image, i);
   });
   html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
 
@@ -310,8 +338,88 @@ function selectSize(key, el) {
   data.projects[currentProjectIdx].size = key;
 }
 
-function addSlide() { data.projects[currentProjectIdx].slides.push(''); renderProject(currentProjectIdx); }
-function delSlide(i) { data.projects[currentProjectIdx].slides.splice(i,1); renderProject(currentProjectIdx); }
+function slideCard(caption, image, i) {
+  var thumbHtml = image
+    ? '<img src="'+esc(image)+'" alt="">'
+    : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+  return '<div class="slide-card" id="slide-card-'+i+'">' +
+    '<div class="slide-card-header">' +
+      '<span class="slide-card-num">'+(i+1)+'</span>' +
+      '<input class="slide-card-input" value="'+esc(caption)+'" placeholder="Bildunterschrift">' +
+      '<button class="slide-card-del" onclick="delSlide('+i+')">×</button>' +
+    '</div>' +
+    '<div class="slide-card-body">' +
+      '<div class="slide-thumb" id="thumb-'+i+'">'+thumbHtml+'</div>' +
+      '<div class="slide-upload-area">' +
+        '<label class="slide-upload-btn" for="file-'+i+'">📁 Bild hochladen</label>' +
+        '<input type="file" id="file-'+i+'" accept="image/*" style="display:none" onchange="uploadImage(this,'+i+')">' +
+        '<div class="slide-upload-progress" id="prog-'+i+'">Wird hochgeladen…</div>' +
+        '<div class="slide-upload-url" id="url-'+i+'">'+(image ? '✓ '+image.split('/').pop() : '')+'</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function uploadImage(input, slideIdx) {
+  var file = input.files[0];
+  if (!file) return;
+
+  var prog = document.getElementById('prog-'+slideIdx);
+  var urlEl = document.getElementById('url-'+slideIdx);
+  var thumb = document.getElementById('thumb-'+slideIdx);
+  prog.style.display = 'block';
+  urlEl.style.display = 'none';
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var base64 = e.target.result.split(',')[1];
+    var ext = file.name.split('.').pop().toLowerCase();
+    var filename = 'images/' + Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+
+    // Upload to GitHub
+    fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+filename, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Bild hochgeladen: ' + file.name,
+        content: base64,
+        branch: GITHUB_BRANCH
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.content && res.content.download_url) {
+        var url = res.content.download_url;
+        // Save URL into data
+        var s = data.projects[currentProjectIdx].slides[slideIdx];
+        if (typeof s === 'object') {
+          s.image = url;
+        } else {
+          data.projects[currentProjectIdx].slides[slideIdx] = { caption: s, image: url };
+        }
+        // Update UI
+        thumb.innerHTML = '<img src="'+url+'" alt="">';
+        urlEl.textContent = '✓ ' + file.name;
+        urlEl.style.display = 'block';
+        prog.style.display = 'none';
+      } else {
+        prog.textContent = 'Fehler: ' + (res.message || 'Upload fehlgeschlagen');
+      }
+    })
+    .catch(function() { prog.textContent = 'Upload fehlgeschlagen'; });
+  };
+  reader.readAsDataURL(file);
+}
+
+function addSlide() {
+  data.projects[currentProjectIdx].slides.push({ caption: '', image: '' });
+  renderProject(currentProjectIdx);
+}
+
+function delSlide(i) {
+  data.projects[currentProjectIdx].slides.splice(i, 1);
+  renderProject(currentProjectIdx);
+}
 
 function collectProject() {
   var p = data.projects[currentProjectIdx];
@@ -320,12 +428,23 @@ function collectProject() {
   p.category = val('p-category');
   p.year     = val('p-year');
   p.type     = val('p-type');
-  var ins = document.querySelectorAll('.slides-list input');
-  p.slides = Array.from(ins).map(function(i){return i.value;});
+  // Collect slide captions (images already saved in data on upload)
+  var cards = document.querySelectorAll('.slide-card');
+  cards.forEach(function(card, i) {
+    var input = card.querySelector('.slide-card-input');
+    if (!input) return;
+    var current = p.slides[i];
+    if (typeof current === 'object') {
+      current.caption = input.value;
+    } else {
+      p.slides[i] = { caption: input.value, image: '' };
+    }
+  });
 }
 
 function addProject() {
-  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',slides:['Slide 1','Slide 2']});
+  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',
+    slides:[{caption:'Slide 1',image:''},{caption:'Slide 2',image:''}]});
   buildSidebar();
   var items = document.querySelectorAll('#proj-sidebar .sidebar-item');
   showProject(data.projects.length-1, items[items.length-1]);
@@ -381,7 +500,7 @@ function saveToGitHub() {
     if (!res) return;
     if (res.content) {
       githubSHA = res.content.sha;
-      setStatus('✓ Gespeichert — Vercel deployed jetzt automatisch');
+      clearUnsaved();
       buildSidebar();
     } else {
       setStatus('Fehler: ' + (res.message || 'Unbekannt'));
@@ -401,6 +520,8 @@ function field(label, type, value, id, hint) {
 function val(id) { var el=document.getElementById(id); return el?el.value:''; }
 function esc(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function setStatus(msg) { document.getElementById('save-status').textContent = msg; }
+function markUnsaved() { setStatus('● Ungespeicherte Änderungen'); }
+function clearUnsaved() { setStatus('✓ Gespeichert — Vercel deployed jetzt automatisch'); }
 </script>
 </body>
 </html>
