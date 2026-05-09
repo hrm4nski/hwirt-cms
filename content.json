@@ -50,7 +50,7 @@
         },
         {
           "caption": "Artdirection",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330693176-Bildschirmfoto-2023-01-11-um-16.57.33.png"
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778335598451-Krone2019.png"
         }
       ]
     },
@@ -64,24 +64,42 @@
       "size": "sz-mid",
       "type": "illustration",
       "slides": [
-        "Infografik 01",
-        "Infografik 02",
-        "Karte"
+        {
+          "caption": "Infografik 01",
+          "image": ""
+        },
+        {
+          "caption": "Infografik 02",
+          "image": ""
+        },
+        {
+          "caption": "Karte",
+          "image": ""
+        }
       ]
     },
     {
       "id": 3,
       "title": "Kollektiv. Liebe",
-      "category": "Illustration · Covergestaltung",
+      "category": "Covergestaltung",
       "client": "Kollektiv.Liebe",
       "year": "Seit 2017",
       "color": "c-yel",
       "size": "sz-mid",
       "type": "print",
       "slides": [
-        "Cover",
-        "Rückseite",
-        "Detail"
+        {
+          "caption": "Cover",
+          "image": ""
+        },
+        {
+          "caption": "Rückseite",
+          "image": ""
+        },
+        {
+          "caption": "Detail",
+          "image": ""
+        }
       ]
     },
     {
