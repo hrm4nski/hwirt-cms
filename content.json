@@ -6,7 +6,28 @@
     "photo": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Profil_Foto.jpg",
     "instagram": "https://instagram.com/_hermanski",
     "email": "hello@hermannwirt.de",
-    "timeline": []
+    "timeline": [
+      {
+        "year": "2020",
+        "title": "Freelance Motion- und Mediendesigner",
+        "subtitle": "DW, I&U, ARD"
+      },
+      {
+        "year": "2018",
+        "title": "Trainee (Volontariat) Screendesign ARD",
+        "subtitle": "WDR Köln"
+      },
+      {
+        "year": "2017",
+        "title": "Junior Art Director",
+        "subtitle": "Agentur Rubbeldiekatz"
+      },
+      {
+        "year": "2017",
+        "title": "Abschluss: BA Mediendesign und Gestaltung",
+        "subtitle": "HS Offenburg"
+      }
+    ]
   },
   "projects": [
     {
