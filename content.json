@@ -1,33 +1,12 @@
 {
   "about": {
     "name": "Hermann Wirt",
-    "role": "Motion- und Mediendesign",
-    "tagline": "Motion, Illustration und Print für Sender, Labels und Marken.",
+    "role": "",
+    "tagline": "",
     "photo": "",
-    "instagram": "https://instagram.com/hwirt",
-    "email": "hello@hwirt.de",
-    "timeline": [
-      {
-        "year": "2020",
-        "title": "Freelance Motion Designer",
-        "subtitle": "WDR · Deutsche Welle · I+U"
-      },
-      {
-        "year": "2018",
-        "title": "Trainee On-Air Design",
-        "subtitle": "WDR · Köln"
-      },
-      {
-        "year": "2017",
-        "title": "Junior Art Director",
-        "subtitle": "agentur rubbeldiekatz · Bonn"
-      },
-      {
-        "year": "2017",
-        "title": "Abschluss Mediendesign",
-        "subtitle": "Hochschule · Köln"
-      }
-    ]
+    "instagram": "",
+    "email": "",
+    "timeline": []
   },
   "projects": [
     {
