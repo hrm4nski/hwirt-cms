@@ -97,7 +97,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
     <h1>hw<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0a0a0a;margin-left:2px;vertical-align:middle;"></span> Admin</h1>
     <p>Inhalte verwalten</p>
     <label>Passwort</label>
-    <input type="password" id="pw-input" placeholder="">
+    <input type="password" id="pw-input" placeholder="••••••••">
     <button id="login-btn" onclick="tryLogin()">Einloggen</button>
     <div class="login-error" id="login-error"></div>
   </div>
@@ -261,19 +261,36 @@ function tlRow(year, title, subtitle, i) {
 function addTlItem() { data.about.timeline.push({year:'',title:'',subtitle:''}); renderAbout(); }
 function delTl(i) { data.about.timeline.splice(i,1); renderAbout(); }
 
+function toRawUrl(url) {
+  // Convert GitHub blob URL to raw URL
+  if (!url) return url;
+  return url
+    .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+    .replace('/blob/', '/');
+}
+
 function collectAbout() {
+  // Only collect if we're actually on the about page (fields exist in DOM)
+  var nameEl = document.getElementById('about-name');
+  if (!nameEl) return; // not rendered, don't overwrite
+
   var rows = document.querySelectorAll('.tl-row');
-  data.about.timeline = [];
-  rows.forEach(function(row) {
-    var ins = row.querySelectorAll('input');
-    data.about.timeline.push({year:ins[0].value, title:ins[1].value, subtitle:ins[2].value});
-  });
-  data.about.name      = val('about-name');
-  data.about.role      = val('about-role');
-  data.about.tagline   = val('about-tagline');
-  data.about.instagram = val('about-instagram');
-  data.about.email     = val('about-email');
-  data.about.photo     = val('about-photo');
+  if (rows.length > 0) {
+    data.about.timeline = [];
+    rows.forEach(function(row) {
+      var ins = row.querySelectorAll('input');
+      if (ins.length >= 3) {
+        data.about.timeline.push({year:ins[0].value, title:ins[1].value, subtitle:ins[2].value});
+      }
+    });
+  }
+
+  data.about.name      = val('about-name')      || data.about.name;
+  data.about.role      = val('about-role')      || data.about.role;
+  data.about.tagline   = val('about-tagline')   || data.about.tagline;
+  data.about.instagram = val('about-instagram') || data.about.instagram;
+  data.about.email     = val('about-email')     || data.about.email;
+  data.about.photo     = toRawUrl(val('about-photo') || data.about.photo);
 }
 
 // ── PROJECT ──────────────────────────────────────────────────────────────────
@@ -388,7 +405,7 @@ function uploadImage(input, slideIdx) {
     .then(function(r) { return r.json(); })
     .then(function(res) {
       if (res.content && res.content.download_url) {
-        var url = res.content.download_url;
+        var url = toRawUrl(res.content.download_url);
         // Save URL into data
         var s = data.projects[currentProjectIdx].slides[slideIdx];
         if (typeof s === 'object') {
