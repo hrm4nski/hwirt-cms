@@ -130,7 +130,7 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 
 <script>
 var GITHUB_OWNER  = 'hrm4nski';
-var GITHUB_REPO   = 'hwirt-cms';
+var GITHUB_REPO   = 'hwirt-portfolio';
 var GITHUB_FILE   = 'content.json';
 var GITHUB_BRANCH = 'main';
 
@@ -313,10 +313,17 @@ function renderProject(idx) {
   html += '<div class="form-grid">'+field('Projekttitel','text',p.title,'p-title')+field('Kunde','text',p.client,'p-client')+'</div>';
   html += '<div class="form-grid" style="margin-top:20px;">'+field('Kategorie','text',p.category,'p-category')+field('Jahr','text',p.year,'p-year')+'</div>';
 
-  html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div><div class="color-options">';
+  html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div><div class="color-options" style="align-items:center;">';
   Object.keys(COLORS).forEach(function(key) {
-    html += '<div class="color-opt'+(p.color===key?' selected':'')+'" style="background:'+COLORS[key]+'" onclick="selectColor(\''+key+'\',this)"></div>';
+    html += '<div class="color-opt'+(p.color===key?' selected':'')+'" style="background:'+COLORS[key]+'" onclick="selectColor(\''+key+'\',this)" title="'+COLORS[key]+'"></div>';
   });
+  // Custom hex input
+  var isCustom = !COLORS[p.color];
+  var customVal = isCustom ? p.color : '';
+  html += '<div style="display:flex;align-items:center;gap:6px;margin-left:8px;">';
+  html += '<div id="custom-preview" style="width:32px;height:32px;border-radius:4px;border:2px solid '+(isCustom?'var(--dark)':'var(--border)')+';background:'+(isCustom?p.color:'#fff')+';flex-shrink:0;"></div>';
+  html += '<input id="custom-hex" type="text" placeholder="#ff0000" maxlength="7" value="'+esc(customVal)+'" oninput="applyCustomColor(this.value)" style="width:90px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
+  html += '</div>';
   html += '</div>';
 
   html += '<div class="divider"></div><div class="section-title">Kachelbreite</div><div class="size-options">';
@@ -345,7 +352,26 @@ function selectColor(key, el) {
   document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
   el.classList.add('selected');
   data.projects[currentProjectIdx].color = key;
+  // Clear custom hex
+  var hex = document.getElementById('custom-hex');
+  var prev = document.getElementById('custom-preview');
+  if (hex) { hex.value = ''; }
+  if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
   buildSidebar();
+}
+
+function applyCustomColor(val) {
+  var prev = document.getElementById('custom-preview');
+  // Valid hex?
+  if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+    data.projects[currentProjectIdx].color = val;
+    if (prev) { prev.style.background = val; prev.style.borderColor = 'var(--dark)'; }
+    // Deselect preset swatches
+    document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
+    buildSidebar();
+  } else {
+    if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
+  }
 }
 
 function selectSize(key, el) {
