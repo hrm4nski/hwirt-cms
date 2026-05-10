@@ -109,7 +109,9 @@ body{overflow:hidden;cursor:none;}
 .about-photo-ph span{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.28);}
 .about-content{
   padding:48px 36px 36px;flex:1;
-  overflow-y:auto;scrollbar-width:none;
+  overflow-y:scroll;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
   opacity:0;transition:opacity .2s;
 }
 .about-content::-webkit-scrollbar{display:none;}
@@ -136,7 +138,7 @@ body{overflow:hidden;cursor:none;}
 .legal-toggle-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.35);}
 .legal-toggle-icon{font-size:16px;color:rgba(0,0,0,.25);transition:transform .25s;line-height:1;}
 .legal-toggle.open .legal-toggle-icon{transform:rotate(45deg);}
-.legal-content{display:none;padding-bottom:24px;}
+.legal-content{display:none;padding-bottom:24px;overflow:visible;}
 .legal-toggle.open + .legal-content{display:block;}
 .legal-section{margin-bottom:24px;}
 .legal-section:last-child{margin-bottom:0;}
