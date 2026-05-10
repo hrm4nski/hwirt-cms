@@ -341,7 +341,8 @@ function renderProject(idx) {
   p.slides.forEach(function(s, i) {
     var caption = typeof s === 'object' ? (s.caption || '') : s;
     var image   = typeof s === 'object' ? (s.image || '') : '';
-    html += slideCard(caption, image, i);
+    var video   = typeof s === 'object' ? (s.video || '') : '';
+    html += slideCard(caption, image, i, video);
   });
   html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
 
@@ -360,6 +361,15 @@ function selectColor(key, el) {
   buildSidebar();
 }
 
+function applyVideo(url, i) {
+  var thumb = document.getElementById('thumb-'+i);
+  var s = data.projects[currentProjectIdx].slides[i];
+  var obj = typeof s === 'object' ? s : { caption: s, image: '' };
+  obj.video = url;
+  data.projects[currentProjectIdx].slides[i] = obj;
+  if (thumb) thumb.innerHTML = url ? '<div class="slide-thumb-empty">▶ Video</div>' : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+}
+  
 function applyCustomColor(val) {
   var prev = document.getElementById('custom-preview');
   // Valid hex?
@@ -380,10 +390,13 @@ function selectSize(key, el) {
   data.projects[currentProjectIdx].size = key;
 }
 
-function slideCard(caption, image, i) {
+function slideCard(caption, image, i, video) {
+  video = video || '';
   var thumbHtml = image
     ? '<img src="'+esc(image)+'" alt="">'
-    : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+    : video
+      ? '<div class="slide-thumb-empty">▶ Video</div>'
+      : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
   return '<div class="slide-card" id="slide-card-'+i+'">' +
     '<div class="slide-card-header">' +
       '<span class="slide-card-num">'+(i+1)+'</span>' +
@@ -397,6 +410,9 @@ function slideCard(caption, image, i) {
         '<input type="file" id="file-'+i+'" accept="image/*" style="display:none" onchange="uploadImage(this,'+i+')">' +
         '<div class="slide-upload-progress" id="prog-'+i+'">Wird hochgeladen…</div>' +
         '<div class="slide-upload-url" id="url-'+i+'">'+(image ? '✓ '+image.split('/').pop() : '')+'</div>' +
+        '<div style="margin-top:10px;">' +
+          '<input id="video-'+i+'" type="text" placeholder="Vimeo oder YouTube URL" value="'+esc(video)+'" oninput="applyVideo(this.value,'+i+')" style="width:100%;border:1px solid var(--border);padding:7px 10px;font-size:12px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">' +
+        '</div>' +
       '</div>' +
     '</div>' +
   '</div>';
@@ -470,19 +486,22 @@ function collectProject() {
   p.category = val('p-category');
   p.year     = val('p-year');
   p.type     = val('p-type');
+  
   // Collect slide captions (images already saved in data on upload)
-  var cards = document.querySelectorAll('.slide-card');
+var cards = document.querySelectorAll('.slide-card');
   cards.forEach(function(card, i) {
     var input = card.querySelector('.slide-card-input');
     if (!input) return;
+    var videoInput = document.getElementById('video-'+i);
+    var videoVal = videoInput ? videoInput.value : '';
     var current = p.slides[i];
     if (typeof current === 'object') {
       current.caption = input.value;
+      current.video = videoVal;
     } else {
-      p.slides[i] = { caption: input.value, image: '' };
+      p.slides[i] = { caption: input.value, image: '', video: videoVal };
     }
   });
-}
 
 function addProject() {
   data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',
