@@ -16,6 +16,7 @@
 html,body{height:100%;background:var(--dark);font-family:var(--font);}
 body{overflow:hidden;cursor:none;}
 *{cursor:none!important;}
+#cur{position:fixed;top:0;left:0;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;mix-blend-mode:difference;transform:translate(-100px,-100px);transition:width .18s,height .18s;will-change:transform;}  
 
 /* end styles */
 .nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:500;display:flex;align-items:center;background:rgba(10,10,10,.92);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.11);border-radius:999px;overflow:hidden;}
@@ -151,7 +152,7 @@ body{overflow:hidden;cursor:none;}
 <div id="cur"></div>
 
 <nav class="nav">
-  <div class="nav-logo">hw<span></span></div>
+<div class="nav-logo"><img src="https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Icon-loop-white.gif" alt="hw" style="height:30px;width:auto;display:block;"></div>
   <a class="nav-hello" id="nav-mail" href="#">Kontakt</a>
 </nav>
 
