@@ -47,15 +47,23 @@
       "slides": [
         {
           "caption": "Logo Redesign",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330973493-DK_weiss.png"
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778425519660-DK_weiss.png",
+          "video": ""
         },
         {
           "caption": "MAZ Grafik",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png"
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png",
+          "video": ""
         },
         {
           "caption": "Artdirection",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778335598451-Krone2019.png"
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778335598451-Krone2019.png",
+          "video": ""
+        },
+        {
+          "caption": "",
+          "image": "",
+          "video": "https://youtu.be/4-LoxonIDUI?si=HtFhpebTgdt6Z1jz"
         }
       ]
     },
