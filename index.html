@@ -270,6 +270,15 @@ fetch('content.json?v=' + Date.now())
     console.warn('Could not load content.json');
   });
 
+function videoToEmbed(url) {
+  if (!url) return '';
+  var vimeo = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeo) return 'https://player.vimeo.com/video/' + vimeo[1] + '?autoplay=0&title=0&byline=0&portrait=0';
+  var yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
+  if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?rel=0';
+  return '';
+}
+
 function init(data) {
   var about = data.about;
   var projects = data.projects;
@@ -303,18 +312,9 @@ function init(data) {
     // Light background detection for text color
     var isLight = p.color === 'c-yel' || p.color === 'c-mag' ||
       (isHex && isLightColor(p.color));
-    var deco = isLight ? DECO_DARK[i % DECO_DARK.length] : DECOS[i % DECOS.length];
-
-function videoToEmbed(url) {
-  if (!url) return '';
-  var vimeo = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeo) return 'https://player.vimeo.com/video/' + vimeo[1] + '?autoplay=0&title=0&byline=0&portrait=0';
-  var yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-  if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?rel=0';
-  return '';
-}
+   var deco = isLight ? DECO_DARK[i % DECO_DARK.length] : DECOS[i % DECOS.length];
     
-  var slides = p.slides.map(function(s, si) {
+    var slides = p.slides.map(function(s, si) {
   var caption = typeof s === 'object' ? (s.caption || '') : s;
   var image   = typeof s === 'object' ? (s.image || '') : '';
   var video   = typeof s === 'object' ? (s.video || '') : '';
