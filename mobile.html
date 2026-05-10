@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Hermann Wirt — Mediendesigner Köln</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Medium.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-SemiBold.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap;}
+@font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--font:'Instrument Sans',sans-serif;--dark:#0a0a0a;}
 html{background:var(--dark);}
@@ -153,6 +155,19 @@ body{font-family:var(--font);background:var(--dark);min-height:100svh;overflow-x
 .about-social{display:flex;gap:8px;flex-wrap:wrap;padding-top:24px;border-top:1px solid #eee;margin-top:24px;}
 .social-btn{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:#0a0a0a;text-decoration:none;border:1.5px solid #0a0a0a;padding:9px 16px;border-radius:999px;}
 .social-btn svg{width:13px;height:13px;fill:currentColor;}
+
+/* ── LEGAL ── */
+.legal-toggle{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid #eee;margin-top:20px;cursor:pointer;}
+.legal-toggle-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.35);}
+.legal-toggle-icon{font-size:16px;color:rgba(0,0,0,.25);transition:transform .25s;line-height:1;}
+.legal-toggle.open .legal-toggle-icon{transform:rotate(45deg);}
+.legal-content{display:none;padding-bottom:32px;}
+.legal-toggle.open + .legal-content{display:block;}
+.legal-section{margin-bottom:24px;}
+.legal-section:last-child{margin-bottom:0;}
+.legal-h{font-size:12px;font-weight:700;color:#0a0a0a;margin-bottom:8px;}
+.legal-p{font-size:11px;font-weight:400;line-height:1.7;color:rgba(0,0,0,.5);}
+.legal-p a{color:#0a0a0a;}
 </style>
 </head>
 <body>
@@ -198,6 +213,44 @@ body{font-family:var(--font);background:var(--dark);min-height:100svh;overflow-x
     <p class="about-role" id="about-role"></p>
     <div id="about-timeline"></div>
     <div class="about-social" id="about-social"></div>
+
+        <div class="legal-toggle" onclick="this.classList.toggle('open')">
+          <span class="legal-toggle-label">Impressum &amp; Datenschutz</span>
+          <span class="legal-toggle-icon">+</span>
+        </div>
+        <div class="legal-content">
+          <div class="legal-section">
+            <div class="legal-h">Impressum</div>
+            <p class="legal-p">
+              Hermann Wirt<br>
+              Severinstraße 136<br>
+              50678 Köln<br><br>
+              <a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>
+              Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br>
+              DE327656868
+            </p>
+          </div>
+          <div class="legal-section">
+            <div class="legal-h">Datenschutzerklärung</div>
+            <p class="legal-p">
+              <strong style="color:#0a0a0a;">Verantwortlicher</strong><br>
+              Hermann Wirt, Severinstraße 136, 50678 Köln<br>
+              hello@hwirt.de<br><br>
+              <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>
+              Diese Website erhebt keine personenbezogenen Daten. Es werden keine Cookies gesetzt, kein Tracking durchgeführt und keine Analysetools eingesetzt.<br><br>
+              <strong style="color:#0a0a0a;">Hosting</strong><br>
+              Diese Website wird über Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA gehostet. Beim Aufruf der Website werden technisch notwendige Verbindungsdaten (u.a. IP-Adresse) kurzzeitig in Server-Logs gespeichert. Weitere Informationen: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a><br><br>
+              <strong style="color:#0a0a0a;">Schriftarten</strong><br>
+              Diese Website verwendet die Schriftart Instrument Sans (SIL Open Font License), die lokal eingebunden ist. Es findet keine Übertragung von Daten an Dritte statt.<br><br>
+              <strong style="color:#0a0a0a;">Bilder</strong><br>
+              Bilder werden über GitHub (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) ausgeliefert. Dabei können technische Verbindungsdaten übertragen werden. Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
+              <strong style="color:#0a0a0a;">Kontakt</strong><br>
+              Bei Fragen zum Datenschutz: <a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>
+              <strong style="color:#0a0a0a;">Rechte</strong><br>
+              Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten sowie das Recht auf Datenübertragbarkeit. Beschwerden können an die zuständige Aufsichtsbehörde gerichtet werden: Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.
+            </p>
+          </div>
+        </div>
   </div>
 </div>
 
