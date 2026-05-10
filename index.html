@@ -343,10 +343,6 @@ function setup(count) {
     });
   });
 
-  document.querySelectorAll('[data-x]').forEach(function(b) {
-    b.addEventListener('click', function(e) { e.stopPropagation(); resetAll(); });
-  });
-
   function goSlide(i,d) {
     slides[i] = (slides[i] + d + slideTotals[i]) % slideTotals[i];
     document.getElementById('t'+i).style.transform = 'translateX(-' + (slides[i]*100) + '%)';
