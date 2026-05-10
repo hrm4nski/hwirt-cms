@@ -63,7 +63,12 @@
         {
           "caption": "",
           "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778425953747-krone2.jpg",
-          "video": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/4-LoxonIDUI?si=HtFhpebTgdt6Z1jz\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>"
+          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
+        },
+        {
+          "caption": "",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
+          "video": ""
         }
       ]
     },
