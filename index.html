@@ -398,6 +398,13 @@ function setup(count) {
   }
 
   nameBtn.addEventListener('click', function(e) { e.stopPropagation(); openIntro(); });
+  // About-content scroll via wheel (weil panel overflow:hidden)
+var aboutContent = document.querySelector('.about-content');
+aboutContent.addEventListener('wheel', function(e) {
+  e.stopPropagation();
+  aboutContent.scrollTop += e.deltaY;
+}, { passive: true });
+  
   aboutX.addEventListener('click',  function(e) { e.stopPropagation(); resetAll(); });
 
   intro.addEventListener('click', function(e) {
