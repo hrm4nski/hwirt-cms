@@ -304,14 +304,18 @@ function init(data) {
     var isLight = p.color === 'c-yel' || p.color === 'c-mag' ||
       (isHex && isLightColor(p.color));
     var deco = isLight ? DECO_DARK[i % DECO_DARK.length] : DECOS[i % DECOS.length];
-    var slides = p.slides.map(function(s, si) {
-      var caption = typeof s === 'object' ? (s.caption || '') : s;
-      var image   = typeof s === 'object' ? (s.image || '') : '';
-      var slideStyle = isHex ? 'style="background:' + p.color + '"' : '';
-      return '<div class="d-slide ' + colorClass + '" ' + slideStyle + '><span class="s-cnt">' + (si+1) + ' / ' + p.slides.length + '</span>' +
-        (image ? '<img src="' + image + '" alt="' + caption + '">' : '<span>' + caption + '</span>') +
-        '</div>';
-    }).join('');
+  var slides = p.slides.map(function(s, si) {
+  var caption = typeof s === 'object' ? (s.caption || '') : s;
+  var image   = typeof s === 'object' ? (s.image || '') : '';
+  var video   = typeof s === 'object' ? (s.video || '') : '';
+  var embed   = videoToEmbed(video);
+  var slideStyle = isHex ? 'style="background:' + p.color + '"' : '';
+  return '<div class="d-slide ' + colorClass + '" ' + slideStyle + '><span class="s-cnt">' + (si+1) + ' / ' + p.slides.length + '</span>' +
+    (embed ? '<iframe src="' + embed + '" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>' :
+     image ? '<img src="' + image + '" alt="' + caption + '">' :
+     '<span>' + caption + '</span>') +
+    '</div>';
+}).join('');
 
     var html = '<div class="panel ' + colorClass + ' ' + p.size + '" data-i="' + i + '" ' + colorStyle + '>' +
       '<svg class="deco" viewBox="0 0 500 900" fill="none">' + deco + '</svg>' +
