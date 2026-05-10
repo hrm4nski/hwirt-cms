@@ -229,7 +229,7 @@ function openProject(p, light, bg) {
   currentSlides.forEach(function(s,i){
     var caption=typeof s==='object'?(s.caption||''):s;
     var image=typeof s==='object'?(s.image||')':'');
-    var video=typeof s==='object'?(s.video||''):'';
+    var video=typeof s==='object'?(s.video||')'):'';
     var embed=videoToEmbed(video);
     var slide=document.createElement('div');
     slide.className='ov-slide'+(light?' light-slide':'');
