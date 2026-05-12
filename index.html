@@ -11,19 +11,12 @@
 @font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--font:'Instrument Sans',sans-serif;--dark:#0a0a0a;}
-
-/* DESKTOP default */
 html,body{height:100%;background:var(--dark);font-family:var(--font);}
 body{overflow:hidden;cursor:none;}
 *{cursor:none!important;}
-#cur{position:fixed;top:0;left:0;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;mix-blend-mode:difference;transform:translate(-100px,-100px);transition:width .18s,height .18s;will-change:transform;}  
-
-/* end styles */
+#cur{position:fixed;top:0;left:0;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;mix-blend-mode:difference;transform:translate(-100px,-100px);transition:width .18s,height .18s;will-change:transform;}
 .nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:500;display:flex;align-items:center;background:rgba(10,10,10,.92);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.11);border-radius:999px;overflow:hidden;}
 .nav-logo{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.03em;padding:11px 20px 11px 22px;border-right:1px solid rgba(255,255,255,.1);}
-.nav-logo span{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-left:2px;vertical-align:middle;}
-.nav a{font-size:12px;font-weight:400;letter-spacing:.04em;color:rgba(255,255,255,.5);text-decoration:none;padding:11px 18px;display:block;transition:color .2s;}
-.nav a:hover,.nav a.on{color:#fff;}
 .nav-hello{font-size:12px;font-weight:600;color:#fff;background:var(--dark);padding:9px 18px;margin:4px;border-radius:999px;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:opacity .2s,transform .15s;letter-spacing:.02em;}
 .nav-hello:hover{opacity:.75;transform:rotate(-2deg);}
 .strip{display:flex;height:100vh;overflow:hidden;}
@@ -39,7 +32,6 @@ body{overflow:hidden;cursor:none;}
 .c-mag .p-num,.c-mag .p-yr,.c-mag .p-cat,.c-mag .p-title,.c-mag .p-cli,.c-mag .p-vert{color:#0a0a0a!important;}
 .c-yel .p-yr,.c-yel .p-cat,.c-yel .p-cli,.c-mag .p-yr,.c-mag .p-cat,.c-mag .p-cli{opacity:.45!important;}
 .c-yel .deco,.c-mag .deco{opacity:.1!important;}
-.c-yel .x-btn,.c-mag .x-btn{border-color:rgba(0,0,0,.2);color:#0a0a0a;}
 .c-yel .f-l,.c-mag .f-l{color:rgba(0,0,0,.32);}
 .c-yel .f-v,.c-mag .f-v{color:#0a0a0a;}
 .c-yel .d-name,.c-mag .d-name{color:#0a0a0a;}
@@ -48,7 +40,6 @@ body{overflow:hidden;cursor:none;}
 .c-yel .d-bot,.c-mag .d-bot{border-top-color:rgba(0,0,0,.1);}
 .c-yel .d-facts,.c-mag .d-facts{border-right-color:rgba(0,0,0,.08);}
 .c-yel .f-row,.c-mag .f-row{border-bottom-color:rgba(0,0,0,.07);}
-.c-yel .p-badge,.c-mag .p-badge{background:rgba(0,0,0,.1);color:#0a0a0a;}
 .deco{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.13;transition:opacity .4s;}
 .sz-open .deco{opacity:.06;}
 .p-vert{position:absolute;bottom:36px;left:50%;transform:translateX(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);opacity:0;transition:opacity .25s;pointer-events:none;}
@@ -68,6 +59,7 @@ body{overflow:hidden;cursor:none;}
 .d-track{display:flex;height:100%;transition:transform .5s cubic-bezier(.77,0,.18,1);}
 .d-slide{min-width:100%;height:100%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);position:relative;overflow:hidden;}
 .d-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.d-slide iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 .d-slide:nth-child(2){filter:brightness(.7);}
 .d-slide:nth-child(3){filter:brightness(.5);}
 .s-cnt{position:absolute;top:20px;right:24px;font-size:10px;font-weight:500;letter-spacing:.1em;color:rgba(255,255,255,.3);z-index:2;}
@@ -106,13 +98,7 @@ body{overflow:hidden;cursor:none;}
 .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
 .about-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;}
 .about-photo-ph span{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.28);}
-.about-content{
-  padding:48px 36px 36px;flex:1;
-  overflow-y:scroll;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  opacity:0;transition:opacity .2s;
-}
+.about-content{padding:48px 36px 36px;flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;opacity:0;transition:opacity .2s;}
 .about-content::-webkit-scrollbar{display:none;}
 .sz-open .about-content{opacity:1;transition:opacity .3s .4s;}
 .about-name{font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-.04em;line-height:.92;color:#0a0a0a;margin-bottom:6px;}
@@ -127,13 +113,7 @@ body{overflow:hidden;cursor:none;}
 .social-btn{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.04em;color:#0a0a0a;text-decoration:none;border:1.5px solid #0a0a0a;padding:8px 14px;border-radius:999px;transition:background .18s,color .18s;}
 .social-btn:hover{background:#0a0a0a;color:#fff;}
 .social-btn svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
-
-/* ── LEGAL ── */
-.legal-toggle{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 0;border-top:1px solid #eee;margin-top:20px;
-  cursor:pointer;
-}
+.legal-toggle{display:flex;align-items:center;justify-content:space-between;padding:16px 0;border-top:1px solid #eee;margin-top:20px;cursor:pointer;}
 .legal-toggle-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.35);}
 .legal-toggle-icon{font-size:16px;color:rgba(0,0,0,.25);transition:transform .25s;line-height:1;}
 .legal-toggle.open .legal-toggle-icon{transform:rotate(45deg);}
@@ -144,8 +124,6 @@ body{overflow:hidden;cursor:none;}
 .legal-h{font-size:12px;font-weight:700;letter-spacing:-.01em;color:#0a0a0a;margin-bottom:8px;}
 .legal-p{font-size:11px;font-weight:400;line-height:1.7;color:rgba(0,0,0,.5);}
 .legal-p a{color:#0a0a0a;}
-
-/* end styles */
 </style>
 </head>
 <body>
@@ -153,12 +131,11 @@ body{overflow:hidden;cursor:none;}
 <div id="cur"></div>
 
 <nav class="nav">
-<div class="nav-logo"><img src="https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Icon-loop-white.gif" alt="hw" style="height:30px;width:auto;display:block;"></div>
+  <div class="nav-logo"><img src="https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Icon-loop-white.gif" alt="hw" style="height:30px;width:auto;display:block;"></div>
   <a class="nav-hello" id="nav-mail" href="#">Kontakt</a>
 </nav>
 
 <div class="strip" id="strip">
-  <!-- INTRO / ABOUT — filled by JS -->
   <div class="panel intro-bg sz-intro" id="pi">
     <span class="i-smiley">*</span>
     <span class="i-vert">Übersicht</span>
@@ -184,8 +161,6 @@ body{overflow:hidden;cursor:none;}
         <p class="about-role" id="about-role"></p>
         <div class="timeline" id="timeline"></div>
         <div class="about-social" id="about-social"></div>
-
-        <!-- IMPRESSUM + DATENSCHUTZ -->
         <div class="legal-toggle" onclick="this.classList.toggle('open')">
           <span class="legal-toggle-label">Impressum &amp; Datenschutz</span>
           <span class="legal-toggle-icon">+</span>
@@ -193,52 +168,33 @@ body{overflow:hidden;cursor:none;}
         <div class="legal-content">
           <div class="legal-section">
             <div class="legal-h">Impressum</div>
-            <p class="legal-p">
-              Hermann Wirt<br>
-              Severinstraße 136<br>
-              50678 Köln<br><br>
-              <a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>
-              Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br>
-              DE327656868
-            </p>
+            <p class="legal-p">Hermann Wirt<br>Severinstraße 136<br>50678 Köln<br><br><a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br>DE327656868</p>
           </div>
           <div class="legal-section">
             <div class="legal-h">Datenschutzerklärung</div>
             <p class="legal-p">
-              <strong style="color:#0a0a0a;">Verantwortlicher</strong><br>
-              Hermann Wirt, Severinstraße 136, 50678 Köln<br>
-              hello@hwirt.de<br><br>
-              <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>
-              Diese Website erhebt keine personenbezogenen Daten. Es werden keine Cookies gesetzt, kein Tracking durchgeführt und keine Analysetools eingesetzt.<br><br>
-              <strong style="color:#0a0a0a;">Hosting</strong><br>
-              Diese Website wird über Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA gehostet. Beim Aufruf der Website werden technisch notwendige Verbindungsdaten (u.a. IP-Adresse) kurzzeitig in Server-Logs gespeichert. Weitere Informationen: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a><br><br>
-              <strong style="color:#0a0a0a;">Schriftarten</strong><br>
-              Diese Website verwendet die Schriftart Instrument Sans (SIL Open Font License), die lokal eingebunden ist. Es findet keine Übertragung von Daten an Dritte statt.<br><br>
-              <strong style="color:#0a0a0a;">Bilder</strong><br>
-              Bilder werden über GitHub (GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA) ausgeliefert. Dabei können technische Verbindungsdaten übertragen werden. Weitere Informationen: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
-              <strong style="color:#0a0a0a;">Kontakt</strong><br>
-              Bei Fragen zum Datenschutz: <a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>
-              <strong style="color:#0a0a0a;">Rechte</strong><br>
-              Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten sowie das Recht auf Datenübertragbarkeit. Beschwerden können an die zuständige Aufsichtsbehörde gerichtet werden: Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.
+              <strong style="color:#0a0a0a;">Verantwortlicher</strong><br>Hermann Wirt, Severinstraße 136, 50678 Köln · hello@hwirt.de<br><br>
+              <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>Diese Website erhebt keine personenbezogenen Daten. Es werden keine Cookies gesetzt, kein Tracking durchgeführt und keine Analysetools eingesetzt.<br><br>
+              <strong style="color:#0a0a0a;">Hosting</strong><br>Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a><br><br>
+              <strong style="color:#0a0a0a;">Schriftarten</strong><br>Instrument Sans (SIL Open Font License), lokal eingebunden.<br><br>
+              <strong style="color:#0a0a0a;">Bilder</strong><br>GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
+              <strong style="color:#0a0a0a;">Kontakt</strong><br><a href="mailto:hello@hwirt.de">hello@hwirt.de</a><br><br>
+              <strong style="color:#0a0a0a;">Rechte</strong><br>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit. Beschwerden: Landesbeauftragte für Datenschutz und Informationsfreiheit NRW.
             </p>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-  <!-- Project panels injected by JS -->
 </div>
 
 <script>
 (function() {
 
-// ── MOBILE REDIRECT ───────────────────────────────────────────────────────────
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768) {
   window.location.replace('mobile.html');
 }
 
-// ── MOBILE DETECTION ─────────────────────────────────────────────────────────
 var isMobile = false;
 
 var DECOS = [
@@ -249,101 +205,87 @@ var DECOS = [
   '<rect x="50" y="100" width="120" height="170" stroke="white" stroke-width="1" fill="none"/><rect x="200" y="240" width="120" height="170" stroke="white" stroke-width="1" fill="none"/><rect x="90" y="380" width="120" height="170" stroke="white" stroke-width=".4" stroke-dasharray="3 6" fill="none"/>',
   '<path d="M200 70 C 330 70 330 280 200 280 C 70 280 70 490 200 490 C 330 490 330 700 200 700" stroke="white" stroke-width="1" fill="none"/><path d="M200 130 C 290 130 290 280 200 280 C 110 280 110 430 200 430" stroke="white" stroke-width=".4" stroke-dasharray="3 7" fill="none"/>'
 ];
-
-var DECO_DARK = DECOS.map(function(d) { return d.replace(/stroke="white"/g, 'stroke="black"'); });
+var DECO_DARK = DECOS.map(function(d){return d.replace(/stroke="white"/g,'stroke="black"');});
 
 function isLightColor(hex) {
-  // Returns true if hex color is light (for dark text)
-  var r = parseInt(hex.slice(1,3),16);
-  var g = parseInt(hex.slice(3,5),16);
-  var b = parseInt(hex.slice(5,7),16);
-  // Perceived brightness formula
-  return (r * 299 + g * 587 + b * 114) / 1000 > 155;
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return (r*299+g*587+b*114)/1000 > 155;
 }
-
-// ── LOAD CONTENT ─────────────────────────────────────────────────────────────
-fetch('content.json?v=' + Date.now())
-  .then(function(r) { return r.json(); })
-  .then(function(data) { init(data); })
-  .catch(function() {
-    // fallback if fetch fails (local file://)
-    console.warn('Could not load content.json');
-  });
 
 function videoToEmbed(url) {
   if (!url) return '';
   var vimeo = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeo) return 'https://player.vimeo.com/video/' + vimeo[1] + '?autoplay=0&title=0&byline=0&portrait=0';
+  if (vimeo) return 'https://player.vimeo.com/video/'+vimeo[1]+'?autoplay=0&title=0&byline=0&portrait=0';
   var yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-  if (yt) return 'https://www.youtube.com/embed/' + yt[1] + '?rel=0';
+  if (yt) return 'https://www.youtube.com/embed/'+yt[1]+'?rel=0';
   return '';
 }
+
+fetch('content.json?v='+Date.now())
+  .then(function(r){return r.json();})
+  .then(function(data){init(data);})
+  .catch(function(){console.warn('Could not load content.json');});
 
 function init(data) {
   var about = data.about;
   var projects = data.projects;
 
-  // Fill about
-  document.getElementById('name-btn').innerHTML = about.name.replace(' ', '<br>') + '.';
+  document.getElementById('name-btn').innerHTML = about.name.replace(' ','<br>') + '.';
   document.getElementById('i-sub').textContent = about.tagline;
-  document.getElementById('about-name').innerHTML = about.name.replace(' ', '<br>');
+  document.getElementById('about-name').innerHTML = about.name.replace(' ','<br>');
   document.getElementById('about-role').textContent = about.role;
   document.getElementById('nav-mail').href = 'mailto:' + about.email;
 
   if (about.photo) {
-    document.getElementById('about-photo').innerHTML = '<img src="' + about.photo + '" alt="' + about.name + '">';
+    document.getElementById('about-photo').innerHTML = '<img src="'+about.photo+'" alt="'+about.name+'">';
   }
 
   var tl = document.getElementById('timeline');
   about.timeline.forEach(function(item) {
-    tl.innerHTML += '<div class="tl-item"><div class="tl-year">' + item.year + '</div><div class="tl-body"><div class="tl-title">' + item.title + '</div><div class="tl-sub">' + item.subtitle + '</div></div></div>';
+    tl.innerHTML += '<div class="tl-item"><div class="tl-year">'+item.year+'</div><div class="tl-body"><div class="tl-title">'+item.title+'</div><div class="tl-sub">'+item.subtitle+'</div></div></div>';
   });
 
   document.getElementById('about-social').innerHTML =
-    '<a href="' + about.instagram + '" target="_blank" rel="noopener" class="social-btn"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram</a>' +
-    '<a href="mailto:' + about.email + '" class="social-btn"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>' + about.email + '</a>';
+    '<a href="'+about.instagram+'" target="_blank" rel="noopener" class="social-btn"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram</a>' +
+    '<a href="mailto:'+about.email+'" class="social-btn"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>'+about.email+'</a>';
 
-  // Build project panels
   var strip = document.getElementById('strip');
   projects.forEach(function(p, i) {
     var isHex = p.color && p.color.startsWith('#');
     var colorClass = isHex ? '' : p.color;
-    var colorStyle = isHex ? 'style="background:' + p.color + '"' : '';
-    // Light background detection for text color
-    var isLight = p.color === 'c-yel' || p.color === 'c-mag' ||
-      (isHex && isLightColor(p.color));
-   var deco = isLight ? DECO_DARK[i % DECO_DARK.length] : DECOS[i % DECOS.length];
-    
-    var slides = p.slides.map(function(s, si) {
-  var caption = typeof s === 'object' ? (s.caption || '') : s;
-  var image   = typeof s === 'object' ? (s.image || '') : '';
-  var video   = typeof s === 'object' ? (s.video || '') : '';
-  var embed   = videoToEmbed(video);
-  var slideStyle = isHex ? 'style="background:' + p.color + '"' : '';
-  return '<div class="d-slide ' + colorClass + '" ' + slideStyle + '><span class="s-cnt">' + (si+1) + ' / ' + p.slides.length + '</span>' +
-    (embed ? '<iframe src="' + embed + '" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>' :
-     image ? '<img src="' + image + '" alt="' + caption + '">' :
-     '<span>' + caption + '</span>') +
-    '</div>';
-}).join('');
+    var colorStyle = isHex ? 'style="background:'+p.color+'"' : '';
+    var dataBg = isHex ? ' data-bg="'+p.color+'"' : '';
+    var isLight = p.color==='c-yel'||p.color==='c-mag'||(isHex&&isLightColor(p.color));
+    var deco = isLight ? DECO_DARK[i%DECO_DARK.length] : DECOS[i%DECOS.length];
 
-    var html = '<div class="panel ' + colorClass + ' ' + p.size + '" data-i="' + i + '" ' + colorStyle + '>' +
-      '<svg class="deco" viewBox="0 0 500 900" fill="none">' + deco + '</svg>' +
-      '<span class="p-num">' + String(i+1).padStart(2,'0') + '</span>' +
-      (p.type === 'motion' ? '<span class="p-badge">▶ Motion</span>' : '') +
-      '<div class="p-vert">' + p.title + '</div>' +
-      '<div class="p-meta"><p class="p-yr">' + p.year + '</p><p class="p-cat">' + p.category + '</p>' +
-      '<h2 class="p-title">' + p.title + '</h2><p class="p-cli">' + p.client + '</p></div>' +
+    var slides = p.slides.map(function(s,si) {
+      var caption = typeof s==='object'?(s.caption||''):s;
+      var image   = typeof s==='object'?(s.image||''):'';
+      var video   = typeof s==='object'?(s.video||''):'';
+      var embed   = videoToEmbed(video);
+      var slideStyle = isHex ? 'style="background:'+p.color+'"' : '';
+      return '<div class="d-slide '+colorClass+'" '+slideStyle+'><span class="s-cnt">'+(si+1)+' / '+p.slides.length+'</span>'+
+        (embed ? '<iframe src="'+embed+'" allow="autoplay; fullscreen" allowfullscreen></iframe>' :
+         image ? '<img src="'+image+'" alt="'+caption+'">' :
+         '<span>'+caption+'</span>')+
+        '</div>';
+    }).join('');
+
+    var html = '<div class="panel '+colorClass+' '+p.size+'" data-i="'+i+'" '+colorStyle+dataBg+'>' +
+      '<svg class="deco" viewBox="0 0 500 900" fill="none">'+deco+'</svg>' +
+      '<span class="p-num">'+String(i+1).padStart(2,'0')+'</span>' +
+      '<div class="p-vert">'+p.title+'</div>' +
+      '<div class="p-meta"><p class="p-yr">'+p.year+'</p><p class="p-cat">'+p.category+'</p>' +
+      '<h2 class="p-title">'+p.title+'</h2><p class="p-cli">'+p.client+'</p></div>' +
       '<div class="p-detail">' +
-        '<button class="x-btn" data-x>×</button>' +
-        '<div class="d-slider"><div class="d-track" id="t' + i + '">' + slides + '</div></div>' +
+        '<div class="d-slider"><div class="d-track" id="t'+i+'">'+slides+'</div></div>' +
         '<div class="d-bot"><div class="d-facts">' +
-          '<div class="f-row"><span class="f-l">Kunde</span><span class="f-v">' + p.client + '</span></div>' +
-          '<div class="f-row"><span class="f-l">Jahr</span><span class="f-v">' + p.year + '</span></div>' +
-          '<div class="f-row"><span class="f-l">Typ</span><span class="f-v">' + p.category + '</span></div>' +
+          '<div class="f-row"><span class="f-l">Kunde</span><span class="f-v">'+p.client+'</span></div>' +
+          '<div class="f-row"><span class="f-l">Jahr</span><span class="f-v">'+p.year+'</span></div>' +
+          '<div class="f-row"><span class="f-l">Typ</span><span class="f-v">'+p.category+'</span></div>' +
         '</div>' +
-        '<div class="d-ctrl"><div class="d-name">' + p.title + '</div>' +
-        (p.slides.length > 1 ? '<div class="btns"><button class="btn" data-p="' + i + '">←</button><button class="btn" data-n="' + i + '">→</button></div>' : '') +
+        '<div class="d-ctrl"><div class="d-name">'+p.title+'</div>' +
+        (p.slides.length>1 ? '<div class="btns"><button class="btn" data-p="'+i+'">←</button><button class="btn" data-n="'+i+'">→</button></div>' : '') +
         '</div></div></div></div>';
 
     strip.insertAdjacentHTML('beforeend', html);
@@ -353,127 +295,104 @@ function init(data) {
 }
 
 function setup(count) {
-  var strip   = document.getElementById('strip');
-  var panels  = Array.from(document.querySelectorAll('[data-i]'));
-  var intro   = document.getElementById('pi');
+  var strip  = document.getElementById('strip');
+  var panels = Array.from(document.querySelectorAll('[data-i]'));
+  var intro  = document.getElementById('pi');
   var nameBtn = document.getElementById('name-btn');
   var aboutX  = document.getElementById('about-x');
-  var defSz   = panels.map(function(p) { return p.className.match(/sz-\w+/)[0]; });
-  var slides  = panels.map(function() { return 0; });
-  var slideTotals = panels.map(function(_, i) {
-    var t = document.getElementById('t'+i);
-    return t ? t.children.length : 1;
+  var defSz  = panels.map(function(p){return p.className.match(/sz-\w+/)[0];});
+  var slides = panels.map(function(){return 0;});
+  var slideTotals = panels.map(function(_,i){
+    var t=document.getElementById('t'+i); return t?t.children.length:1;
   });
-  var open = -1, introOpen = false;
+  var open=-1, introOpen=false;
 
-  function getCol(p) { return p.className.match(/c-\w+/)[0]; }
+  function getCol(p) { var m=p.className.match(/c-\w+/); return m?m[0]:''; }
+  function getBg(p)  { return p.dataset.bg||''; }
 
-  // ── DESKTOP ────────────────────────────────────────────────────────────────
+  function applySize(p, sz) {
+    var col = getCol(p);
+    var bg  = getBg(p);
+    p.className = 'panel' + (col?' '+col:'') + ' ' + sz;
+    if (bg) p.style.background = bg;
+  }
+
   function resetAll() {
-    introOpen = false; open = -1;
-    if (isMobile) {
-      panels.forEach(function(p) { p.classList.remove('mob-open'); });
-      intro.classList.remove('mob-about-open');
-    } else {
-      intro.className = 'panel intro-bg sz-intro';
-      panels.forEach(function(p,j) { p.className = 'panel ' + getCol(p) + ' ' + defSz[j]; });
-    }
+    introOpen=false; open=-1;
+    intro.className='panel intro-bg sz-intro';
+    panels.forEach(function(p,j){ applySize(p, defSz[j]); });
   }
 
   function openIntro() {
-    if (introOpen) { resetAll(); return; }
-    introOpen = true; open = -1;
-    if (isMobile) {
-      panels.forEach(function(p) { p.classList.remove('mob-open'); });
-      intro.classList.add('mob-about-open');
-    } else {
-      intro.className = 'panel intro-bg sz-open';
-      panels.forEach(function(p) { p.className = 'panel ' + getCol(p) + ' sz-thin'; });
-    }
+    if (introOpen){resetAll();return;}
+    introOpen=true; open=-1;
+    intro.className='panel intro-bg sz-open';
+    panels.forEach(function(p){ applySize(p,'sz-thin'); });
   }
 
   function openPanel(i) {
-    introOpen = false;
-    if (isMobile) {
-      var wasOpen = panels[i].classList.contains('mob-open');
-      panels.forEach(function(p) { p.classList.remove('mob-open'); });
-      intro.classList.remove('mob-about-open');
-      if (!wasOpen) { panels[i].classList.add('mob-open'); open = i; }
-      else open = -1;
-    } else {
-      if (open === i) { resetAll(); return; }
-      open = i;
-      intro.className = 'panel intro-bg sz-thin';
-      panels.forEach(function(p,j) {
-        p.className = 'panel ' + getCol(p) + (j===i ? ' sz-open' : ' sz-thin');
-      });
-    }
+    introOpen=false;
+    if (open===i){resetAll();return;}
+    open=i;
+    intro.className='panel intro-bg sz-thin';
+    panels.forEach(function(p,j){ applySize(p, j===i?'sz-open':'sz-thin'); });
   }
 
-  nameBtn.addEventListener('click', function(e) { e.stopPropagation(); openIntro(); });
-  // About-content scroll via wheel (weil panel overflow:hidden)
-var aboutContent = document.querySelector('.about-content');
-aboutContent.addEventListener('wheel', function(e) {
-  e.stopPropagation();
-  aboutContent.scrollTop += e.deltaY;
-}, { passive: true });
-  
-  aboutX.addEventListener('click',  function(e) { e.stopPropagation(); resetAll(); });
+  nameBtn.addEventListener('click', function(e){e.stopPropagation();openIntro();});
+  aboutX.addEventListener('click',  function(e){e.stopPropagation();resetAll();});
 
-  intro.addEventListener('click', function(e) {
-    // Ignore clicks inside about-detail (impressum, social links, etc.)
+  var aboutContent = document.querySelector('.about-content');
+  aboutContent.addEventListener('wheel', function(e){
+    e.stopPropagation();
+    aboutContent.scrollTop += e.deltaY;
+  }, {passive:true});
+
+  intro.addEventListener('click', function(e){
     if (e.target.closest('.about-detail')) return;
-    if (e.target.closest('#about-x') || e.target.closest('.i-name-btn')) return;
-    if (introOpen) { resetAll(); return; }
-    if (!isMobile && open >= 0) resetAll();
+    if (e.target.closest('#about-x')||e.target.closest('.i-name-btn')) return;
+    if (introOpen){resetAll();return;}
+    if (open>=0) resetAll();
   });
 
-  panels.forEach(function(p,i) {
-    p.addEventListener('click', function(e) {
-      if (e.target.closest('[data-x]') || e.target.closest('.btn')) return;
+  panels.forEach(function(p,i){
+    p.addEventListener('click', function(e){
+      if (e.target.closest('[data-x]')||e.target.closest('.btn')) return;
       openPanel(i);
     });
   });
 
-  document.querySelectorAll('[data-x]').forEach(function(b) {
-    b.addEventListener('click', function(e) { e.stopPropagation(); resetAll(); });
-  });
-
-  function goSlide(i,d) {
-    slides[i] = (slides[i] + d + slideTotals[i]) % slideTotals[i];
-    document.getElementById('t'+i).style.transform = 'translateX(-' + (slides[i]*100) + '%)';
+  function goSlide(i,d){
+    slides[i]=(slides[i]+d+slideTotals[i])%slideTotals[i];
+    document.getElementById('t'+i).style.transform='translateX(-'+(slides[i]*100)+'%)';
   }
 
-  document.querySelectorAll('[data-n]').forEach(function(b) {
-    b.addEventListener('click', function(e) { e.stopPropagation(); goSlide(+b.dataset.n, 1); });
+  document.querySelectorAll('[data-n]').forEach(function(b){
+    b.addEventListener('click',function(e){e.stopPropagation();goSlide(+b.dataset.n,1);});
   });
-  document.querySelectorAll('[data-p]').forEach(function(b) {
-    b.addEventListener('click', function(e) { e.stopPropagation(); goSlide(+b.dataset.p, -1); });
+  document.querySelectorAll('[data-p]').forEach(function(b){
+    b.addEventListener('click',function(e){e.stopPropagation();goSlide(+b.dataset.p,-1);});
   });
 
-  // Wheel scroll only on desktop
-  if (!isMobile) {
-    window.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      strip.scrollLeft += delta * 1.2;
-    }, { passive: false });
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') resetAll();
-    if (open >= 0 && e.key === 'ArrowRight') goSlide(open, 1);
-    if (open >= 0 && e.key === 'ArrowLeft')  goSlide(open, -1);
+  window.addEventListener('wheel', function(e){
+    e.preventDefault();
+    var delta=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+    strip.scrollLeft+=delta*1.2;
+  },{passive:false});
+
+  document.addEventListener('keydown', function(e){
+    if (e.key==='Escape') resetAll();
+    if (open>=0&&e.key==='ArrowRight') goSlide(open,1);
+    if (open>=0&&e.key==='ArrowLeft')  goSlide(open,-1);
   });
 }
 
-// ── CURSOR ───────────────────────────────────────────────────────────────────
-var cur = document.getElementById('cur');
-var mx = -100, my = -100, raf;
-document.addEventListener('mousemove', function(e) {
-  mx = e.clientX; my = e.clientY;
-  if (!raf) raf = requestAnimationFrame(function() {
-    cur.style.transform = 'translate(' + (mx-6) + 'px,' + (my-6) + 'px)';
-    raf = null;
+var cur=document.getElementById('cur');
+var mx=-100,my=-100,raf;
+document.addEventListener('mousemove',function(e){
+  mx=e.clientX;my=e.clientY;
+  if(!raf) raf=requestAnimationFrame(function(){
+    cur.style.transform='translate('+(mx-6)+'px,'+(my-6)+'px)';
+    raf=null;
   });
 });
 
