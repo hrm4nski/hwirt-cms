@@ -147,7 +147,7 @@ var data = null;
 var currentSection = 'about';
 var currentProjectIdx = null;
 var githubSHA = null;
-var githubToken = null; // fetched securely from API
+var githubToken = null;
 
 // ── LOGIN ────────────────────────────────────────────────────────────────────
 document.getElementById('pw-input').addEventListener('keydown', function(e) {
@@ -157,23 +157,17 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 function tryLogin() {
   var pw = document.getElementById('pw-input').value;
   if (!pw) return;
-
   var btn = document.getElementById('login-btn');
   var err = document.getElementById('login-error');
   btn.disabled = true;
   btn.textContent = 'Einen Moment…';
   err.style.display = 'none';
-
-  // Fetch token securely from Vercel API
   fetch('/api/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password: pw })
   })
-  .then(function(r) {
-    if (!r.ok) throw new Error('wrong');
-    return r.json();
-  })
+  .then(function(r) { if (!r.ok) throw new Error('wrong'); return r.json(); })
   .then(function(res) {
     githubToken = res.token;
     document.getElementById('login-screen').style.display = 'none';
@@ -189,15 +183,14 @@ function tryLogin() {
 }
 
 function logout() {
-  githubToken = null;
-  data = null;
+  githubToken = null; data = null;
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('admin-screen').style.display = 'none';
   document.getElementById('pw-input').value = '';
   document.getElementById('login-btn').textContent = 'Einloggen';
 }
 
-// ── LOAD CONTENT ─────────────────────────────────────────────────────────────
+// ── LOAD ─────────────────────────────────────────────────────────────────────
 function loadContent() {
   setStatus('Lade Inhalte…');
   fetch('content.json?v=' + Date.now())
@@ -208,8 +201,6 @@ function loadContent() {
       showSection('about', document.querySelector('.sidebar-item'));
       setStatus('');
     });
-
-  // Load SHA
   fetch('https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + GITHUB_FILE + '?ref=' + GITHUB_BRANCH, {
     headers: { 'Authorization': 'token ' + githubToken }
   })
@@ -218,20 +209,38 @@ function loadContent() {
 }
 
 // ── SIDEBAR ──────────────────────────────────────────────────────────────────
-function buildSidebar() {
+function buildSidebarItems(activeIdx) {
   var sb = document.getElementById('proj-sidebar');
   sb.innerHTML = '';
   data.projects.forEach(function(p, i) {
     var el = document.createElement('div');
-    el.className = 'sidebar-item';
-    el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
+    el.className = 'sidebar-item' + (i === activeIdx ? ' active' : '');
+    el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color] || p.color || '#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
     el.setAttribute('draggable', 'true');
     el.dataset.idx = i;
-    el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
+    el.onclick = (function(idx, elem) {
+      return function(e) {
+        if (e.target.classList.contains('drag-handle')) return;
+        showProject(idx, elem);
+      };
+    })(i, el);
     sb.appendChild(el);
   });
+}
+
+function buildSidebar() {
+  buildSidebarItems(currentProjectIdx);
   initDragDrop();
 }
+
+function rebuildSidebarColors() {
+  var items = document.querySelectorAll('#proj-sidebar .sidebar-item');
+  items.forEach(function(item, i) {
+    var dot = item.querySelector('.proj-dot');
+    if (dot) dot.style.background = COLORS[data.projects[i].color] || data.projects[i].color || '#ccc';
+  });
+}
+
 function initDragDrop() {
   var sb = document.getElementById('proj-sidebar');
   var items = Array.from(sb.querySelectorAll('.sidebar-item'));
@@ -239,10 +248,9 @@ function initDragDrop() {
 
   items.forEach(function(item) {
     item.addEventListener('dragstart', function(e) {
-      // Auto-save before drag
       if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
       dragIdx = +item.dataset.idx;
-      setTimeout(function(){ item.classList.add('dragging'); }, 0);
+      setTimeout(function() { item.classList.add('dragging'); }, 0);
       e.dataTransfer.effectAllowed = 'move';
     });
     item.addEventListener('dragend', function() {
@@ -263,31 +271,19 @@ function initDragDrop() {
       data.projects.splice(dropIdx, 0, moved);
       dragIdx = null;
       currentProjectIdx = dropIdx;
+      currentSection = 'project';
       markUnsaved();
-      // Rebuild sidebar without calling initDragDrop again
-      var sb2 = document.getElementById('proj-sidebar');
-      sb2.innerHTML = '';
-      data.projects.forEach(function(p, i) {
-        var el = document.createElement('div');
-        el.className = 'sidebar-item' + (i === dropIdx ? ' active' : '');
-        el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
-        el.setAttribute('draggable', 'true');
-        el.dataset.idx = i;
-        el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
-        sb2.appendChild(el);
-      });
+      buildSidebarItems(dropIdx);
       initDragDrop();
       renderProject(dropIdx);
     });
   });
 }
-  
+
 // ── ABOUT ────────────────────────────────────────────────────────────────────
 function showSection(name, el) {
-  // Auto-save current view before switching
   if (currentSection === 'about') collectAbout();
   if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
-
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
   if (el) el.classList.add('active');
   currentSection = name;
@@ -318,29 +314,21 @@ function addTlItem() { data.about.timeline.push({year:'',title:'',subtitle:''});
 function delTl(i) { data.about.timeline.splice(i,1); renderAbout(); }
 
 function toRawUrl(url) {
-  // Convert GitHub blob URL to raw URL
   if (!url) return url;
-  return url
-    .replace('https://github.com/', 'https://raw.githubusercontent.com/')
-    .replace('/blob/', '/');
+  return url.replace('https://github.com/', 'https://raw.githubusercontent.com/').replace('/blob/', '/');
 }
 
 function collectAbout() {
-  // Only collect if we're actually on the about page (fields exist in DOM)
   var nameEl = document.getElementById('about-name');
-  if (!nameEl) return; // not rendered, don't overwrite
-
+  if (!nameEl) return;
   var rows = document.querySelectorAll('.tl-row');
   if (rows.length > 0) {
     data.about.timeline = [];
     rows.forEach(function(row) {
       var ins = row.querySelectorAll('input');
-      if (ins.length >= 3) {
-        data.about.timeline.push({year:ins[0].value, title:ins[1].value, subtitle:ins[2].value});
-      }
+      if (ins.length >= 3) data.about.timeline.push({year:ins[0].value, title:ins[1].value, subtitle:ins[2].value});
     });
   }
-
   data.about.name      = val('about-name')      || data.about.name;
   data.about.role      = val('about-role')      || data.about.role;
   data.about.tagline   = val('about-tagline')   || data.about.tagline;
@@ -351,10 +339,8 @@ function collectAbout() {
 
 // ── PROJECT ──────────────────────────────────────────────────────────────────
 function showProject(idx, el) {
-  // Auto-save current view before switching
   if (currentSection === 'about') collectAbout();
   if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
-
   document.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('active'); });
   if (el) el.classList.add('active');
   currentSection = 'project';
@@ -368,31 +354,25 @@ function renderProject(idx) {
   var html = '<div class="content-header"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div class="content-title">'+p.title+'</div><div class="content-sub">Projekt '+String(idx+1).padStart(2,'0')+'</div></div><button onclick="deleteProject('+idx+')" style="background:transparent;border:1px solid #e0ddd8;padding:7px 14px;border-radius:4px;font-size:12px;color:#888;cursor:pointer;font-family:var(--font);">Löschen</button></div></div>';
   html += '<div class="form-grid">'+field('Projekttitel','text',p.title,'p-title')+field('Kunde','text',p.client,'p-client')+'</div>';
   html += '<div class="form-grid" style="margin-top:20px;">'+field('Kategorie','text',p.category,'p-category')+field('Jahr','text',p.year,'p-year')+'</div>';
-
   html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div><div class="color-options" style="align-items:center;">';
   Object.keys(COLORS).forEach(function(key) {
     html += '<div class="color-opt'+(p.color===key?' selected':'')+'" style="background:'+COLORS[key]+'" onclick="selectColor(\''+key+'\',this)" title="'+COLORS[key]+'"></div>';
   });
-  // Custom hex input
   var isCustom = !COLORS[p.color];
   var customVal = isCustom ? p.color : '';
   html += '<div style="display:flex;align-items:center;gap:6px;margin-left:8px;">';
   html += '<div id="custom-preview" style="width:32px;height:32px;border-radius:4px;border:2px solid '+(isCustom?'var(--dark)':'var(--border)')+';background:'+(isCustom?p.color:'#fff')+';flex-shrink:0;"></div>';
   html += '<input id="custom-hex" type="text" placeholder="#ff0000" maxlength="7" value="'+esc(customVal)+'" oninput="applyCustomColor(this.value)" style="width:90px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
-  html += '</div>';
-  html += '</div>';
-
+  html += '</div></div>';
   html += '<div class="divider"></div><div class="section-title">Kachelbreite</div><div class="size-options">';
   html += '<div class="size-opt'+(p.size==='sz-mid'?' selected':'')+'" onclick="selectSize(\'sz-mid\',this)">Mittel</div>';
   html += '<div class="size-opt'+(p.size==='sz-wide'?' selected':'')+'" onclick="selectSize(\'sz-wide\',this)">Breit</div>';
   html += '</div>';
-
   html += '<div class="divider"></div><div class="form-grid"><div class="field"><label>Typ</label><select id="p-type">';
   ['motion','illustration','print','branding'].forEach(function(t) {
     html += '<option value="'+t+'"'+(p.type===t?' selected':'')+'>'+t+'</option>';
   });
   html += '</select></div></div>';
-
   html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
   p.slides.forEach(function(s, i) {
     var caption = typeof s === 'object' ? (s.caption || '') : s;
@@ -401,7 +381,6 @@ function renderProject(idx) {
     html += slideCard(caption, image, i, video);
   });
   html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
-
   document.getElementById('content-area').innerHTML = html;
 }
 
@@ -409,32 +388,20 @@ function selectColor(key, el) {
   document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
   el.classList.add('selected');
   data.projects[currentProjectIdx].color = key;
-  // Clear custom hex
   var hex = document.getElementById('custom-hex');
   var prev = document.getElementById('custom-preview');
   if (hex) { hex.value = ''; }
   if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
-  buildSidebar();
+  rebuildSidebarColors();
 }
 
-function applyVideo(url, i) {
-  var thumb = document.getElementById('thumb-'+i);
-  var s = data.projects[currentProjectIdx].slides[i];
-  var obj = typeof s === 'object' ? s : { caption: s, image: '' };
-  obj.video = url;
-  data.projects[currentProjectIdx].slides[i] = obj;
-  if (thumb) thumb.innerHTML = url ? '<div class="slide-thumb-empty">▶ Video</div>' : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
-}
-  
-function applyCustomColor(val) {
+function applyCustomColor(v) {
   var prev = document.getElementById('custom-preview');
-  // Valid hex?
-  if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-    data.projects[currentProjectIdx].color = val;
-    if (prev) { prev.style.background = val; prev.style.borderColor = 'var(--dark)'; }
-    // Deselect preset swatches
+  if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
+    data.projects[currentProjectIdx].color = v;
+    if (prev) { prev.style.background = v; prev.style.borderColor = 'var(--dark)'; }
     document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
-    buildSidebar();
+    rebuildSidebarColors();
   } else {
     if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
   }
@@ -446,19 +413,23 @@ function selectSize(key, el) {
   data.projects[currentProjectIdx].size = key;
 }
 
+function applyVideo(url, i) {
+  var thumb = document.getElementById('thumb-'+i);
+  var s = data.projects[currentProjectIdx].slides[i];
+  var obj = typeof s === 'object' ? s : { caption: s, image: '' };
+  obj.video = url;
+  data.projects[currentProjectIdx].slides[i] = obj;
+  if (thumb) thumb.innerHTML = url ? '<div class="slide-thumb-empty">▶ Video</div>' : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+}
+
 function slideCard(caption, image, i, video) {
   video = video || '';
   var thumbHtml = image
     ? '<img src="'+esc(image)+'" alt="">'
-    : video
-      ? '<div class="slide-thumb-empty">▶ Video</div>'
-      : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+    : video ? '<div class="slide-thumb-empty">▶ Video</div>'
+    : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
   return '<div class="slide-card" id="slide-card-'+i+'">' +
-    '<div class="slide-card-header">' +
-      '<span class="slide-card-num">'+(i+1)+'</span>' +
-      '<input class="slide-card-input" value="'+esc(caption)+'" placeholder="Bildunterschrift">' +
-      '<button class="slide-card-del" onclick="delSlide('+i+')">×</button>' +
-    '</div>' +
+    '<div class="slide-card-header"><span class="slide-card-num">'+(i+1)+'</span><input class="slide-card-input" value="'+esc(caption)+'" placeholder="Bildunterschrift"><button class="slide-card-del" onclick="delSlide('+i+')">×</button></div>' +
     '<div class="slide-card-body">' +
       '<div class="slide-thumb" id="thumb-'+i+'">'+thumbHtml+'</div>' +
       '<div class="slide-upload-area">' +
@@ -466,9 +437,7 @@ function slideCard(caption, image, i, video) {
         '<input type="file" id="file-'+i+'" accept="image/*" style="display:none" onchange="uploadImage(this,'+i+')">' +
         '<div class="slide-upload-progress" id="prog-'+i+'">Wird hochgeladen…</div>' +
         '<div class="slide-upload-url" id="url-'+i+'">'+(image ? '✓ '+image.split('/').pop() : '')+'</div>' +
-        '<div style="margin-top:10px;">' +
-          '<input id="video-'+i+'" type="text" placeholder="Vimeo oder YouTube URL" value="'+esc(video)+'" oninput="applyVideo(this.value,'+i+')" style="width:100%;border:1px solid var(--border);padding:7px 10px;font-size:12px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">' +
-        '</div>' +
+        '<div style="margin-top:10px;"><input id="video-'+i+'" type="text" placeholder="Vimeo oder YouTube URL" value="'+esc(video)+'" oninput="applyVideo(this.value,'+i+')" style="width:100%;border:1px solid var(--border);padding:7px 10px;font-size:12px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'"></div>' +
       '</div>' +
     '</div>' +
   '</div>';
@@ -477,41 +446,26 @@ function slideCard(caption, image, i, video) {
 function uploadImage(input, slideIdx) {
   var file = input.files[0];
   if (!file) return;
-
   var prog = document.getElementById('prog-'+slideIdx);
   var urlEl = document.getElementById('url-'+slideIdx);
   var thumb = document.getElementById('thumb-'+slideIdx);
   prog.style.display = 'block';
   urlEl.style.display = 'none';
-
   var reader = new FileReader();
   reader.onload = function(e) {
     var base64 = e.target.result.split(',')[1];
-    var ext = file.name.split('.').pop().toLowerCase();
     var filename = 'images/' + Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-
-    // Upload to GitHub
     fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+filename, {
       method: 'PUT',
       headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: 'Bild hochgeladen: ' + file.name,
-        content: base64,
-        branch: GITHUB_BRANCH
-      })
+      body: JSON.stringify({ message: 'Bild hochgeladen: '+file.name, content: base64, branch: GITHUB_BRANCH })
     })
     .then(function(r) { return r.json(); })
     .then(function(res) {
       if (res.content && res.content.download_url) {
         var url = toRawUrl(res.content.download_url);
-        // Save URL into data
         var s = data.projects[currentProjectIdx].slides[slideIdx];
-        if (typeof s === 'object') {
-          s.image = url;
-        } else {
-          data.projects[currentProjectIdx].slides[slideIdx] = { caption: s, image: url };
-        }
-        // Update UI
+        if (typeof s === 'object') { s.image = url; } else { data.projects[currentProjectIdx].slides[slideIdx] = { caption: s, image: url }; }
         thumb.innerHTML = '<img src="'+url+'" alt="">';
         urlEl.textContent = '✓ ' + file.name;
         urlEl.style.display = 'block';
@@ -542,9 +496,7 @@ function collectProject() {
   p.category = val('p-category');
   p.year     = val('p-year');
   p.type     = val('p-type');
-  
-  // Collect slide captions (images already saved in data on upload)
-var cards = document.querySelectorAll('.slide-card');
+  var cards = document.querySelectorAll('.slide-card');
   cards.forEach(function(card, i) {
     var input = card.querySelector('.slide-card-input');
     if (!input) return;
@@ -559,6 +511,7 @@ var cards = document.querySelectorAll('.slide-card');
     }
   });
 }
+
 function addProject() {
   data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',
     slides:[{caption:'Slide 1',image:''},{caption:'Slide 2',image:''}]});
@@ -570,6 +523,7 @@ function addProject() {
 function deleteProject(idx) {
   if (!confirm('Projekt "'+data.projects[idx].title+'" wirklich löschen?')) return;
   data.projects.splice(idx,1);
+  currentProjectIdx = null;
   buildSidebar();
   showSection('about', document.querySelector('.sidebar-item'));
 }
@@ -578,56 +532,32 @@ function deleteProject(idx) {
 function saveToGitHub() {
   if (currentSection === 'about') collectAbout();
   if (currentSection === 'project') collectProject();
-
   var btn = document.getElementById('save-btn');
   btn.disabled = true;
   setStatus('SHA wird geholt…');
-
   var apiUrl = 'https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE+'?ref='+GITHUB_BRANCH;
   var headers = { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' };
-
-  // Always fetch fresh SHA first
   fetch(apiUrl, { headers: headers })
   .then(function(r) { return r.json(); })
   .then(function(fileInfo) {
-    if (!fileInfo.sha) {
-      setStatus('Fehler: SHA nicht gefunden — ' + (fileInfo.message || ''));
-      btn.disabled = false;
-      return;
-    }
+    if (!fileInfo.sha) { setStatus('Fehler: SHA nicht gefunden — ' + (fileInfo.message || '')); btn.disabled = false; return; }
     githubSHA = fileInfo.sha;
     setStatus('Wird gespeichert…');
-
     var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-    var body = {
-      message: 'CMS: Inhalt aktualisiert',
-      content: content,
-      sha: githubSHA,
-      branch: GITHUB_BRANCH
-    };
-
     return fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+GITHUB_FILE, {
       method: 'PUT',
       headers: headers,
-      body: JSON.stringify(body)
+      body: JSON.stringify({ message: 'CMS: Inhalt aktualisiert', content: content, sha: githubSHA, branch: GITHUB_BRANCH })
     });
   })
   .then(function(r) { if (r) return r.json(); })
   .then(function(res) {
     if (!res) return;
-    if (res.content) {
-      githubSHA = res.content.sha;
-      clearUnsaved();
-      buildSidebar();
-    } else {
-      setStatus('Fehler: ' + (res.message || 'Unbekannt'));
-    }
+    if (res.content) { githubSHA = res.content.sha; clearUnsaved(); buildSidebarItems(currentProjectIdx); }
+    else { setStatus('Fehler: ' + (res.message || 'Unbekannt')); }
     btn.disabled = false;
   })
-  .catch(function(e) {
-    setStatus('Netzwerkfehler: ' + e.message);
-    btn.disabled = false;
-  });
+  .catch(function(e) { setStatus('Netzwerkfehler: ' + e.message); btn.disabled = false; });
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
