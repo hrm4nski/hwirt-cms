@@ -36,6 +36,54 @@
   },
   "projects": [
     {
+      "id": 2,
+      "title": "Deutsche<br>Welle",
+      "category": "Motiondesign · Infografik",
+      "client": "Deutsche Welle",
+      "year": "Seit 2020",
+      "color": "c-pur",
+      "size": "sz-mid",
+      "type": "illustration",
+      "slides": [
+        {
+          "caption": "Infografik 01",
+          "image": ""
+        },
+        {
+          "caption": "Infografik 02",
+          "image": ""
+        },
+        {
+          "caption": "Karte",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Artwork<br>Prints",
+      "category": "Print · Illustration",
+      "client": "Eigenproduktion",
+      "year": "Seit 2017",
+      "color": "c-mag",
+      "size": "sz-mid",
+      "type": "print",
+      "slides": [
+        {
+          "caption": "Motiv 01",
+          "image": ""
+        },
+        {
+          "caption": "Motiv 02",
+          "image": ""
+        },
+        {
+          "caption": "Motiv 03",
+          "image": ""
+        }
+      ]
+    },
+    {
       "id": 1,
       "title": "1Live<br>Krone",
       "category": "Redesign · On-Air · Screendesign",
@@ -73,101 +121,76 @@
       ]
     },
     {
-      "id": 2,
-      "title": "Deutsche<br>Welle",
-      "category": "Motiondesign · Infografik",
-      "client": "Deutsche Welle",
-      "year": "Seit 2020",
-      "color": "c-pur",
-      "size": "sz-mid",
-      "type": "illustration",
-      "slides": [
-        {
-          "caption": "Infografik 01",
-          "image": ""
-        },
-        {
-          "caption": "Infografik 02",
-          "image": ""
-        },
-        {
-          "caption": "Karte",
-          "image": ""
-        }
-      ]
-    },
-    {
       "id": 3,
-      "title": "Kollektiv.<br>Liebe",
-      "category": "Covergestaltung",
-      "client": "Kollektiv.Liebe",
-      "year": "Seit 2017",
+      "title": "1Live<br>Krone",
+      "category": "Redesign · On-Air · Screendesign",
+      "client": "WDR Köln",
+      "year": "2019–2024",
       "color": "c-yel",
       "size": "sz-mid",
-      "type": "print",
+      "type": "motion",
       "slides": [
         {
-          "caption": "Cover",
-          "image": ""
+          "caption": "Logo Redesign",
+          "image": "",
+          "video": ""
         },
         {
-          "caption": "Rückseite",
-          "image": ""
+          "caption": "MAZ Grafik",
+          "image": "",
+          "video": ""
         },
         {
-          "caption": "Detail",
-          "image": ""
+          "caption": "Artdirection",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "",
+          "image": "",
+          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
+        },
+        {
+          "caption": "",
+          "image": "",
+          "video": ""
         }
       ]
     },
     {
       "id": 4,
-      "title": "Stern TV<br>Grafik",
-      "category": "Motiondesign · Studiografik",
-      "client": "I+U Studios",
-      "year": "Seit 2020",
+      "title": "1Live<br>Krone",
+      "category": "Redesign · On-Air · Screendesign",
+      "client": "WDR Köln",
+      "year": "2019–2024",
       "color": "#ff202c",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
         {
-          "caption": "Logo Animation",
+          "caption": "Logo Redesign",
           "image": "",
           "video": ""
         },
         {
-          "caption": "Grafiken",
+          "caption": "MAZ Grafik",
           "image": "",
           "video": ""
         },
         {
-          "caption": "Package",
+          "caption": "Artdirection",
           "image": "",
           "video": ""
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Artwork<br>Prints",
-      "category": "Print · Illustration",
-      "client": "Eigenproduktion",
-      "year": "Seit 2017",
-      "color": "c-mag",
-      "size": "sz-mid",
-      "type": "print",
-      "slides": [
-        {
-          "caption": "Motiv 01",
-          "image": ""
         },
         {
-          "caption": "Motiv 02",
-          "image": ""
+          "caption": "",
+          "image": "",
+          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
         },
         {
-          "caption": "Motiv 03",
-          "image": ""
+          "caption": "",
+          "image": "",
+          "video": ""
         }
       ]
     },
