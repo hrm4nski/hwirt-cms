@@ -230,6 +230,7 @@ function buildSidebar() {
     el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
     sb.appendChild(el);
   });
+  initDragDrop();
 }
 function initDragDrop() {
   var sb = document.getElementById('proj-sidebar');
