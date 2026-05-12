@@ -230,7 +230,6 @@ function buildSidebar() {
     el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
     sb.appendChild(el);
   });
-    initDragDrop();
 }
 function initDragDrop() {
   var sb = document.getElementById('proj-sidebar');
@@ -239,8 +238,10 @@ function initDragDrop() {
 
   items.forEach(function(item) {
     item.addEventListener('dragstart', function(e) {
+      // Auto-save before drag
+      if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
       dragIdx = +item.dataset.idx;
-      item.classList.add('dragging');
+      setTimeout(function(){ item.classList.add('dragging'); }, 0);
       e.dataTransfer.effectAllowed = 'move';
     });
     item.addEventListener('dragend', function() {
@@ -257,16 +258,25 @@ function initDragDrop() {
       e.preventDefault();
       var dropIdx = +item.dataset.idx;
       if (dragIdx === null || dragIdx === dropIdx) return;
-      // Reorder data
       var moved = data.projects.splice(dragIdx, 1)[0];
       data.projects.splice(dropIdx, 0, moved);
       dragIdx = null;
+      currentProjectIdx = dropIdx;
       markUnsaved();
-      buildSidebar();
+      // Rebuild sidebar without calling initDragDrop again
+      var sb2 = document.getElementById('proj-sidebar');
+      sb2.innerHTML = '';
+      data.projects.forEach(function(p, i) {
+        var el = document.createElement('div');
+        el.className = 'sidebar-item' + (i === dropIdx ? ' active' : '');
+        el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
+        el.setAttribute('draggable', 'true');
+        el.dataset.idx = i;
+        el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
+        sb2.appendChild(el);
+      });
       initDragDrop();
-      // Show the dropped project
-      var newItems = sb.querySelectorAll('.sidebar-item');
-      showProject(dropIdx, newItems[dropIdx]);
+      renderProject(dropIdx);
     });
   });
 }
