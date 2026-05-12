@@ -90,37 +90,10 @@
       ]
     },
     {
-      "id": 3,
-      "title": "Kollektiv.<br>Liebe",
-      "category": "Covergestaltung",
-      "client": "Kollektiv.Liebe",
-      "year": "Seit 2017",
-      "color": "c-yel",
-      "size": "sz-mid",
-      "type": "print",
-      "slides": [
-        {
-          "caption": "Cover",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Rückseite",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Detail",
-          "image": "",
-          "video": ""
-        }
-      ]
-    },
-    {
       "id": 1,
-      "title": "1Live<br>Krone Award",
-      "category": "Redesign · On-Air · Screendesign",
-      "client": "WDR Köln",
+      "title": "1Live<br>Krone",
+      "category": "Awardshow Redesign · On-Air · Screendesign",
+      "client": "WDR Köln, 1Live",
       "year": "2019–2024",
       "color": "c-org",
       "size": "sz-mid",
@@ -149,6 +122,33 @@
         {
           "caption": "",
           "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
+          "video": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Kollektiv.<br>Liebe",
+      "category": "Covergestaltung",
+      "client": "Kollektiv.Liebe",
+      "year": "Seit 2017",
+      "color": "c-yel",
+      "size": "sz-mid",
+      "type": "print",
+      "slides": [
+        {
+          "caption": "Cover",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Rückseite",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Detail",
+          "image": "",
           "video": ""
         }
       ]
