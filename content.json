@@ -101,21 +101,24 @@
       "slides": [
         {
           "caption": "Cover",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Rückseite",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Detail",
-          "image": ""
+          "image": "",
+          "video": ""
         }
       ]
     },
     {
       "id": 1,
-      "title": "1Live Krone Award",
+      "title": "1Live<br>Krone Award",
       "category": "Redesign · On-Air · Screendesign",
       "client": "WDR Köln",
       "year": "2019–2024",
@@ -162,15 +165,18 @@
       "slides": [
         {
           "caption": "Motiv 01",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Motiv 02",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Motiv 03",
-          "image": ""
+          "image": "",
+          "video": ""
         }
       ]
     },
