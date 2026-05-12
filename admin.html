@@ -73,6 +73,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 .divider{height:1px;background:var(--border);margin:28px 0;}
 .section-title{font-size:13px;font-weight:700;letter-spacing:-.01em;margin-bottom:16px;}
 .proj-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.drag-handle{font-size:14px;color:var(--mid);cursor:grab;padding:0 2px;flex-shrink:0;user-select:none;}
+.drag-handle:active{cursor:grabbing;}
+.sidebar-item.dragging{opacity:.4;background:var(--bg);}
+.sidebar-item.drag-over{border-top:2px solid var(--accent);}
 .slide-card{background:var(--white);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:10px;}
 .slide-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);}
 .slide-card-num{font-size:11px;font-weight:600;color:var(--mid);width:20px;flex-shrink:0;}
@@ -220,12 +224,53 @@ function buildSidebar() {
   data.projects.forEach(function(p, i) {
     var el = document.createElement('div');
     el.className = 'sidebar-item';
-    el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="sidebar-item-num">' + String(i+1).padStart(2,'0') + '</span>';
+    el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color]||'#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
+    el.setAttribute('draggable', 'true');
+    el.dataset.idx = i;
     el.onclick = (function(idx, elem) { return function() { showProject(idx, elem); }; })(i, el);
     sb.appendChild(el);
   });
+    initDragDrop();
 }
+function initDragDrop() {
+  var sb = document.getElementById('proj-sidebar');
+  var items = Array.from(sb.querySelectorAll('.sidebar-item'));
+  var dragIdx = null;
 
+  items.forEach(function(item) {
+    item.addEventListener('dragstart', function(e) {
+      dragIdx = +item.dataset.idx;
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', function() {
+      item.classList.remove('dragging');
+      sb.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('drag-over'); });
+    });
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      sb.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('drag-over'); });
+      item.classList.add('drag-over');
+    });
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      var dropIdx = +item.dataset.idx;
+      if (dragIdx === null || dragIdx === dropIdx) return;
+      // Reorder data
+      var moved = data.projects.splice(dragIdx, 1)[0];
+      data.projects.splice(dropIdx, 0, moved);
+      dragIdx = null;
+      markUnsaved();
+      buildSidebar();
+      initDragDrop();
+      // Show the dropped project
+      var newItems = sb.querySelectorAll('.sidebar-item');
+      showProject(dropIdx, newItems[dropIdx]);
+    });
+  });
+}
+  
 // ── ABOUT ────────────────────────────────────────────────────────────────────
 function showSection(name, el) {
   // Auto-save current view before switching
