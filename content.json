@@ -60,7 +60,8 @@
           "image": "",
           "video": ""
         }
-      ]
+      ],
+      "deco": "waves"
     },
     {
       "id": 4,
@@ -87,7 +88,8 @@
           "image": "",
           "video": ""
         }
-      ]
+      ],
+      "deco": "stars"
     },
     {
       "id": 1,
@@ -124,7 +126,8 @@
           "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
           "video": ""
         }
-      ]
+      ],
+      "deco": "crowns"
     },
     {
       "id": 3,
@@ -151,7 +154,8 @@
           "image": "",
           "video": ""
         }
-      ]
+      ],
+      "deco": "hearts"
     },
     {
       "id": 5,
@@ -178,7 +182,8 @@
           "image": "",
           "video": ""
         }
-      ]
+      ],
+      "deco": "dots"
     },
     {
       "id": 6,
@@ -205,7 +210,8 @@
           "image": "",
           "video": ""
         }
-      ]
+      ],
+      "deco": "spiral"
     }
   ]
 }
