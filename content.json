@@ -126,21 +126,24 @@
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
-      "color": "c-blu",
+      "color": "#ff202c",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
         {
           "caption": "Logo Animation",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Grafiken",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Package",
-          "image": ""
+          "image": "",
+          "video": ""
         }
       ]
     },
