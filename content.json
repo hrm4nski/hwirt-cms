@@ -41,7 +41,7 @@
       "category": "Motiondesign · Infografik",
       "client": "Deutsche Welle",
       "year": "Seit 2020",
-      "color": "c-pur",
+      "color": "#408ab0",
       "size": "sz-mid",
       "type": "illustration",
       "slides": [
@@ -68,7 +68,7 @@
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
-      "color": "#f0f0f0",
+      "color": "#de5470",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
@@ -95,7 +95,7 @@
       "category": "Awardshow Redesign · On-Air · Screendesign",
       "client": "WDR Köln, 1Live",
       "year": "2019–2024",
-      "color": "c-org",
+      "color": "#f8d476",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -132,7 +132,7 @@
       "category": "Covergestaltung",
       "client": "Kollektiv.Liebe",
       "year": "Seit 2017",
-      "color": "c-yel",
+      "color": "#62d4a4",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -159,7 +159,7 @@
       "category": "Print · Illustration",
       "client": "Eigenproduktion",
       "year": "Seit 2017",
-      "color": "c-mag",
+      "color": "#ffff55",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -186,21 +186,24 @@
       "category": "Motion Design",
       "client": "Eigenproduktion",
       "year": "2024",
-      "color": "c-lim",
+      "color": "#dfebc7",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
         {
           "caption": "Loop 01",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Loop 02",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Loop 03",
-          "image": ""
+          "image": "",
+          "video": ""
         }
       ]
     }
