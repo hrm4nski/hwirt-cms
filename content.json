@@ -69,7 +69,7 @@
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
-      "color": "#de5470",
+      "color": "#dc0100",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
@@ -97,7 +97,7 @@
       "category": "Awardshow Redesign · On-Air · Screendesign",
       "client": "WDR Köln, 1Live",
       "year": "2019–2024",
-      "color": "#f8d476",
+      "color": "c-yel",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -135,7 +135,7 @@
       "category": "Covergestaltung",
       "client": "Kollektiv.Liebe",
       "year": "Seit 2017",
-      "color": "#62d4a4",
+      "color": "c-mag",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -163,7 +163,7 @@
       "category": "Print · Illustration",
       "client": "Eigenproduktion",
       "year": "Seit 2017",
-      "color": "#ffff55",
+      "color": "c-lim",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -191,7 +191,7 @@
       "category": "Motion Design",
       "client": "Eigenproduktion",
       "year": "2024",
-      "color": "#dfebc7",
+      "color": "c-org",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
