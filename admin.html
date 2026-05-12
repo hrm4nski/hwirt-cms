@@ -368,11 +368,26 @@ function renderProject(idx) {
   html += '<div class="size-opt'+(p.size==='sz-mid'?' selected':'')+'" onclick="selectSize(\'sz-mid\',this)">Mittel</div>';
   html += '<div class="size-opt'+(p.size==='sz-wide'?' selected':'')+'" onclick="selectSize(\'sz-wide\',this)">Breit</div>';
   html += '</div>';
-  html += '<div class="divider"></div><div class="form-grid"><div class="field"><label>Typ</label><select id="p-type">';
+  html += '<div class="divider"></div><div class="form-grid">';
+  html += '<div class="field"><label>Typ</label><select id="p-type">';
   ['motion','illustration','print','branding'].forEach(function(t) {
     html += '<option value="'+t+'"'+(p.type===t?' selected':'')+'>'+t+'</option>';
   });
-  html += '</select></div></div>';
+  html += '</select></div>';
+  html += '<div class="field"><label>Animation</label><select id="p-deco">';
+  [
+    {v:'none',    l:'Keine'},
+    {v:'waves',   l:'🌊 Wellen'},
+    {v:'stars',   l:'⭐ Sterne'},
+    {v:'hearts',  l:'❤️ Herzen'},
+    {v:'crowns',  l:'👑 Kronen'},
+    {v:'dots',    l:'⚬ Punkte'},
+    {v:'spiral',  l:'🌀 Spirale'}
+  ].forEach(function(opt) {
+    html += '<option value="'+opt.v+'"'+((p.deco||'none')===opt.v?' selected':'')+'>'+opt.l+'</option>';
+  });
+  html += '</select></div>';
+  html += '</div>';
   html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
   p.slides.forEach(function(s, i) {
     var caption = typeof s === 'object' ? (s.caption || '') : s;
@@ -496,6 +511,7 @@ function collectProject() {
   p.category = val('p-category');
   p.year     = val('p-year');
   p.type     = val('p-type');
+  p.deco     = val('p-deco');
   var cards = document.querySelectorAll('.slide-card');
   cards.forEach(function(card, i) {
     var input = card.querySelector('.slide-card-input');
