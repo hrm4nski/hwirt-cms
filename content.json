@@ -63,6 +63,33 @@
       ]
     },
     {
+      "id": 4,
+      "title": "Stern TV<br>Grafik",
+      "category": "Motiondesign · Studiografik",
+      "client": "I+U Studios",
+      "year": "Seit 2020",
+      "color": "#ff202c",
+      "size": "sz-mid",
+      "type": "motion",
+      "slides": [
+        {
+          "caption": "Logo Animation",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Grafiken",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Package",
+          "image": "",
+          "video": ""
+        }
+      ]
+    },
+    {
       "id": 3,
       "title": "Kollektiv.<br>Liebe",
       "category": "Covergestaltung",
@@ -119,33 +146,6 @@
         {
           "caption": "",
           "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
-          "video": ""
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Stern TV<br>Grafik",
-      "category": "Motiondesign · Studiografik",
-      "client": "I+U Studios",
-      "year": "Seit 2020",
-      "color": "#ff202c",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Logo Animation",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Grafiken",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Package",
-          "image": "",
           "video": ""
         }
       ]
