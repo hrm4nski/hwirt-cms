@@ -47,15 +47,106 @@
       "slides": [
         {
           "caption": "Infografik 01",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Infografik 02",
-          "image": ""
+          "image": "",
+          "video": ""
         },
         {
           "caption": "Karte",
+          "image": "",
+          "video": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Kollektiv.<br>Liebe",
+      "category": "Covergestaltung",
+      "client": "Kollektiv.Liebe",
+      "year": "Seit 2017",
+      "color": "c-yel",
+      "size": "sz-mid",
+      "type": "print",
+      "slides": [
+        {
+          "caption": "Cover",
           "image": ""
+        },
+        {
+          "caption": "Rückseite",
+          "image": ""
+        },
+        {
+          "caption": "Detail",
+          "image": ""
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Kollektiv.<br>Liebe",
+      "category": "Covergestaltung",
+      "client": "Kollektiv.Liebe",
+      "year": "Seit 2017",
+      "color": "c-org",
+      "size": "sz-mid",
+      "type": "print",
+      "slides": [
+        {
+          "caption": "Cover",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778427797221-DK_weiss.png",
+          "video": ""
+        },
+        {
+          "caption": "Rückseite",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png",
+          "video": ""
+        },
+        {
+          "caption": "Detail",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778335598451-Krone2019.png",
+          "video": ""
+        },
+        {
+          "caption": "",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426860102-DK_weiss.png",
+          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
+        },
+        {
+          "caption": "",
+          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
+          "video": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Stern TV<br>Grafik",
+      "category": "Motiondesign · Studiografik",
+      "client": "I+U Studios",
+      "year": "Seit 2020",
+      "color": "#ff202c",
+      "size": "sz-mid",
+      "type": "motion",
+      "slides": [
+        {
+          "caption": "Logo Animation",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Grafiken",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Package",
+          "image": "",
+          "video": ""
         }
       ]
     },
@@ -80,117 +171,6 @@
         {
           "caption": "Motiv 03",
           "image": ""
-        }
-      ]
-    },
-    {
-      "id": 1,
-      "title": "1Live<br>Krone",
-      "category": "Redesign · On-Air · Screendesign",
-      "client": "WDR Köln",
-      "year": "2019–2024",
-      "color": "c-org",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Logo Redesign",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778427797221-DK_weiss.png",
-          "video": ""
-        },
-        {
-          "caption": "MAZ Grafik",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778330516488-Bildschirmfoto-2023-01-11-um-16.54.09.png",
-          "video": ""
-        },
-        {
-          "caption": "Artdirection",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778335598451-Krone2019.png",
-          "video": ""
-        },
-        {
-          "caption": "",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426860102-DK_weiss.png",
-          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
-        },
-        {
-          "caption": "",
-          "image": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1778426329797-IMG_6169-scaled.jpeg",
-          "video": ""
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "1Live<br>Krone",
-      "category": "Redesign · On-Air · Screendesign",
-      "client": "WDR Köln",
-      "year": "2019–2024",
-      "color": "c-yel",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Logo Redesign",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "MAZ Grafik",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Artdirection",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "",
-          "image": "",
-          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
-        },
-        {
-          "caption": "",
-          "image": "",
-          "video": ""
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "1Live<br>Krone",
-      "category": "Redesign · On-Air · Screendesign",
-      "client": "WDR Köln",
-      "year": "2019–2024",
-      "color": "#ff202c",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Logo Redesign",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "MAZ Grafik",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Artdirection",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "",
-          "image": "",
-          "video": "https://www.youtube.com/watch?v=4-LoxonIDUI&t=1s"
-        },
-        {
-          "caption": "",
-          "image": "",
-          "video": ""
         }
       ]
     },
