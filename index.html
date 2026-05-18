@@ -100,7 +100,7 @@ body{overflow:hidden;cursor:none;}
 .i-name-btn{display:inline-block;border-bottom:2px solid transparent;transition:border-color .2s;line-height:inherit;}
 .i-name-btn:hover{border-color:rgba(0,0,0,.25);}
 .i-smiley{position:absolute;top:24px;left:50%;transform:translateX(-50%);font-size:22px;font-weight:700;color:rgba(0,0,0,.4);opacity:0;transition:opacity .25s;pointer-events:none;}
-.i-vert{position:absolute;bottom:36px;left:50%;transform:translateX(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.35);opacity:0;transition:opacity .25s;pointer-events:none;}
+.i-vert{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.4);writing-mode:vertical-lr;transform:rotate(180deg);white-space:nowrap;opacity:0;transition:opacity .25s;pointer-events:none;}
 .sz-thin .i-smiley,.sz-thin .i-vert{opacity:1;}
 .about-detail{position:absolute;inset:0;display:flex;flex-direction:row;opacity:0;pointer-events:none;transition:opacity .32s .12s;overflow:visible;}
 .sz-open .about-detail{opacity:1;pointer-events:auto;}
