@@ -398,15 +398,37 @@ function renderProject(idx) {
   html += '<div style="font-size:11px;color:var(--mid);margin-top:6px;">Empfohlen: quadratisches PNG mit transparentem Hintergrund</div>';
   html += '</div></div>';
 
-  // ── SLIDES ──
-  html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
-  p.slides.forEach(function(s, i) {
-    var caption = typeof s === 'object' ? (s.caption || '') : s;
-    var image   = typeof s === 'object' ? (s.image || '') : '';
-    var video   = typeof s === 'object' ? (s.video || '') : '';
-    html += slideCard(caption, image, i, video);
+  // ── BILDER ──
+  var images = p.images || [];
+  html += '<div class="divider"></div><div class="section-title">Bilder (1–4, Slideshow)</div>';
+  html += '<div id="img-list">';
+  for(var ii=0; ii<4; ii++){
+    var imgUrl = images[ii]||'';
+    var thumbHtml = imgUrl ? '<img src="'+esc(imgUrl)+'" alt="">' : '<div class="slide-thumb-empty">'+(ii+1)+'</div>';
+    html += '<div class="slide-card-body" style="padding:8px 0;">';
+    html += '<div class="slide-thumb" id="img-thumb-'+ii+'">'+thumbHtml+'</div>';
+    html += '<div class="slide-upload-area">';
+    html += '<label class="slide-upload-btn" for="img-file-'+ii+'">📁 Bild '+(ii+1)+' hochladen</label>';
+    html += '<input type="file" id="img-file-'+ii+'" accept="image/*" style="display:none" onchange="uploadProjImage(this,'+ii+')">';
+    html += '<div class="slide-upload-progress" id="img-prog-'+ii+'">Wird hochgeladen…</div>';
+    if(imgUrl) html += '<div style="font-size:11px;color:#2c55f6;margin-top:4px;">✓ '+imgUrl.split('/').pop()+'</div>';
+    if(imgUrl) html += '<button onclick="removeProjImage('+ii+')" style="margin-top:6px;background:transparent;border:1px solid var(--border);padding:4px 10px;font-size:11px;border-radius:4px;cursor:pointer;color:var(--mid);">Entfernen</button>';
+    html += '</div></div>';
+  }
+  html += '</div>';
+
+  // ── VIDEO ──
+  html += '<div class="divider"></div><div class="section-title">Video</div>';
+  html += '<div class="field"><label>Vimeo oder YouTube URL</label><input type="text" id="p-video" value="'+esc(p.video||'')+'" placeholder="https://vimeo.com/..." style="margin-bottom:0;"></div>';
+
+  // ── PUNKTE ──
+  var points = p.points || [];
+  html += '<div class="divider"></div><div class="section-title">Projektinhalte</div>';
+  html += '<div id="points-list">';
+  points.forEach(function(pt, pi){
+    html += pointRow(pt.label, pt.text, pi);
   });
-  html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
+  html += '</div><div class="slide-add" onclick="addPoint()">+ Punkt hinzufügen</div>';
 
   document.getElementById('content-area').innerHTML = html;
 }
@@ -544,6 +566,67 @@ function delSlide(i) {
   renderProject(currentProjectIdx);
 }
 
+function pointRow(label, text, i) {
+  return '<div class="slide-card" id="point-'+i+'">' +
+    '<div class="slide-card-header"><span class="slide-card-num">'+(i+1)+'</span><input class="slide-card-input" id="pt-label-'+i+'" value="'+esc(label)+'" placeholder="Überschrift / Label"><button class="slide-card-del" onclick="delPoint('+i+')">×</button></div>' +
+    '<div style="padding:10px 14px;"><textarea id="pt-text-'+i+'" placeholder="Kurze Beschreibung…" style="width:100%;border:1px solid var(--border);padding:8px 10px;font-size:12px;font-family:var(--font);border-radius:4px;outline:none;resize:vertical;min-height:60px;">'+esc(text)+'</textarea></div>' +
+  '</div>';
+}
+
+function addPoint() {
+  var p = data.projects[currentProjectIdx];
+  if(!p.points) p.points = [];
+  p.points.push({label:'',text:''});
+  renderProject(currentProjectIdx);
+}
+
+function delPoint(i) {
+  var p = data.projects[currentProjectIdx];
+  p.points.splice(i,1);
+  renderProject(currentProjectIdx);
+}
+
+function uploadProjImage(input, imgIdx) {
+  var file = input.files[0];
+  if (!file) return;
+  var prog = document.getElementById('img-prog-'+imgIdx);
+  var thumb = document.getElementById('img-thumb-'+imgIdx);
+  prog.style.display = 'block';
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var base64 = e.target.result.split(',')[1];
+    var filename = 'images/' + Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+filename, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Bild hochgeladen: '+file.name, content: base64, branch: GITHUB_BRANCH })
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if (res.content && res.content.download_url) {
+        var url = toRawUrl(res.content.download_url);
+        var p = data.projects[currentProjectIdx];
+        if(!p.images) p.images = [];
+        p.images[imgIdx] = url;
+        thumb.innerHTML = '<img src="'+url+'" alt="">';
+        prog.style.display = 'none';
+        markUnsaved();
+      } else {
+        prog.textContent = 'Fehler: '+(res.message||'Upload fehlgeschlagen');
+      }
+    })
+    .catch(function(){ prog.textContent = 'Upload fehlgeschlagen'; });
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeProjImage(imgIdx) {
+  var p = data.projects[currentProjectIdx];
+  if(p.images) p.images[imgIdx] = '';
+  renderProject(currentProjectIdx);
+  markUnsaved();
+}
+
 function collectProject() {
   var p = data.projects[currentProjectIdx];
   p.title    = val('p-title');
@@ -552,27 +635,21 @@ function collectProject() {
   p.year     = val('p-year');
   p.type     = val('p-type');
   p.deco     = val('p-deco');
-  // color saved live via applyPickerColor
-  // icon saved live via uploadIcon
-  var cards = document.querySelectorAll('.slide-card');
-  cards.forEach(function(card, i) {
-    var input = card.querySelector('.slide-card-input');
-    if (!input) return;
-    var videoInput = document.getElementById('video-'+i);
-    var videoVal = videoInput ? videoInput.value : '';
-    var current = p.slides[i];
-    if (typeof current === 'object') {
-      current.caption = input.value;
-      current.video = videoVal;
-    } else {
-      p.slides[i] = { caption: input.value, image: '', video: videoVal };
-    }
+  p.video    = val('p-video');
+  // color + icon saved live
+  // images saved live on upload
+  // collect points
+  var pointEls = document.querySelectorAll('[id^="point-"]');
+  p.points = [];
+  pointEls.forEach(function(el, i) {
+    var label = document.getElementById('pt-label-'+i);
+    var text  = document.getElementById('pt-text-'+i);
+    if(label) p.points.push({label: label.value, text: text ? text.value : ''});
   });
 }
 
 function addProject() {
-  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',deco:'none',
-    slides:[{caption:'Slide 1',image:''},{caption:'Slide 2',image:''}]});
+  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',deco:'none',images:[],points:[],video:''});
   buildSidebar();
   var items = document.querySelectorAll('#proj-sidebar .sidebar-item');
   showProject(data.projects.length-1, items[items.length-1]);
