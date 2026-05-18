@@ -36,41 +36,6 @@
   },
   "projects": [
     {
-      "id": 6,
-      "title": "Showreels",
-      "category": "Motiondesign · Illustration",
-      "client": "Eigenproduktion",
-      "year": "2024",
-      "color": "#ffdd00",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Loop 01",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Loop 02",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Loop 03",
-          "image": "",
-          "video": ""
-        }
-      ],
-      "deco": "none",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779147677006-HW_Icon_2.png",
-      "video": "https://vimeo.com/402215645?fl=pl&fe=sh",
-      "images": [
-        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147929360-Vomit.gif",
-        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147940870-Tired.gif",
-        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147949940-Work.gif"
-      ]
-    },
-    {
       "id": 2,
       "title": "Deutsche Welle",
       "category": "Motion · Infografik",
@@ -126,7 +91,7 @@
       "category": "Motion · Studiografik",
       "client": "Mediawan",
       "year": "Seit 2020",
-      "color": "c-blu",
+      "color": "#b8b8b8",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
@@ -161,6 +126,41 @@
       ],
       "images": [
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147414395-94F4C23E-0C32-4DCA-8BB7-BB79455E6BFE_1_105_c.jpeg"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Showreels",
+      "category": "Motiondesign · Illustration",
+      "client": "Eigenproduktion",
+      "year": "2024",
+      "color": "#ffdd00",
+      "size": "sz-mid",
+      "type": "motion",
+      "slides": [
+        {
+          "caption": "Loop 01",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Loop 02",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Loop 03",
+          "image": "",
+          "video": ""
+        }
+      ],
+      "deco": "none",
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779147677006-HW_Icon_2.png",
+      "video": "https://vimeo.com/402215645?fl=pl&fe=sh",
+      "images": [
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147929360-Vomit.gif",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147940870-Tired.gif",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147949940-Work.gif"
       ]
     },
     {
