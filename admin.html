@@ -354,15 +354,9 @@ function renderProject(idx) {
 
   // ── FARBPICKER ──
   html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div>';
-  html += '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
+  html += '<div style="display:flex;align-items:center;gap:12px;">';
   html += '<input type="color" id="color-picker" value="'+currentHex+'" oninput="applyPickerColor(this.value)" style="width:48px;height:48px;border:none;border-radius:6px;cursor:pointer;padding:2px;background:var(--border);">';
-  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
-  Object.keys(COLORS).forEach(function(key) {
-    var selected = p.color === key;
-    html += '<div class="preset-dot" onclick="applyPickerColor(\''+COLORS[key]+'\')" title="'+key+'" style="background:'+COLORS[key]+';border:2.5px solid '+(selected?'var(--dark)':'transparent')+';"></div>';
-  });
-  html += '</div>';
-  html += '<input id="hex-input" type="text" placeholder="#000000" maxlength="7" value="'+currentHex+'" oninput="applyPickerColor(this.value)" style="width:90px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
+  html += '<input id="hex-input" type="text" placeholder="#000000" maxlength="7" value="'+currentHex+'" oninput="applyPickerColor(this.value)" style="width:110px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
   html += '</div>';
 
   // ── GRÖßE ──
@@ -370,19 +364,6 @@ function renderProject(idx) {
   html += '<div class="size-opt'+(p.size==='sz-mid'?' selected':'')+'" onclick="selectSize(\'sz-mid\',this)">Mittel</div>';
   html += '<div class="size-opt'+(p.size==='sz-wide'?' selected':'')+'" onclick="selectSize(\'sz-wide\',this)">Breit</div>';
   html += '</div>';
-
-  // ── TYP + ANIMATION ──
-  html += '<div class="divider"></div><div class="form-grid">';
-  html += '<div class="field"><label>Typ</label><select id="p-type">';
-  ['motion','illustration','print','branding'].forEach(function(t) {
-    html += '<option value="'+t+'"'+(p.type===t?' selected':'')+'>'+t+'</option>';
-  });
-  html += '</select></div>';
-  html += '<div class="field"><label>Animation</label><select id="p-deco">';
-  [{v:'none',l:'Keine'},{v:'waves',l:'🌊 Wellen'},{v:'stars',l:'⭐ Sterne'},{v:'hearts',l:'❤️ Herzen'},{v:'crowns',l:'👑 Kronen'},{v:'dots',l:'⚬ Punkte'},{v:'spiral',l:'🌀 Spirale'}].forEach(function(opt) {
-    html += '<option value="'+opt.v+'"'+((p.deco||'none')===opt.v?' selected':'')+'>'+opt.l+'</option>';
-  });
-  html += '</select></div></div>';
 
   // ── BUCHRÜCKEN ICON ──
   html += '<div class="divider"></div><div class="section-title">Buchrücken Icon</div>';
@@ -629,23 +610,24 @@ function removeProjImage(imgIdx) {
 
 function collectProject() {
   var p = data.projects[currentProjectIdx];
-  p.title    = val('p-title');
-  p.client   = val('p-client');
-  p.category = val('p-category');
-  p.year     = val('p-year');
-  p.type     = val('p-type');
-  p.deco     = val('p-deco');
+  // Guard: only collect if DOM fields are present
+  if (!document.getElementById('p-title')) return;
+  p.title    = val('p-title')    || p.title;
+  p.client   = val('p-client')   || p.client;
+  p.category = val('p-category') || p.category;
+  p.year     = val('p-year')     || p.year;
   p.video    = val('p-video');
-  // color + icon saved live
-  // images saved live on upload
+  // color + icon + images saved live
   // collect points
   var pointEls = document.querySelectorAll('[id^="point-"]');
-  p.points = [];
-  pointEls.forEach(function(el, i) {
-    var label = document.getElementById('pt-label-'+i);
-    var text  = document.getElementById('pt-text-'+i);
-    if(label) p.points.push({label: label.value, text: text ? text.value : ''});
-  });
+  if (pointEls.length > 0) {
+    p.points = [];
+    pointEls.forEach(function(el, i) {
+      var label = document.getElementById('pt-label-'+i);
+      var text  = document.getElementById('pt-text-'+i);
+      if(label) p.points.push({label: label.value, text: text ? text.value : ''});
+    });
+  }
 }
 
 function addProject() {
