@@ -46,8 +46,8 @@ body{overflow:hidden;cursor:none;}
 .spine-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;}
 .spine-icon img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1);opacity:.7;}
 
-.p-meta{transition:opacity .3s;}
-.sz-thin .p-meta,.sz-open .p-meta{opacity:0;pointer-events:none;}
+.p-meta{transition:opacity .3s ease .85s;}
+.sz-thin .p-meta,.sz-open .p-meta{opacity:0;transition:opacity .15s ease;pointer-events:none;}
 .p-num{display:none;}
 .p-yr{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
 .p-cat{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:8px;}
