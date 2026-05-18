@@ -89,7 +89,7 @@
           "video": ""
         }
       ],
-      "deco": "crowns"
+      "deco": "dots"
     },
     {
       "id": 1,
@@ -127,7 +127,7 @@
           "video": ""
         }
       ],
-      "deco": "crowns"
+      "deco": "waves"
     },
     {
       "id": 3,
@@ -155,7 +155,7 @@
           "video": ""
         }
       ],
-      "deco": "hearts"
+      "deco": "waves"
     },
     {
       "id": 5,
@@ -183,7 +183,7 @@
           "video": ""
         }
       ],
-      "deco": "dots"
+      "deco": "waves"
     },
     {
       "id": 6,
@@ -211,7 +211,7 @@
           "video": ""
         }
       ],
-      "deco": "spiral"
+      "deco": "waves"
     }
   ]
 }
