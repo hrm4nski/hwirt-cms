@@ -72,15 +72,15 @@
       "points": [
         {
           "label": "Illustration",
-          "text": ""
+          "text": "Illustration im Corporate Design der Deutschen Welle. "
         },
         {
           "label": "Motion-Design",
-          "text": ""
+          "text": "Von Cut-Out bis Infografik."
         },
         {
           "label": "Social-Media",
-          "text": ""
+          "text": "Storys, Slider, Thumbnails"
         }
       ],
       "video": "https://www.youtube.com/watch?v=B6syp00caIo&list=PLvgi6sEBVkzt0Q1UGNYNB9OdSzl3SG4Rx"
@@ -112,7 +112,9 @@
         }
       ],
       "deco": "waves",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121293110-csm_i_u_Studios_RGB_White_8c0a3e3438.png"
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121293110-csm_i_u_Studios_RGB_White_8c0a3e3438.png",
+      "video": "",
+      "points": []
     },
     {
       "id": 1,
@@ -151,7 +153,9 @@
         }
       ],
       "deco": "waves",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779120842669-KRONE_ICON.png"
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779120842669-KRONE_ICON.png",
+      "video": "",
+      "points": []
     },
     {
       "id": 3,
