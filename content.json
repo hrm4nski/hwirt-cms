@@ -225,7 +225,7 @@
       "category": "Print · Illustration",
       "client": "Eigenproduktion",
       "year": "Seit 2017",
-      "color": "c-mag",
+      "color": "#8ae600",
       "size": "sz-mid",
       "type": "print",
       "slides": [
@@ -246,7 +246,8 @@
         }
       ],
       "deco": "none",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779127846934-HW_Icon_2.png"
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779127846934-HW_Icon_2.png",
+      "video": ""
     },
     {
       "id": 6,
