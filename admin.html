@@ -388,6 +388,24 @@ function renderProject(idx) {
   });
   html += '</select></div>';
   html += '</div>';
+  html += '<div class="divider"></div><div class="section-title">Buchrücken Icon</div>';
+  html += '<div class="slide-card-body" style="padding:0 0 16px;">';
+  html += '<div class="slide-thumb" id="icon-thumb">';
+  if (p.icon) {
+    html += '<img src="'+esc(p.icon)+'" alt="" style="object-fit:contain;padding:4px;">';
+  } else {
+    html += '<div class="slide-thumb-empty">Kein<br>Icon</div>';
+  }
+  html += '</div>';
+  html += '<div class="slide-upload-area">';
+  html += '<label class="slide-upload-btn" for="icon-file">📁 Icon hochladen</label>';
+  html += '<input type="file" id="icon-file" accept="image/*" style="display:none" onchange="uploadIcon(this)">';
+  html += '<div class="slide-upload-progress" id="icon-prog">Wird hochgeladen…</div>';
+  if (p.icon) {
+    html += '<div style="font-size:11px;color:#2c55f6;margin-top:6px;">✓ '+p.icon.split('/').pop()+'</div>';
+  }
+  html += '<div style="font-size:11px;color:var(--mid);margin-top:6px;">Empfohlen: quadratisches PNG mit transparentem Hintergrund</div>';
+  html += '</div></div>';
   html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
   p.slides.forEach(function(s, i) {
     var caption = typeof s === 'object' ? (s.caption || '') : s;
@@ -435,6 +453,38 @@ function applyVideo(url, i) {
   obj.video = url;
   data.projects[currentProjectIdx].slides[i] = obj;
   if (thumb) thumb.innerHTML = url ? '<div class="slide-thumb-empty">▶ Video</div>' : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
+}
+
+function uploadIcon(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var prog = document.getElementById('icon-prog');
+  var thumb = document.getElementById('icon-thumb');
+  prog.style.display = 'block';
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var base64 = e.target.result.split(',')[1];
+    var filename = 'images/icons/' + Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    fetch('https://api.github.com/repos/'+GITHUB_OWNER+'/'+GITHUB_REPO+'/contents/'+filename, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token '+githubToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: 'Icon hochgeladen: '+file.name, content: base64, branch: GITHUB_BRANCH })
+    })
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if (res.content && res.content.download_url) {
+        var url = toRawUrl(res.content.download_url);
+        data.projects[currentProjectIdx].icon = url;
+        thumb.innerHTML = '<img src="'+url+'" alt="" style="object-fit:contain;padding:4px;">';
+        prog.style.display = 'none';
+        markUnsaved();
+      } else {
+        prog.textContent = 'Fehler: ' + (res.message||'Upload fehlgeschlagen');
+      }
+    })
+    .catch(function(){ prog.textContent = 'Upload fehlgeschlagen'; });
+  };
+  reader.readAsDataURL(file);
 }
 
 function slideCard(caption, image, i, video) {
@@ -512,6 +562,7 @@ function collectProject() {
   p.year     = val('p-year');
   p.type     = val('p-type');
   p.deco     = val('p-deco');
+  // icon is saved directly on upload, no field to collect
   var cards = document.querySelectorAll('.slide-card');
   cards.forEach(function(card, i) {
     var input = card.querySelector('.slide-card-input');
