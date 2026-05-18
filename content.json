@@ -154,8 +154,15 @@
       ],
       "deco": "none",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779120842669-KRONE_ICON.png",
-      "video": "",
-      "points": []
+      "video": "https://www.youtube.com/watch?v=4-LoxonIDUI",
+      "points": [],
+      "images": [
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145525222-logo.png",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145546095-apache.jpg",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145555556-event.jpg",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145561186-zoe.jpg",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145568494-IMG_6176-scaled.jpeg"
+      ]
     },
     {
       "id": 3,
