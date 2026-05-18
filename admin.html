@@ -558,13 +558,18 @@ function pointRow(label, text, i) {
 }
 
 function addPoint() {
+  collectProject();
   var p = data.projects[currentProjectIdx];
   if(!p.points) p.points = [];
   p.points.push({label:'',text:''});
   renderProject(currentProjectIdx);
+  // Focus new label field
+  var labels = document.querySelectorAll('[id^="pt-label-"]');
+  if(labels.length) labels[labels.length-1].focus();
 }
 
 function delPoint(i) {
+  collectProject();
   var p = data.projects[currentProjectIdx];
   p.points.splice(i,1);
   renderProject(currentProjectIdx);
