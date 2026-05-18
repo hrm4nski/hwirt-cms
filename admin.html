@@ -51,18 +51,10 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 .field label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);}
 .field input,.field select,.field textarea{border:1px solid var(--border);padding:9px 12px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;background:var(--white);transition:border-color .2s;}
 .field input:focus,.field select:focus{border-color:var(--dark);}
-.color-options{display:flex;gap:8px;flex-wrap:wrap;}
-.color-opt{width:32px;height:32px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
-.color-opt.selected{border-color:var(--dark);transform:scale(1.1);}
 .size-options{display:flex;gap:8px;}
 .size-opt{padding:6px 14px;border:1px solid var(--border);border-radius:4px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
 .size-opt.selected{background:var(--dark);color:#fff;border-color:var(--dark);}
 .slides-list{display:flex;flex-direction:column;gap:8px;}
-.slide-row{display:flex;align-items:center;gap:8px;}
-.slide-row input{flex:1;border:1px solid var(--border);padding:8px 12px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;}
-.slide-row input:focus{border-color:var(--dark);}
-.slide-del{width:28px;height:28px;border:1px solid var(--border);background:transparent;border-radius:4px;cursor:pointer;font-size:14px;color:var(--mid);display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
-.slide-del:hover{border-color:#cd394a;color:#cd394a;}
 .slide-add{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent);font-weight:600;cursor:pointer;margin-top:4px;padding:4px 0;}
 .tl-list{display:flex;flex-direction:column;gap:10px;}
 .tl-row{display:grid;grid-template-columns:80px 1fr 1fr 28px;gap:8px;align-items:center;}
@@ -92,6 +84,9 @@ body{background:var(--bg);font-family:var(--font);color:var(--dark);min-height:1
 .slide-upload-btn:hover{background:#fef0f7;}
 .slide-upload-progress{font-size:11px;color:var(--mid);margin-top:6px;display:none;}
 .slide-upload-url{font-size:11px;color:#2c55f6;margin-top:6px;word-break:break-all;display:none;}
+/* color picker presets */
+.preset-dot{width:28px;height:28px;border-radius:4px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.preset-dot:hover{transform:scale(1.15);}
 </style>
 </head>
 <body>
@@ -351,23 +346,32 @@ function showProject(idx, el) {
 
 function renderProject(idx) {
   var p = data.projects[idx];
+  var currentHex = COLORS[p.color] || p.color || '#ea3398';
+
   var html = '<div class="content-header"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div class="content-title">'+p.title+'</div><div class="content-sub">Projekt '+String(idx+1).padStart(2,'0')+'</div></div><button onclick="deleteProject('+idx+')" style="background:transparent;border:1px solid #e0ddd8;padding:7px 14px;border-radius:4px;font-size:12px;color:#888;cursor:pointer;font-family:var(--font);">Löschen</button></div></div>';
   html += '<div class="form-grid">'+field('Projekttitel','text',p.title,'p-title')+field('Kunde','text',p.client,'p-client')+'</div>';
   html += '<div class="form-grid" style="margin-top:20px;">'+field('Kategorie','text',p.category,'p-category')+field('Jahr','text',p.year,'p-year')+'</div>';
-  html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div><div class="color-options" style="align-items:center;">';
+
+  // ── FARBPICKER ──
+  html += '<div class="divider"></div><div class="section-title">Kachelfarbe</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">';
+  html += '<input type="color" id="color-picker" value="'+currentHex+'" oninput="applyPickerColor(this.value)" style="width:48px;height:48px;border:none;border-radius:6px;cursor:pointer;padding:2px;background:var(--border);">';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
   Object.keys(COLORS).forEach(function(key) {
-    html += '<div class="color-opt'+(p.color===key?' selected':'')+'" style="background:'+COLORS[key]+'" onclick="selectColor(\''+key+'\',this)" title="'+COLORS[key]+'"></div>';
+    var selected = p.color === key;
+    html += '<div class="preset-dot" onclick="applyPickerColor(\''+COLORS[key]+'\')" title="'+key+'" style="background:'+COLORS[key]+';border:2.5px solid '+(selected?'var(--dark)':'transparent')+';"></div>';
   });
-  var isCustom = !COLORS[p.color];
-  var customVal = isCustom ? p.color : '';
-  html += '<div style="display:flex;align-items:center;gap:6px;margin-left:8px;">';
-  html += '<div id="custom-preview" style="width:32px;height:32px;border-radius:4px;border:2px solid '+(isCustom?'var(--dark)':'var(--border)')+';background:'+(isCustom?p.color:'#fff')+';flex-shrink:0;"></div>';
-  html += '<input id="custom-hex" type="text" placeholder="#ff0000" maxlength="7" value="'+esc(customVal)+'" oninput="applyCustomColor(this.value)" style="width:90px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
-  html += '</div></div>';
+  html += '</div>';
+  html += '<input id="hex-input" type="text" placeholder="#000000" maxlength="7" value="'+currentHex+'" oninput="applyPickerColor(this.value)" style="width:90px;border:1px solid var(--border);padding:7px 10px;font-size:13px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'">';
+  html += '</div>';
+
+  // ── GRÖßE ──
   html += '<div class="divider"></div><div class="section-title">Kachelbreite</div><div class="size-options">';
   html += '<div class="size-opt'+(p.size==='sz-mid'?' selected':'')+'" onclick="selectSize(\'sz-mid\',this)">Mittel</div>';
   html += '<div class="size-opt'+(p.size==='sz-wide'?' selected':'')+'" onclick="selectSize(\'sz-wide\',this)">Breit</div>';
   html += '</div>';
+
+  // ── TYP + ANIMATION ──
   html += '<div class="divider"></div><div class="form-grid">';
   html += '<div class="field"><label>Typ</label><select id="p-type">';
   ['motion','illustration','print','branding'].forEach(function(t) {
@@ -375,37 +379,26 @@ function renderProject(idx) {
   });
   html += '</select></div>';
   html += '<div class="field"><label>Animation</label><select id="p-deco">';
-  [
-    {v:'none',    l:'Keine'},
-    {v:'waves',   l:'🌊 Wellen'},
-    {v:'stars',   l:'⭐ Sterne'},
-    {v:'hearts',  l:'❤️ Herzen'},
-    {v:'crowns',  l:'👑 Kronen'},
-    {v:'dots',    l:'⚬ Punkte'},
-    {v:'spiral',  l:'🌀 Spirale'}
-  ].forEach(function(opt) {
+  [{v:'none',l:'Keine'},{v:'waves',l:'🌊 Wellen'},{v:'stars',l:'⭐ Sterne'},{v:'hearts',l:'❤️ Herzen'},{v:'crowns',l:'👑 Kronen'},{v:'dots',l:'⚬ Punkte'},{v:'spiral',l:'🌀 Spirale'}].forEach(function(opt) {
     html += '<option value="'+opt.v+'"'+((p.deco||'none')===opt.v?' selected':'')+'>'+opt.l+'</option>';
   });
-  html += '</select></div>';
-  html += '</div>';
+  html += '</select></div></div>';
+
+  // ── BUCHRÜCKEN ICON ──
   html += '<div class="divider"></div><div class="section-title">Buchrücken Icon</div>';
   html += '<div class="slide-card-body" style="padding:0 0 16px;">';
   html += '<div class="slide-thumb" id="icon-thumb">';
-  if (p.icon) {
-    html += '<img src="'+esc(p.icon)+'" alt="" style="object-fit:contain;padding:4px;">';
-  } else {
-    html += '<div class="slide-thumb-empty">Kein<br>Icon</div>';
-  }
+  html += p.icon ? '<img src="'+esc(p.icon)+'" alt="" style="object-fit:contain;padding:4px;">' : '<div class="slide-thumb-empty">Kein<br>Icon</div>';
   html += '</div>';
   html += '<div class="slide-upload-area">';
   html += '<label class="slide-upload-btn" for="icon-file">📁 Icon hochladen</label>';
   html += '<input type="file" id="icon-file" accept="image/*" style="display:none" onchange="uploadIcon(this)">';
   html += '<div class="slide-upload-progress" id="icon-prog">Wird hochgeladen…</div>';
-  if (p.icon) {
-    html += '<div style="font-size:11px;color:#2c55f6;margin-top:6px;">✓ '+p.icon.split('/').pop()+'</div>';
-  }
+  if (p.icon) html += '<div style="font-size:11px;color:#2c55f6;margin-top:6px;">✓ '+p.icon.split('/').pop()+'</div>';
   html += '<div style="font-size:11px;color:var(--mid);margin-top:6px;">Empfohlen: quadratisches PNG mit transparentem Hintergrund</div>';
   html += '</div></div>';
+
+  // ── SLIDES ──
   html += '<div class="divider"></div><div class="section-title">Slides</div><div class="slides-list" id="slides-list">';
   p.slides.forEach(function(s, i) {
     var caption = typeof s === 'object' ? (s.caption || '') : s;
@@ -414,30 +407,28 @@ function renderProject(idx) {
     html += slideCard(caption, image, i, video);
   });
   html += '</div><div class="slide-add" onclick="addSlide()">+ Slide hinzufügen</div>';
+
   document.getElementById('content-area').innerHTML = html;
 }
 
-function selectColor(key, el) {
-  document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
-  el.classList.add('selected');
-  data.projects[currentProjectIdx].color = key;
-  var hex = document.getElementById('custom-hex');
-  var prev = document.getElementById('custom-preview');
-  if (hex) { hex.value = ''; }
-  if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
+// ── FARBPICKER LOGIK ─────────────────────────────────────────────────────────
+function applyPickerColor(v) {
+  if (!/^#[0-9A-Fa-f]{6}$/.test(v)) return;
+  var matchKey = null;
+  Object.keys(COLORS).forEach(function(k) {
+    if (COLORS[k].toLowerCase() === v.toLowerCase()) matchKey = k;
+  });
+  data.projects[currentProjectIdx].color = matchKey || v;
+  var picker = document.getElementById('color-picker');
+  var hexIn  = document.getElementById('hex-input');
+  if (picker) picker.value = v;
+  if (hexIn)  hexIn.value  = v;
+  // Update preset dot borders
+  document.querySelectorAll('.preset-dot').forEach(function(dot, i) {
+    var key = Object.keys(COLORS)[i];
+    dot.style.borderColor = (matchKey && matchKey === key) ? 'var(--dark)' : 'transparent';
+  });
   rebuildSidebarColors();
-}
-
-function applyCustomColor(v) {
-  var prev = document.getElementById('custom-preview');
-  if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
-    data.projects[currentProjectIdx].color = v;
-    if (prev) { prev.style.background = v; prev.style.borderColor = 'var(--dark)'; }
-    document.querySelectorAll('.color-opt').forEach(function(o){o.classList.remove('selected');});
-    rebuildSidebarColors();
-  } else {
-    if (prev) { prev.style.background = '#fff'; prev.style.borderColor = 'var(--border)'; }
-  }
 }
 
 function selectSize(key, el) {
@@ -489,8 +480,7 @@ function uploadIcon(input) {
 
 function slideCard(caption, image, i, video) {
   video = video || '';
-  var thumbHtml = image
-    ? '<img src="'+esc(image)+'" alt="">'
+  var thumbHtml = image ? '<img src="'+esc(image)+'" alt="">'
     : video ? '<div class="slide-thumb-empty">▶ Video</div>'
     : '<div class="slide-thumb-empty">Kein<br>Bild</div>';
   return '<div class="slide-card" id="slide-card-'+i+'">' +
@@ -501,7 +491,7 @@ function slideCard(caption, image, i, video) {
         '<label class="slide-upload-btn" for="file-'+i+'">📁 Bild hochladen</label>' +
         '<input type="file" id="file-'+i+'" accept="image/*" style="display:none" onchange="uploadImage(this,'+i+')">' +
         '<div class="slide-upload-progress" id="prog-'+i+'">Wird hochgeladen…</div>' +
-        '<div class="slide-upload-url" id="url-'+i+'">'+(image ? '✓ '+image.split('/').pop() : '')+'</div>' +
+        '<div class="slide-upload-url" id="url-'+i+'">'+(image?'✓ '+image.split('/').pop():'')+'</div>' +
         '<div style="margin-top:10px;"><input id="video-'+i+'" type="text" placeholder="Vimeo oder YouTube URL" value="'+esc(video)+'" oninput="applyVideo(this.value,'+i+')" style="width:100%;border:1px solid var(--border);padding:7px 10px;font-size:12px;font-family:var(--font);border-radius:4px;outline:none;" onfocus="this.style.borderColor=\'var(--dark)\'" onblur="this.style.borderColor=\'var(--border)\'"></div>' +
       '</div>' +
     '</div>' +
@@ -562,7 +552,8 @@ function collectProject() {
   p.year     = val('p-year');
   p.type     = val('p-type');
   p.deco     = val('p-deco');
-  // icon is saved directly on upload, no field to collect
+  // color saved live via applyPickerColor
+  // icon saved live via uploadIcon
   var cards = document.querySelectorAll('.slide-card');
   cards.forEach(function(card, i) {
     var input = card.querySelector('.slide-card-input');
@@ -580,7 +571,7 @@ function collectProject() {
 }
 
 function addProject() {
-  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',
+  data.projects.push({id:Date.now(),title:'Neues Projekt',category:'Motion Design',client:'Kunde',year:'2024',color:'c-org',size:'sz-mid',type:'motion',deco:'none',
     slides:[{caption:'Slide 1',image:''},{caption:'Slide 2',image:''}]});
   buildSidebar();
   var items = document.querySelectorAll('#proj-sidebar .sidebar-item');
@@ -607,7 +598,7 @@ function saveToGitHub() {
   fetch(apiUrl, { headers: headers })
   .then(function(r) { return r.json(); })
   .then(function(fileInfo) {
-    if (!fileInfo.sha) { setStatus('Fehler: SHA nicht gefunden — ' + (fileInfo.message || '')); btn.disabled = false; return; }
+    if (!fileInfo.sha) { setStatus('Fehler: SHA nicht gefunden — '+(fileInfo.message||'')); btn.disabled=false; return; }
     githubSHA = fileInfo.sha;
     setStatus('Wird gespeichert…');
     var content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
@@ -621,10 +612,10 @@ function saveToGitHub() {
   .then(function(res) {
     if (!res) return;
     if (res.content) { githubSHA = res.content.sha; clearUnsaved(); buildSidebarItems(currentProjectIdx); }
-    else { setStatus('Fehler: ' + (res.message || 'Unbekannt')); }
+    else { setStatus('Fehler: '+(res.message||'Unbekannt')); }
     btn.disabled = false;
   })
-  .catch(function(e) { setStatus('Netzwerkfehler: ' + e.message); btn.disabled = false; });
+  .catch(function(e) { setStatus('Netzwerkfehler: '+e.message); btn.disabled=false; });
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
