@@ -61,7 +61,7 @@
           "video": ""
         }
       ],
-      "deco": "waves"
+      "deco": "stars"
     },
     {
       "id": 4,
@@ -69,7 +69,7 @@
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
-      "color": "#dc0100",
+      "color": "c-blu",
       "size": "sz-mid",
       "type": "motion",
       "slides": [
