@@ -37,7 +37,7 @@
   "projects": [
     {
       "id": 2,
-      "title": "Deutsche<br>Welle",
+      "title": "Deutsche Welle",
       "category": "Motiondesign · Infografik",
       "client": "Deutsche Welle",
       "year": "Seit 2020",
@@ -65,7 +65,7 @@
     },
     {
       "id": 4,
-      "title": "Stern TV<br>Grafik",
+      "title": "Stern TV Grafik",
       "category": "Motiondesign · Studiografik",
       "client": "I+U Studios",
       "year": "Seit 2020",
@@ -93,7 +93,7 @@
     },
     {
       "id": 1,
-      "title": "1Live<br>Krone",
+      "title": "1Live Krone",
       "category": "Awardshow Redesign · On-Air · Screendesign",
       "client": "WDR Köln, 1Live",
       "year": "2019–2024",
@@ -131,7 +131,7 @@
     },
     {
       "id": 3,
-      "title": "Kollektiv.<br>Liebe",
+      "title": "Kollektiv.Liebe",
       "category": "Covergestaltung",
       "client": "Kollektiv.Liebe",
       "year": "Seit 2017",
@@ -159,7 +159,7 @@
     },
     {
       "id": 5,
-      "title": "Artwork<br>Prints",
+      "title": "Artwork Prints",
       "category": "Print · Illustration",
       "client": "Eigenproduktion",
       "year": "Seit 2017",
@@ -187,7 +187,7 @@
     },
     {
       "id": 6,
-      "title": "Cinema4D<br>Loops",
+      "title": "Cinema4D Loops",
       "category": "Motion Design",
       "client": "Eigenproduktion",
       "year": "2024",
