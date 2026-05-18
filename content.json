@@ -38,7 +38,7 @@
     {
       "id": 2,
       "title": "Deutsche Welle",
-      "category": "Motiondesign · Infografik",
+      "category": "Motion · Infografik",
       "client": "ARD",
       "year": "Seit 2020",
       "color": "c-pur",
@@ -66,7 +66,7 @@
     {
       "id": 4,
       "title": "I+U Studios",
-      "category": "Motiondesign · Studiografik",
+      "category": "Motion · Studiografik",
       "client": "Mediawan",
       "year": "Seit 2020",
       "color": "c-blu",
@@ -94,7 +94,7 @@
     {
       "id": 1,
       "title": "1Live Krone",
-      "category": "Awardshow Redesign · On-Air · Screendesign",
+      "category": "Redesign · On-Air",
       "client": "WDR Köln, 1Live",
       "year": "2019–2024",
       "color": "c-yel",
@@ -188,7 +188,7 @@
     {
       "id": 6,
       "title": "Cinema4D Loops",
-      "category": "Motion Design",
+      "category": "Motiondesign · Illustration",
       "client": "Eigenproduktion",
       "year": "2024",
       "color": "c-org",
