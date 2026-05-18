@@ -155,7 +155,16 @@
       "deco": "none",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779120842669-KRONE_ICON.png",
       "video": "https://www.youtube.com/watch?v=4-LoxonIDUI",
-      "points": [],
+      "points": [
+        {
+          "label": "Redesign",
+          "text": "In Zusammenarbeit mit Christina Malzkorn"
+        },
+        {
+          "label": "",
+          "text": ""
+        }
+      ],
       "images": [
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145525222-logo.png",
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145546095-apache.jpg",
