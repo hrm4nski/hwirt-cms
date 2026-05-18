@@ -118,6 +118,10 @@
         {
           "label": "Studio-Grafik",
           "text": "Grafikgestaltung für Live-Sendungen"
+        },
+        {
+          "label": "MAZ-Grafik",
+          "text": "Explainer, Vergleichsgrafiken, Trenner, Motiondesign für SternTV"
         }
       ],
       "images": [
