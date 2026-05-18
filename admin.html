@@ -381,22 +381,25 @@ function renderProject(idx) {
 
   // ── BILDER ──
   var images = p.images || [];
-  html += '<div class="divider"></div><div class="section-title">Bilder (1–4, Slideshow)</div>';
+  html += '<div class="divider"></div><div class="section-title">Bilder (Slideshow)</div>';
   html += '<div id="img-list">';
-  for(var ii=0; ii<4; ii++){
-    var imgUrl = images[ii]||'';
-    var thumbHtml = imgUrl ? '<img src="'+esc(imgUrl)+'" alt="">' : '<div class="slide-thumb-empty">'+(ii+1)+'</div>';
-    html += '<div class="slide-card-body" style="padding:8px 0;">';
-    html += '<div class="slide-thumb" id="img-thumb-'+ii+'">'+thumbHtml+'</div>';
+  images.forEach(function(imgUrl, ii){
+    if(!imgUrl) return;
+    html += '<div class="slide-card-body" style="padding:8px 0;" id="img-row-'+ii+'">';
+    html += '<div class="slide-thumb" id="img-thumb-'+ii+'"><img src="'+esc(imgUrl)+'" alt=""></div>';
     html += '<div class="slide-upload-area">';
-    html += '<label class="slide-upload-btn" for="img-file-'+ii+'">📁 Bild '+(ii+1)+' hochladen</label>';
-    html += '<input type="file" id="img-file-'+ii+'" accept="image/*" style="display:none" onchange="uploadProjImage(this,'+ii+')">';
-    html += '<div class="slide-upload-progress" id="img-prog-'+ii+'">Wird hochgeladen…</div>';
-    if(imgUrl) html += '<div style="font-size:11px;color:#2c55f6;margin-top:4px;">✓ '+imgUrl.split('/').pop()+'</div>';
-    if(imgUrl) html += '<button onclick="removeProjImage('+ii+')" style="margin-top:6px;background:transparent;border:1px solid var(--border);padding:4px 10px;font-size:11px;border-radius:4px;cursor:pointer;color:var(--mid);">Entfernen</button>';
+    html += '<div style="font-size:11px;color:#2c55f6;margin-bottom:4px;">✓ '+imgUrl.split('/').pop()+'</div>';
+    html += '<button onclick="removeProjImage('+ii+')" style="background:transparent;border:1px solid var(--border);padding:4px 10px;font-size:11px;border-radius:4px;cursor:pointer;color:var(--mid);">Entfernen</button>';
     html += '</div></div>';
-  }
+  });
   html += '</div>';
+  html += '<div class="slide-card-body" style="padding:8px 0;">';
+  html += '<div class="slide-thumb"><div class="slide-thumb-empty">+ Neu</div></div>';
+  html += '<div class="slide-upload-area">';
+  html += '<label class="slide-upload-btn" for="img-file-new">📁 Bild hinzufügen</label>';
+  html += '<input type="file" id="img-file-new" accept="image/*" style="display:none" onchange="uploadProjImage(this)">';
+  html += '<div class="slide-upload-progress" id="img-prog-new">Wird hochgeladen…</div>';
+  html += '</div></div>';
 
   // ── VIDEO ──
   html += '<div class="divider"></div><div class="section-title">Video</div>';
@@ -567,12 +570,11 @@ function delPoint(i) {
   renderProject(currentProjectIdx);
 }
 
-function uploadProjImage(input, imgIdx) {
+function uploadProjImage(input) {
   var file = input.files[0];
   if (!file) return;
-  var prog = document.getElementById('img-prog-'+imgIdx);
-  var thumb = document.getElementById('img-thumb-'+imgIdx);
-  prog.style.display = 'block';
+  var prog = document.getElementById('img-prog-new');
+  if(prog) prog.style.display = 'block';
   var reader = new FileReader();
   reader.onload = function(e) {
     var base64 = e.target.result.split(',')[1];
@@ -588,24 +590,24 @@ function uploadProjImage(input, imgIdx) {
         var url = toRawUrl(res.content.download_url);
         var p = data.projects[currentProjectIdx];
         if(!p.images) p.images = [];
-        p.images[imgIdx] = url;
-        thumb.innerHTML = '<img src="'+url+'" alt="">';
-        prog.style.display = 'none';
+        p.images.push(url);
+        if(prog) prog.style.display = 'none';
         markUnsaved();
+        renderProject(currentProjectIdx);
       } else {
-        prog.textContent = 'Fehler: '+(res.message||'Upload fehlgeschlagen');
+        if(prog) prog.textContent = 'Fehler: '+(res.message||'Upload fehlgeschlagen');
       }
     })
-    .catch(function(){ prog.textContent = 'Upload fehlgeschlagen'; });
+    .catch(function(){ if(prog) prog.textContent = 'Upload fehlgeschlagen'; });
   };
   reader.readAsDataURL(file);
 }
 
 function removeProjImage(imgIdx) {
   var p = data.projects[currentProjectIdx];
-  if(p.images) p.images[imgIdx] = '';
-  renderProject(currentProjectIdx);
+  if(p.images) p.images.splice(imgIdx, 1);
   markUnsaved();
+  renderProject(currentProjectIdx);
 }
 
 function collectProject() {
