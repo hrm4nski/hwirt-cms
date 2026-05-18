@@ -211,7 +211,7 @@ function buildSidebarItems(activeIdx) {
     var el = document.createElement('div');
     el.className = 'sidebar-item' + (i === activeIdx ? ' active' : '');
     el.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><div class="proj-dot" style="background:' + (COLORS[p.color] || p.color || '#ccc') + '"></div>' + p.title + '</div><span class="drag-handle" draggable="false">⠿</span>';
-    el.setAttribute('draggable', 'true');
+    el.setAttribute('draggable', 'false');
     el.dataset.idx = i;
     el.onclick = (function(idx, elem) {
       return function(e) {
@@ -242,6 +242,18 @@ function initDragDrop() {
   var dragIdx = null;
 
   items.forEach(function(item) {
+    var handle = item.querySelector('.drag-handle');
+
+    // Only start drag from handle
+    if (handle) {
+      handle.addEventListener('mousedown', function() {
+        item.setAttribute('draggable', 'true');
+      });
+      handle.addEventListener('touchend', function() {
+        item.setAttribute('draggable', 'false');
+      });
+    }
+
     item.addEventListener('dragstart', function(e) {
       if (currentSection === 'project' && currentProjectIdx !== null) collectProject();
       dragIdx = +item.dataset.idx;
@@ -250,6 +262,7 @@ function initDragDrop() {
     });
     item.addEventListener('dragend', function() {
       item.classList.remove('dragging');
+      item.setAttribute('draggable', 'false');
       sb.querySelectorAll('.sidebar-item').forEach(function(i) { i.classList.remove('drag-over'); });
     });
     item.addEventListener('dragover', function(e) {
@@ -558,18 +571,13 @@ function pointRow(label, text, i) {
 }
 
 function addPoint() {
-  collectProject();
   var p = data.projects[currentProjectIdx];
   if(!p.points) p.points = [];
   p.points.push({label:'',text:''});
   renderProject(currentProjectIdx);
-  // Focus new label field
-  var labels = document.querySelectorAll('[id^="pt-label-"]');
-  if(labels.length) labels[labels.length-1].focus();
 }
 
 function delPoint(i) {
-  collectProject();
   var p = data.projects[currentProjectIdx];
   p.points.splice(i,1);
   renderProject(currentProjectIdx);
