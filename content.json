@@ -111,7 +111,7 @@
           "video": ""
         }
       ],
-      "deco": "none",
+      "deco": "waves",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121293110-csm_i_u_Studios_RGB_White_8c0a3e3438.png",
       "video": "",
       "points": []
@@ -152,7 +152,7 @@
           "video": ""
         }
       ],
-      "deco": "none",
+      "deco": "waves",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779120842669-KRONE_ICON.png",
       "video": "",
       "points": []
@@ -183,7 +183,7 @@
           "video": ""
         }
       ],
-      "deco": "none",
+      "deco": "waves",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121300850-KL_Icon.png"
     },
     {
@@ -212,7 +212,7 @@
           "video": ""
         }
       ],
-      "deco": "none",
+      "deco": "waves",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779127846934-HW_Icon_2.png"
     },
     {
@@ -242,7 +242,8 @@
         }
       ],
       "deco": "waves",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779127852328-3D_Icon.png"
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779127852328-3D_Icon.png",
+      "video": ""
     }
   ]
 }
