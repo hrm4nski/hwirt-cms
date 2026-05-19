@@ -35,7 +35,7 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
 .light .card-client{color:rgba(0,0,0,.4);}
 
 /* ── PROJECT OVERLAY ── */
-.proj-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);overflow:hidden;}
+.proj-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);overflow:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:auto;}
 .proj-overlay.open{transform:translateY(0);}
 .drag-bar{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.3);margin:14px auto 0;flex-shrink:0;}
 .proj-overlay.light-ov .drag-bar{background:rgba(0,0,0,.2);}
@@ -251,8 +251,8 @@ function init(data) {
 
 // ── PROJECT ───────────────────────────────────────────────────────────────────
 function openProject(p, light, bg, idx) {
-  projOverlay.style.background = '#fff';
-  projOverlay.className = 'proj-overlay light-ov';
+  projOverlay.style.background = bg;
+  projOverlay.className = 'proj-overlay' + (light ? ' light-ov' : '');
   document.getElementById('ov-images').style.background = bg;
 
   // Build images
@@ -330,9 +330,8 @@ function closeProject(){
   document.body.style.overflow='';
   Object.keys(imgTimers).forEach(function(k){clearInterval(imgTimers[k]);delete imgTimers[k];});
   setTimeout(function(){
-    projOverlay.style.background='#fff';
-    projOverlay.className='proj-overlay light-ov';
-    document.getElementById('ov-images').style.background='';
+    projOverlay.style.background='';
+    projOverlay.className='proj-overlay';
     document.getElementById('ov-images').innerHTML='';
     document.getElementById('ov-text').innerHTML='';
   }, 500);
