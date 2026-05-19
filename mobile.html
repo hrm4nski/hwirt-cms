@@ -251,8 +251,9 @@ function init(data) {
 
 // ── PROJECT ───────────────────────────────────────────────────────────────────
 function openProject(p, light, bg, idx) {
-  projOverlay.style.background = bg;
+  projOverlay.style.background = '#fff';
   projOverlay.className = 'proj-overlay light-ov';
+  document.getElementById('ov-images').style.background = bg;
 
   // Build images
   var images = p.images || [];
@@ -329,8 +330,9 @@ function closeProject(){
   document.body.style.overflow='';
   Object.keys(imgTimers).forEach(function(k){clearInterval(imgTimers[k]);delete imgTimers[k];});
   setTimeout(function(){
-    projOverlay.style.background='';
-    projOverlay.className='proj-overlay';
+    projOverlay.style.background='#fff';
+    projOverlay.className='proj-overlay light-ov';
+    document.getElementById('ov-images').style.background='';
     document.getElementById('ov-images').innerHTML='';
     document.getElementById('ov-text').innerHTML='';
   }, 500);
