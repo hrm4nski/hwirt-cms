@@ -251,8 +251,8 @@ function init(data) {
 
 // ── PROJECT ───────────────────────────────────────────────────────────────────
 function openProject(p, light, bg, idx) {
-  projOverlay.style.background = bg;
-  projOverlay.className = 'proj-overlay' + (light ? ' light-ov' : '');
+  projOverlay.style.background = '#fff';
+  projOverlay.className = 'proj-overlay light-ov';
 
   // Build images
   var images = p.images || [];
