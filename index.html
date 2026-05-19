@@ -266,6 +266,7 @@ function setConsent(yes) {
   try { localStorage.setItem('hw_consent', yes ? 'yes' : 'no'); } catch(e) {}
   consentGiven = yes;
   document.getElementById('cookie-banner').classList.add('hidden');
+  if (yes) location.reload();
 }
 (function initConsent(){
   var c = getConsent();
