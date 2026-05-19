@@ -12,8 +12,8 @@
 @font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--font:'Instrument Sans',sans-serif;--dark:#0a0a0a;}
-html{background:#fff;}
-body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden;}
+html{background:var(--dark);}
+body{font-family:var(--font);background:var(--dark);min-height:100svh;overflow-x:hidden;}
 
 /* ── INTRO CARD ── */
 .intro-card{padding:36px 24px 32px;min-height:56vw;display:flex;flex-direction:column;justify-content:flex-end;background:#fff;position:relative;}
@@ -35,7 +35,7 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
 .light .card-client{color:rgba(0,0,0,.4);}
 
 /* ── PROJECT OVERLAY ── */
-.proj-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);overflow:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:auto;}
+.proj-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .45s cubic-bezier(.77,0,.18,1);overflow:hidden;}
 .proj-overlay.open{transform:translateY(0);}
 .drag-bar{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.3);margin:14px auto 0;flex-shrink:0;}
 .proj-overlay.light-ov .drag-bar{background:rgba(0,0,0,.2);}
@@ -47,7 +47,9 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
 .ov-img-slide img{width:100%;height:100%;object-fit:cover;display:block;}
 .ov-img-slide iframe{width:100%;height:100%;border:none;display:block;}
 .ov-img-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.18);}
-.ov-img-dots{display:none;}
+.ov-img-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
+.ov-img-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s;}
+.ov-img-dot.act{background:#fff;width:14px;border-radius:3px;}
 .light-ov .ov-img-dot{background:rgba(0,0,0,.2);}
 .light-ov .ov-img-dot.act{background:rgba(0,0,0,.7);}
 
@@ -113,11 +115,31 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
 .legal-h{font-size:12px;font-weight:700;color:#0a0a0a;margin-bottom:8px;}
 .legal-p{font-size:11px;font-weight:400;line-height:1.7;color:rgba(0,0,0,.5);}
 .legal-p a{color:#0a0a0a;}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:16px;left:16px;right:16px;z-index:99998;background:#fff;border:1px solid #e0ddd8;border-radius:12px;padding:18px 20px;box-shadow:0 8px 32px rgba(0,0,0,.18);font-family:var(--font);}
+#cookie-banner.hidden{display:none;}
+.cb-title{font-size:13px;font-weight:700;color:#0a0a0a;margin-bottom:6px;}
+.cb-text{font-size:11px;font-weight:400;line-height:1.65;color:rgba(0,0,0,.5);margin-bottom:14px;}
+.cb-btns{display:flex;gap:8px;}
+.cb-accept{flex:1;background:#0a0a0a;color:#fff;border:none;padding:10px 16px;font-size:12px;font-weight:600;font-family:var(--font);border-radius:999px;}
+.cb-decline{flex:1;background:transparent;color:#0a0a0a;border:1px solid #e0ddd8;padding:10px 16px;font-size:12px;font-weight:600;font-family:var(--font);border-radius:999px;}
+.vid-consent-wall{width:100%;aspect-ratio:16/9;border-radius:8px;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.vid-consent-wall p{font-size:11px;color:rgba(0,0,0,.4);text-align:center;padding:0 20px;line-height:1.5;}
+.vid-consent-btn{font-size:11px;font-weight:600;color:#0a0a0a;background:transparent;border:1px solid rgba(0,0,0,.2);padding:7px 16px;border-radius:999px;font-family:var(--font);}
 </style>
 </head>
 <body>
 
 <div class="feed">
+  <div id="cookie-banner" class="hidden">
+    <div class="cb-title">Diese Website verwendet Cookies</div>
+    <div class="cb-text">Für Projektvideos werden YouTube und Vimeo eingebunden. Dabei können Daten an Server in den USA übertragen werden.</div>
+    <div class="cb-btns">
+      <button class="cb-accept" onclick="setConsent(true)">Akzeptieren</button>
+      <button class="cb-decline" onclick="setConsent(false)">Ablehnen</button>
+    </div>
+  </div>
   <div class="intro-card">
     <img class="intro-gif" src="https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Icon-loop-white.gif" alt="hw">
     <a class="intro-contact" id="nav-contact" href="#">Kontakt</a>
@@ -165,11 +187,14 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
         <div class="legal-h">Datenschutzerklärung</div>
         <p class="legal-p">
           <strong style="color:#0a0a0a;">Verantwortlicher</strong><br>Hermann Wirt, Severinstraße 136, 50678 Köln · hello@hwirt.de<br><br>
-          <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>Keine Cookies, kein Tracking, keine Analysetools.<br><br>
+          <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>Diese Website verwendet keine Tracking-Tools und keine Analyse-Software. Es werden keine personenbezogenen Daten ohne Einwilligung erhoben. Beim Besuch der Website werden technisch notwendige Verbindungsdaten (u.a. IP-Adresse) kurzzeitig in Server-Logs gespeichert.<br><br>
+          <strong style="color:#0a0a0a;">Cookies</strong><br>Diese Website setzt keine eigenen Cookies. Nach Einwilligung können durch eingebettete Videodienste (YouTube, Vimeo) Cookies von Drittanbietern gesetzt werden.<br><br>
           <strong style="color:#0a0a0a;">Hosting</strong><br>Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a><br><br>
-          <strong style="color:#0a0a0a;">Schriftarten</strong><br>Instrument Sans (SIL Open Font License), lokal eingebunden.<br><br>
-          <strong style="color:#0a0a0a;">Bilder</strong><br>GitHub Inc. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
-          <strong style="color:#0a0a0a;">Rechte</strong><br>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit. Beschwerden: Landesbeauftragte für Datenschutz und Informationsfreiheit NRW.
+          <strong style="color:#0a0a0a;">Schriftarten</strong><br>Instrument Sans (SIL Open Font License), lokal eingebunden. Keine Datenübertragung an Dritte.<br><br>
+          <strong style="color:#0a0a0a;">Bilder</strong><br>Projektbilder werden über GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA ausgeliefert. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
+          <strong style="color:#0a0a0a;">Videos (YouTube &amp; Vimeo)</strong><br>Nach Einwilligung werden Videos über YouTube (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA) und Vimeo (Vimeo Inc., 330 West 34th Street, New York, NY 10001, USA) eingebettet. Dabei werden Daten wie IP-Adresse, Browsertyp und Nutzungsverhalten an diese Anbieter übertragen und ggf. Cookies gesetzt. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO. Beide Anbieter sind nach dem EU-US Data Privacy Framework zertifiziert. Datenschutzrichtlinien: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google/YouTube</a> · <a href="https://vimeo.com/privacy" target="_blank" rel="noopener">Vimeo</a><br><br>
+          <strong style="color:#0a0a0a;">Einwilligung widerrufen</strong><br><a href="#" onclick="localStorage.removeItem('hw_consent');location.reload();return false;" style="color:#0a0a0a;">Hier klicken</a> um die Einwilligung zu widerrufen.<br><br>
+          <strong style="color:#0a0a0a;">Rechte</strong><br>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung sowie Datenübertragbarkeit. Beschwerden können an die zuständige Aufsichtsbehörde gerichtet werden: Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener">ldi.nrw.de</a>
         </p>
       </div>
     </div>
@@ -186,6 +211,21 @@ body{font-family:var(--font);background:#fff;min-height:100svh;overflow-x:hidden
 
 <script>
 var COLORS={'c-org':'#ea3398','c-pur':'#05B2FC','c-yel':'#F0E030','c-blu':'#cd394a','c-lim':'#2c55f6','c-mag':'#c5fd61'};
+
+// ── CONSENT ───────────────────────────────────────────────────────────────────
+var consentGiven = null;
+function getConsent() { try { return localStorage.getItem('hw_consent'); } catch(e) { return null; } }
+function setConsent(yes) {
+  try { localStorage.setItem('hw_consent', yes ? 'yes' : 'no'); } catch(e) {}
+  consentGiven = yes;
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+(function initConsent(){
+  var c = getConsent();
+  if (c === null) { document.getElementById('cookie-banner').classList.remove('hidden'); consentGiven = null; }
+  else { consentGiven = (c === 'yes'); }
+})();
+window.setConsent = setConsent;
 function resolveColor(c){return COLORS[c]||c;}
 function isLight(c){
   if(c==='c-yel'||c==='c-mag') return true;
@@ -253,7 +293,6 @@ function init(data) {
 function openProject(p, light, bg, idx) {
   projOverlay.style.background = bg;
   projOverlay.className = 'proj-overlay' + (light ? ' light-ov' : '');
-  document.getElementById('ov-images').style.background = bg;
 
   // Build images
   var images = p.images || [];
@@ -306,12 +345,19 @@ function openProject(p, light, bg, idx) {
 
   var videoHtml = '';
   if(p.video){
-    var thumb = getVideoThumb(p.video);
     var embed = videoToEmbed(p.video);
-    videoHtml = '<div class="ov-video-thumb" onclick="openVideo(\''+embed+'\')">'+
-      (thumb?'<img src="'+thumb+'" alt="Video">':'<div style="width:100%;height:100%;background:rgba(255,255,255,.08);"></div>')+
-      '<div class="ov-video-play"><div class="ov-video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>'+
-    '</div>';
+    if(consentGiven){
+      var thumb = getVideoThumb(p.video);
+      videoHtml = '<div class="ov-video-thumb" onclick="openVideo(\''+embed+'\')">'+
+        (thumb?'<img src="'+thumb+'" alt="Video">':'<div style="width:100%;height:100%;background:rgba(255,255,255,.08);"></div>')+
+        '<div class="ov-video-play"><div class="ov-video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>'+
+      '</div>';
+    } else {
+      videoHtml = '<div class="vid-consent-wall">'+
+        '<p>Video von YouTube/Vimeo.<br>Einwilligung erforderlich.</p>'+
+        '<button class="vid-consent-btn" onclick="setConsent(true);location.reload();">Cookies akzeptieren &amp; laden</button>'+
+      '</div>';
+    }
   }
 
   document.getElementById('ov-text').innerHTML =
@@ -329,12 +375,6 @@ function closeProject(){
   projOverlay.classList.remove('open');
   document.body.style.overflow='';
   Object.keys(imgTimers).forEach(function(k){clearInterval(imgTimers[k]);delete imgTimers[k];});
-  setTimeout(function(){
-    projOverlay.style.background='';
-    projOverlay.className='proj-overlay';
-    document.getElementById('ov-images').innerHTML='';
-    document.getElementById('ov-text').innerHTML='';
-  }, 500);
 }
 
 function startMobTimer(idx, total, container, dotsEl){
