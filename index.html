@@ -12,7 +12,7 @@
 @font-face{font-family:'Instrument Sans';src:url('/fonts/InstrumentSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--font:'Instrument Sans',sans-serif;--dark:#0a0a0a;}
-html,body{height:100%;background:#fff;font-family:var(--font);}
+html,body{height:100%;background:var(--dark);font-family:var(--font);}
 body{overflow:hidden;cursor:none;}
 *{cursor:none!important;}
 #cur{position:fixed;top:0;left:0;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;mix-blend-mode:difference;transform:translate(-100px,-100px);will-change:transform;}
@@ -21,7 +21,7 @@ body{overflow:hidden;cursor:none;}
 .nav-hello{font-size:12px;font-weight:600;color:#fff;background:var(--dark);padding:9px 18px;margin:4px;border-radius:999px;text-decoration:none;border:1px solid rgba(255,255,255,.15);transition:opacity .2s,transform .15s;letter-spacing:.02em;}
 .nav-hello:hover{opacity:.75;transform:rotate(-2deg);}
 .strip{display:flex;height:100vh;overflow:hidden;}
-.panel{height:100%;flex-shrink:0;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:108px 32px;transition:flex-basis .62s cubic-bezier(.77,0,.18,1) .25s;}
+.panel{height:100%;flex-shrink:0;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:36px 32px;transition:flex-basis .62s cubic-bezier(.77,0,.18,1);}
 .panel.intro-bg{background:#fff;}
 .panel.sz-intro{flex-basis:26vw;}
 .panel.sz-wide{flex-basis:22vw;}
@@ -38,7 +38,7 @@ body{overflow:hidden;cursor:none;}
 .sz-open .deco{opacity:.06;}
 
 /* ── BUCHRÜCKEN ── */
-.spine{position:absolute;inset:0;display:flex;flex-direction:column-reverse;align-items:center;justify-content:space-between;padding:16px 0;opacity:0;transition:opacity .3s;pointer-events:none;}
+.spine{position:absolute;inset:0;display:flex;flex-direction:column-reverse;align-items:center;justify-content:space-between;padding:16px 0;opacity:0;transition:opacity .2s;pointer-events:none;}
 .sz-thin .spine{opacity:1;}
 .sz-intro .spine,.sz-wide .spine,.sz-mid .spine{opacity:0;}
 .spine-yr{font-size:9px;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.45);text-align:center;}
@@ -46,8 +46,8 @@ body{overflow:hidden;cursor:none;}
 .spine-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;}
 .spine-icon img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1);opacity:.7;}
 
-.p-meta{transition:opacity .3s ease .85s;}
-.sz-thin .p-meta,.sz-open .p-meta{opacity:0;transition:opacity .15s ease;pointer-events:none;}
+.p-meta{transition:opacity .3s;}
+.sz-thin .p-meta,.sz-open .p-meta{opacity:0;pointer-events:none;}
 .p-num{display:none;}
 .p-yr{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
 .p-cat{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:8px;}
@@ -56,7 +56,7 @@ body{overflow:hidden;cursor:none;}
 
 /* ── PROJEKT DETAIL (Scroll-Layout) ── */
 .p-detail{position:absolute;inset:0;display:flex;flex-direction:row;opacity:0;pointer-events:none;transition:opacity .5s ease;}
-.sz-open .p-detail{opacity:1;pointer-events:auto;transition:opacity .5s ease .62s;}
+.sz-open .p-detail{opacity:1;pointer-events:auto;transition:opacity .5s ease .35s;}
 
 /* Linke Bildseite */
 .p-images{width:70%;flex-shrink:0;height:100%;position:relative;overflow:hidden;}
@@ -65,7 +65,10 @@ body{overflow:hidden;cursor:none;}
 .p-img-slide img{width:100%;height:100%;object-fit:cover;display:block;}
 .p-img-slide iframe{width:100%;height:100%;border:none;display:block;}
 .p-img-empty{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);}
-.p-img-dots{display:none;}
+.p-img-dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2;}
+.p-img-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);transition:all .3s;}
+.p-img-dot.act{background:#fff;width:14px;border-radius:3px;}
+
 /* Rechte Textseite */
 .p-text{flex:1;height:100%;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:72px 28px 48px;}
 .p-text::-webkit-scrollbar{display:none;}
@@ -105,9 +108,9 @@ body{overflow:hidden;cursor:none;}
 .c-yel .p-video-play-btn svg,.c-mag .p-video-play-btn svg{fill:#fff;}
 
 /* ── INTRO / ABOUT ── */
-.intro-inner{display:flex;flex-direction:column;justify-content:flex-end;height:100%;opacity:0;transition:opacity .15s ease;}
-.sz-intro .intro-inner{opacity:1;transition:opacity .3s ease .85s;}
-.sz-thin .intro-inner{opacity:0;transition:opacity .15s ease;}
+.intro-inner{display:flex;flex-direction:column;justify-content:flex-end;height:100%;opacity:0;transition:opacity .25s .45s;}
+.sz-intro .intro-inner{opacity:1;}
+.sz-thin .intro-inner{opacity:0;transition:opacity .1s;}
 .i-tag{font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(0,0,0,.35);margin-bottom:20px;}
 .i-h1{font-size:clamp(28px,3.2vw,50px);font-weight:700;line-height:.9;letter-spacing:-.045em;color:#0a0a0a;margin-bottom:20px;}
 .i-sub{font-size:12px;font-weight:400;line-height:1.65;color:rgba(0,0,0,.38);max-width:210px;}
@@ -129,9 +132,9 @@ body{overflow:hidden;cursor:none;}
 .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
 .about-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;}
 .about-photo-ph span{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,.28);}
-.about-content{padding:48px 36px 36px;flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;opacity:0;transition:opacity .15s ease;}
+.about-content{padding:48px 36px 36px;flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;opacity:0;transition:opacity .2s;}
 .about-content::-webkit-scrollbar{display:none;}
-.sz-open .about-content{opacity:1;transition:opacity .4s ease .62s;}
+.sz-open .about-content{opacity:1;transition:opacity .3s .4s;}
 .about-name{font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-.04em;line-height:.92;color:#0a0a0a;margin-bottom:6px;}
 .about-role{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,0,0,.35);margin-bottom:28px;}
 .timeline{position:relative;margin-bottom:28px;}
@@ -155,9 +158,34 @@ body{overflow:hidden;cursor:none;}
 .legal-h{font-size:12px;font-weight:700;color:#0a0a0a;margin-bottom:8px;}
 .legal-p{font-size:11px;font-weight:400;line-height:1.7;color:rgba(0,0,0,.5);}
 .legal-p a{color:#0a0a0a;}
+
+/* ── COOKIE BANNER ── */
+#cookie-banner{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:99998;background:#fff;border:1px solid #e0ddd8;border-radius:12px;padding:20px 24px;width:min(480px,calc(100vw - 32px));box-shadow:0 8px 32px rgba(0,0,0,.18);font-family:var(--font);}
+#cookie-banner.hidden{display:none;}
+.cb-title{font-size:13px;font-weight:700;color:#0a0a0a;margin-bottom:6px;letter-spacing:-.01em;}
+.cb-text{font-size:11px;font-weight:400;line-height:1.65;color:rgba(0,0,0,.5);margin-bottom:16px;}
+.cb-text a{color:#0a0a0a;}
+.cb-btns{display:flex;gap:8px;}
+.cb-accept{flex:1;background:#0a0a0a;color:#fff;border:none;padding:10px 16px;font-size:12px;font-weight:600;font-family:var(--font);border-radius:999px;cursor:none;transition:opacity .2s;letter-spacing:.02em;}
+.cb-accept:hover{opacity:.75;}
+.cb-decline{flex:1;background:transparent;color:#0a0a0a;border:1px solid #e0ddd8;padding:10px 16px;font-size:12px;font-weight:600;font-family:var(--font);border-radius:999px;cursor:none;transition:background .2s;}
+.cb-decline:hover{background:#f4f3ef;}
+/* Video placeholder when consent declined */
+.vid-consent-wall{width:100%;aspect-ratio:16/9;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-top:4px;}
+.vid-consent-wall p{font-size:11px;color:rgba(255,255,255,.4);text-align:center;padding:0 20px;line-height:1.5;}
+.vid-consent-btn{font-size:11px;font-weight:600;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.3);padding:7px 16px;border-radius:999px;cursor:none;font-family:var(--font);transition:background .18s;}
+.vid-consent-btn:hover{background:rgba(255,255,255,.1);}
 </style>
 </head>
 <body>
+<div id="cookie-banner" class="hidden">
+  <div class="cb-title">Diese Website verwendet Cookies</div>
+  <div class="cb-text">Für die Anzeige von Projektvideos werden externe Dienste (YouTube, Vimeo) eingebunden. Dabei können Daten an Server in den USA übertragen werden. Mit „Akzeptieren" stimmst du der Einbindung zu. Bei „Ablehnen" werden keine Videos geladen.</div>
+  <div class="cb-btns">
+    <button class="cb-accept" onclick="setConsent(true)">Akzeptieren</button>
+    <button class="cb-decline" onclick="setConsent(false)">Ablehnen</button>
+  </div>
+</div>
 <div id="cur"></div>
 <nav class="nav">
   <div class="nav-logo"><img src="https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/Icon-loop-white.gif" alt="hw" style="height:30px;width:auto;display:block;"></div>
@@ -208,11 +236,14 @@ body{overflow:hidden;cursor:none;}
             <div class="legal-h">Datenschutzerklärung</div>
             <p class="legal-p">
               <strong style="color:#0a0a0a;">Verantwortlicher</strong><br>Hermann Wirt, Severinstraße 136, 50678 Köln · hello@hwirt.de<br><br>
-              <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>Keine Cookies, kein Tracking, keine Analysetools.<br><br>
+              <strong style="color:#0a0a0a;">Erhobene Daten</strong><br>Diese Website verwendet keine Tracking-Tools und keine Analyse-Software. Es werden keine personenbezogenen Daten ohne Einwilligung erhoben. Beim Besuch der Website werden technisch notwendige Verbindungsdaten (u.a. IP-Adresse) kurzzeitig in Server-Logs gespeichert.<br><br>
+              <strong style="color:#0a0a0a;">Cookies</strong><br>Diese Website setzt keine eigenen Cookies. Nach Einwilligung können durch eingebettete Videodienste (YouTube, Vimeo) Cookies von Drittanbietern gesetzt werden.<br><br>
               <strong style="color:#0a0a0a;">Hosting</strong><br>Vercel Inc., 340 Pine Street, San Francisco, CA 94104, USA. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">vercel.com/legal/privacy-policy</a><br><br>
-              <strong style="color:#0a0a0a;">Schriftarten</strong><br>Instrument Sans (SIL Open Font License), lokal eingebunden.<br><br>
-              <strong style="color:#0a0a0a;">Bilder</strong><br>GitHub Inc. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
-              <strong style="color:#0a0a0a;">Rechte</strong><br>Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit. Beschwerden: Landesbeauftragte für Datenschutz und Informationsfreiheit NRW.
+              <strong style="color:#0a0a0a;">Schriftarten</strong><br>Instrument Sans (SIL Open Font License), lokal eingebunden. Keine Datenübertragung an Dritte.<br><br>
+              <strong style="color:#0a0a0a;">Bilder</strong><br>Projektbilder werden über GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA ausgeliefert. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a><br><br>
+              <strong style="color:#0a0a0a;">Videos (YouTube &amp; Vimeo)</strong><br>Nach Einwilligung werden Videos über YouTube (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA) und Vimeo (Vimeo Inc., 330 West 34th Street, New York, NY 10001, USA) eingebettet. Dabei werden Daten wie IP-Adresse, Browsertyp und Nutzungsverhalten an diese Anbieter übertragen und ggf. Cookies gesetzt. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO. Beide Anbieter sind nach dem EU-US Data Privacy Framework zertifiziert. Datenschutzrichtlinien: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google/YouTube</a> · <a href="https://vimeo.com/privacy" target="_blank" rel="noopener">Vimeo</a><br><br>
+              <strong style="color:#0a0a0a;">Einwilligung widerrufen</strong><br>Die Einwilligung zur Videoanzeige kann jederzeit widerrufen werden: <a href="#" onclick="localStorage.removeItem('hw_consent');location.reload();return false;" style="color:#0a0a0a;">Hier klicken</a>.<br><br>
+              <strong style="color:#0a0a0a;">Rechte</strong><br>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung sowie Datenübertragbarkeit. Beschwerden können an die zuständige Aufsichtsbehörde gerichtet werden: Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen, <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener">ldi.nrw.de</a>
             </p>
           </div>
         </div>
@@ -227,6 +258,25 @@ body{overflow:hidden;cursor:none;}
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768) {
   window.location.replace('mobile.html');
 }
+
+// ── CONSENT ───────────────────────────────────────────────────────────────────
+var consentGiven = null;
+function getConsent() { try { return localStorage.getItem('hw_consent'); } catch(e) { return null; } }
+function setConsent(yes) {
+  try { localStorage.setItem('hw_consent', yes ? 'yes' : 'no'); } catch(e) {}
+  consentGiven = yes;
+  document.getElementById('cookie-banner').classList.add('hidden');
+}
+(function initConsent(){
+  var c = getConsent();
+  if (c === null) {
+    document.getElementById('cookie-banner').classList.remove('hidden');
+    consentGiven = null;
+  } else {
+    consentGiven = (c === 'yes');
+  }
+})();
+window.setConsent = setConsent;
 
 var isMobile = false;
 var imgTimers = {};
@@ -333,15 +383,22 @@ function init(data) {
       return '<div class="p-point"><div class="p-point-label">'+pt.label+'</div><div class="p-point-text">'+pt.text+'</div></div>';
     }).join('');
 
-    // Video thumbnail
+    // Video thumbnail — only if consent given
     var videoHtml='';
     if(p.video){
-      var thumb=getVideoThumb(p.video);
       var embed=videoToEmbed(p.video);
-      videoHtml='<div class="p-video-thumb" onclick="openVideo(\''+embed+'\')">'+
-        (thumb?'<img src="'+thumb+'" alt="Video">':'<div style="width:100%;height:100%;background:rgba(255,255,255,.08);"></div>')+
-        '<div class="p-video-play"><div class="p-video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>'+
-      '</div>';
+      if(consentGiven){
+        var thumb=getVideoThumb(p.video);
+        videoHtml='<div class="p-video-thumb" onclick="openVideo(\''+embed+'\')">'+
+          (thumb?'<img src="'+thumb+'" alt="Video">':'<div style="width:100%;height:100%;background:rgba(255,255,255,.08);"></div>')+
+          '<div class="p-video-play"><div class="p-video-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>'+
+        '</div>';
+      } else {
+        videoHtml='<div class="vid-consent-wall">'+
+          '<p>Video von YouTube/Vimeo.<br>Einwilligung erforderlich.</p>'+
+          '<button class="vid-consent-btn" onclick="setConsent(true);location.reload();">Cookies akzeptieren &amp; Video laden</button>'+
+        '</div>';
+      }
     }
 
     var spineIcon=p.icon?'<div class="spine-icon"><img src="'+p.icon+'" alt=""></div>':'<div class="spine-icon"></div>';
