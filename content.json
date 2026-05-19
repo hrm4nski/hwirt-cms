@@ -252,7 +252,12 @@
       ],
       "deco": "none",
       "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779141886182-KL_Icon.png",
-      "video": ""
+      "video": "",
+      "images": [
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779180519449-23_02_FlauteUp_Podcast_110.png",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779180537222-23_06_Minzia_Podcast_114.png",
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779180666683-4.png"
+      ]
     },
     {
       "id": 5,
