@@ -121,49 +121,6 @@
       "video": "https://www.youtube.com/watch?v=B6syp00caIo&list=PLvgi6sEBVkzt0Q1UGNYNB9OdSzl3SG4Rx"
     },
     {
-      "id": 4,
-      "title": "Stern TV Grafik",
-      "category": "Motion · Studiografik",
-      "client": "Mediawan",
-      "year": "Seit 2020",
-      "color": "#aca5a5",
-      "size": "sz-mid",
-      "type": "motion",
-      "slides": [
-        {
-          "caption": "Logo Animation",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Grafiken",
-          "image": "",
-          "video": ""
-        },
-        {
-          "caption": "Package",
-          "image": "",
-          "video": ""
-        }
-      ],
-      "deco": "none",
-      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121293110-csm_i_u_Studios_RGB_White_8c0a3e3438.png",
-      "video": "https://www.youtube.com/watch?v=gzfKQ6pG9lQ",
-      "points": [
-        {
-          "label": "Studio-Grafik",
-          "text": "Grafikgestaltung für Live-Sendungen"
-        },
-        {
-          "label": "MAZ-Grafik",
-          "text": "Explainer, Vergleichsgrafiken, Trenner, Motiondesign für SternTV"
-        }
-      ],
-      "images": [
-        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147414395-94F4C23E-0C32-4DCA-8BB7-BB79455E6BFE_1_105_c.jpeg"
-      ]
-    },
-    {
       "id": 1,
       "title": "1 Live Krone Redesign",
       "category": "Grafikpaket · On-Air Design",
@@ -222,6 +179,49 @@
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145555556-event.jpg",
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145561186-zoe.jpg",
         "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779145568494-IMG_6176-scaled.jpeg"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Stern TV Grafik",
+      "category": "Motion · Studiografik",
+      "client": "Mediawan",
+      "year": "Seit 2020",
+      "color": "#b0b0b0",
+      "size": "sz-mid",
+      "type": "motion",
+      "slides": [
+        {
+          "caption": "Logo Animation",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Grafiken",
+          "image": "",
+          "video": ""
+        },
+        {
+          "caption": "Package",
+          "image": "",
+          "video": ""
+        }
+      ],
+      "deco": "none",
+      "icon": "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/icons/1779121293110-csm_i_u_Studios_RGB_White_8c0a3e3438.png",
+      "video": "https://www.youtube.com/watch?v=gzfKQ6pG9lQ",
+      "points": [
+        {
+          "label": "Studio-Grafik",
+          "text": "Grafikgestaltung für Live-Sendungen"
+        },
+        {
+          "label": "MAZ-Grafik",
+          "text": "Explainer, Vergleichsgrafiken, Trenner, Motiondesign für SternTV"
+        }
+      ],
+      "images": [
+        "https://raw.githubusercontent.com/hrm4nski/hwirt-cms/main/images/1779147414395-94F4C23E-0C32-4DCA-8BB7-BB79455E6BFE_1_105_c.jpeg"
       ]
     },
     {
