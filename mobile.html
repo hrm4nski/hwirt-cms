@@ -328,6 +328,12 @@ function closeProject(){
   projOverlay.classList.remove('open');
   document.body.style.overflow='';
   Object.keys(imgTimers).forEach(function(k){clearInterval(imgTimers[k]);delete imgTimers[k];});
+  setTimeout(function(){
+    projOverlay.style.background='';
+    projOverlay.className='proj-overlay';
+    document.getElementById('ov-images').innerHTML='';
+    document.getElementById('ov-text').innerHTML='';
+  }, 500);
 }
 
 function startMobTimer(idx, total, container, dotsEl){
