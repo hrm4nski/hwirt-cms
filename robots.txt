@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hermannwirt.de/sitemap.xml
